@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/bottom_sheet_bg"
+    android:id="@+id/bottomSheetLayout"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llOutStationRide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="@string/preferred_gender"
+            android:textColor="@color/appTextGray"
+            android:textSize="@dimen/_10ssp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/tvBoth"
+                style="@style/GlobalTextViewStyle"
+                android:background="@drawable/gender_rounded_bg_selected"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:text="@string/both" />
+
+            <TextView
+                android:id="@+id/tvMale"
+                style="@style/GlobalTextViewStyle"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/gender_rounded_bg"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:text="@string/male" />
+
+            <TextView
+                android:id="@+id/tvFemale"
+                style="@style/GlobalTextViewStyle"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/gender_rounded_bg"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingEnd="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:text="@string/female" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="@string/seats"
+            android:textColor="@color/appTextGray"
+            android:textSize="@dimen/_10ssp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tvRemoveSeats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_bg"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_remove" />
+
+            <TextView
+                android:id="@+id/tvSeatCount"
+                style="@style/GlobalTextViewStyle"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="0" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tvAddSeats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_bg"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_add" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        style="@style/GlobalTextViewBoldStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:text="@string/riders_available"
+        android:textColor="@color/appTextGray"
+        android:textSize="@dimen/_10ssp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRiders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_riders"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBookNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:backgroundTint="@color/appBlue"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:text="@string/schedule_now"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_5sdp" />
+
+</LinearLayout>

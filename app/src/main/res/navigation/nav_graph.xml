@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/userListFragment">
+
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.ciaorides.ciaorides.view.fragments.UsersListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_users_list">
+        <action
+            android:id="@+id/action_userListFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.ciaorides.ciaorides.view.activities.ui.MapsFragment"
+        android:label="fragment_user_details"
+        tools:layout="@layout/fragment_users_details">
+        <argument
+            android:name="user_data"
+            app:argType="com.ciaorides.ciaorides.model.UserDetailsItem"
+            app:nullable="true" />
+    </fragment>
+
+</navigation>

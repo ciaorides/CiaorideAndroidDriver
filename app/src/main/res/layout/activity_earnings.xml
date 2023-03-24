@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBG"
+    android:orientation="vertical"
+    tools:context=".view.activities.menu.EarningsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSupport">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        style="@style/GlobalTextViewBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/this_week"></TextView>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:padding="@dimen/_1sdp"
+                        android:rotation="180"
+                        android:src="@drawable/ic_drop_down"
+                        android:tint="@color/appBlue"
+                        tools:ignore="UseAppTint"></ImageView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text=" ₹ 150 /- "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_150sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="Online"
+                    android:textSize="@dimen/_10sdp"></TextView>
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="18 hr 0 min"
+                    android:textSize="@dimen/_10sdp"></TextView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="@string/total_trips"
+                    android:textSize="@dimen/_10sdp"></TextView>
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="102"
+                    android:textSize="@dimen/_10sdp"></TextView>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/GlobalTextViewBoldStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:text="@string/receivable_amount"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/rounded_edittext_white"
+                android:elevation="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_16sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+
+
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payment"
+                            android:textSize="@dimen/_12sdp"></TextView>
+
+
+                    </LinearLayout>
+
+                    <TextView
+
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:background="@drawable/pending_bg"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:text=" Pending "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10ssp" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/GlobalTextViewBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="start"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:text=" ₹ 150 /- "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp" />
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:text="Payment scheduled on Aug 10"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/details_bg"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_3sdp"
+                    android:text="@string/details"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp"
+
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/GlobalTextViewBoldStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:text="Received"></TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_50sdp"
+                android:background="@drawable/rounded_edittext_white"
+                android:elevation="@dimen/_5sdp"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/_16sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+
+
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true">
+
+                        <TextView
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Payment"
+                            android:textSize="@dimen/_12sdp"></TextView>
+
+
+                    </LinearLayout>
+
+                    <TextView
+
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="center"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_2sdp"
+                        android:text=" Pending "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10ssp" />
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/GlobalTextViewBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="start"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:text=" ₹ 150 /- "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp" />
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:text="Last payment received on Aug 10"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_12sdp"></TextView>
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/details_bg"
+                    android:fontFamily="@font/inter_medium"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_3sdp"
+                    android:text="@string/details"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp"
+
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSupport"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:fontFamily="@font/inter_medium"
+        android:text="@string/support"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_5sdp"
+        app:strokeColor="@color/appBlue" />
+</RelativeLayout>

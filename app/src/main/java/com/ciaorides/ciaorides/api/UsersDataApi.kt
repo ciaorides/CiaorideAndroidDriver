@@ -1,0 +1,102 @@
+package com.ciaorides.ciaorides.api
+
+import com.ciaorides.ciaorides.model.UserDetailsItem
+import com.ciaorides.ciaorides.model.request.*
+import com.ciaorides.ciaorides.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Response
+import retrofit2.http.*
+
+interface UsersDataApi {
+    @GET("v2/users")
+    suspend fun getUsersDetails(): Response<List<UserDetailsItem>>
+
+    @POST("taxi_flow/register_user")
+    suspend fun doLogin(@Body loginRequest: LoginRequest): Response<UserResponse>
+
+    @POST("taxi_flow/resend_otp")
+    suspend fun resendOtp(@Body otpRequest: OtpRequest): Response<UserResponse>
+
+    @POST("taxi_flow/banners")
+    suspend fun getHomeBanners(@Body homeBannersRequest: HomeBannersRequest): Response<HomeBannersResponse>
+
+    @POST("taxi_flow/get_locations_taxi")
+    suspend fun recentSearch(@Body recentSearchRequest: RecentSearchRequest): Response<RecentSearchesResponse>
+
+    @POST("taxi_flow/add_location_taxi")
+    suspend fun addRecentFevSearch(@Body request: RecentFevRequest): Response<RecentFevResponse>
+
+
+    @POST("taxi_flow/get_distance")
+    suspend fun getVehicleInfo(@Body request: VehicleInfoRequest): Response<VehicleInfoResponse>
+
+    @POST("taxi_flow/book_now")
+    suspend fun bookRide(@Body request: BookRideRequest): Response<BookRideResponse>
+
+
+    /* https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAr29XeWWAeWZcrOgjjfs3iSnqkWtAz4No&latlng=2.1812,102.4266&sensor=true*/
+    @GET("https://maps.googleapis.com/maps/api/geocode/json")
+    suspend fun getAddress(
+        @Query("key") key: String,
+        @Query("latlng") latlng: String,
+        @Query("sensor") sensor: Boolean,
+    ): Response<AddressInfoResponse>
+
+    @POST("taxi_flow/get_distance")
+    suspend fun cancelRide(@Body request: CancelRideRequest): Response<CancelRideResponse>
+
+    @POST("menuitems/get_my_rides")
+    suspend fun getMyRides(@Body request: GlobalUserIdRequest): Response<MyRidesResponse>
+
+    @POST("menuitems/get_my_vehicle_details")
+    suspend fun getMyVehicles(@Body request: GlobalUserIdRequest): Response<MyVehicleResponse>
+
+    @POST("menuitems/get_my_vehicle_details")
+    suspend fun deleteVehicle(@Body request: DeleteVehicleRequest): Response<GlobalResponse>
+
+    @POST("menuitems/driver_bank_details")
+    suspend fun getBankDetails(@Body request: GlobalUserIdRequest): Response<BankDetailsResponse>
+
+
+    @POST("menuitems/driver_bank_details_delete")
+    suspend fun deleteBankDetails(@Body request: DeleteBankDetailsRequest): Response<GlobalResponse>
+
+    @POST("menuitems/get_favourites_list")
+    suspend fun getFav(@Body request: GlobalUserIdRequest): Response<FavResponse>
+
+
+    @POST("menuitems/driver_favourite_location_delete")
+    suspend fun deleteFav(@Body request: DeleteFavRequest): Response<GlobalResponse>
+
+    @POST("menuitems/user_profile")
+    suspend fun userDetails(@Body request: GlobalUserIdRequest): Response<UserDetailsResponse>
+
+    @POST("menuitems/add_driver_vehicles_step1")
+    suspend fun addVehiclesStep1(@Body request: AddVehicleDetailsRequest): Response<AddVehiclesStage1Response>
+
+    @POST("menuitems/add_driver_vehicles_step2")
+    suspend fun addVehiclesStep2(@Body request: AddVehicleDetailsStage2Request): Response<AddVehiclesStage2Response>
+
+    @POST("taxi_flow/get_vehicle_brands")
+    suspend fun getVehicleBrands(@Body request: BrandsRequest): Response<VehicleBrandsResponse>
+
+    @POST("taxi_flow/get_vehicle_models")
+    suspend fun getVehicleModels(@Body request: VehicleModelRequest): Response<VehicleModelsResponse>
+
+    @POST("sharing/get_distance")
+    suspend fun getSharingVehicleRequest(@Body request: RidesSharingRequest): Response<VehicleInfoResponse>
+
+    @POST("sharing/check_availability")
+    suspend fun checkAvailability(@Body request: CheckAvailabilityRequest): Response<SharingAvailabilityResponse>
+
+    //    @Multipart
+//    @POST("https://www.ciaorides.com/new/app/taxi_flow/upload")
+//    suspend fun uploadImage(@Part files:List<MultipartBody.Part>): Response<ImageUploadResponse>
+    @Multipart
+    @POST("https://www.ciaorides.com/new/app/taxi_flow/upload")
+    suspend fun uploadImage(
+        @Part image: List<MultipartBody.Part>,
+        @Part upload_type: Int
+    ): Response<ImageUploadResponse>
+}
