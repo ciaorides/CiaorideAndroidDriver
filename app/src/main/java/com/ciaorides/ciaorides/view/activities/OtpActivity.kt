@@ -141,7 +141,6 @@ class OtpActivity : BaseActivity<ActivityOtpBinding>() {
     inner class MyCountDownTimer(millisInFuture: Long, countDownInterval: Long) :
         CountDownTimer(millisInFuture, countDownInterval) {
         override fun onTick(millisUntilFinished: Long) {
-            val progress = (millisUntilFinished / 1000).toInt()
         }
 
         override fun onFinish() {

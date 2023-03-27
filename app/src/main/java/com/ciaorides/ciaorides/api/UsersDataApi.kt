@@ -12,7 +12,7 @@ interface UsersDataApi {
     @GET("v2/users")
     suspend fun getUsersDetails(): Response<List<UserDetailsItem>>
 
-    @POST("taxi_flow/register_user")
+    @POST("driver1/driver_register")
     suspend fun doLogin(@Body loginRequest: LoginRequest): Response<UserResponse>
 
     @POST("taxi_flow/resend_otp")

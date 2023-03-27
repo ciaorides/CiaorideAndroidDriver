@@ -22,11 +22,11 @@ class SplashActivity : AppCompatActivity() {
         val updateHandler = Handler(Looper.getMainLooper())
         val runnable = Runnable {
 
-//            if (Constants.getValue(this@SplashActivity, Constants.USER_ID).isEmpty()) {
-//                startActivity(Intent(this@SplashActivity, LandingActivity::class.java))
-//            } else {
-//                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
-//            }
+            if (Constants.getValue(this@SplashActivity, Constants.USER_ID).isEmpty()) {
+                startActivity(Intent(this@SplashActivity, LandingActivity::class.java))
+            } else {
+                startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+            }
             //startActivity(Intent(this@SplashActivity, PaymentsActivity::class.java))
             //startActivity(Intent(this@SplashActivity, RidesActivity::class.java))
             //startActivity(Intent(this@SplashActivity, RideDetailsActivity::class.java))
@@ -37,7 +37,7 @@ class SplashActivity : AppCompatActivity() {
             // startActivity(Intent(this@SplashActivity, ChangePasswordActivity::class.java))
             //  startActivity(Intent(this@SplashActivity, EmergencyContact::class.java))
             //startActivity(Intent(this@SplashActivity, InboxActivity::class.java))
-            startActivity(Intent(this@SplashActivity, ReferActivity::class.java))
+            //startActivity(Intent(this@SplashActivity, ReferActivity::class.java))
 
             finish()
         }
