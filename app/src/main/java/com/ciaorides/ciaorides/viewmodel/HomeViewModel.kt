@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
+import com.ciaorides.ciaorides.model.request.RejectRideRequest
+import com.ciaorides.ciaorides.model.response.CheckInStatusResponse
 import com.ciaorides.ciaorides.model.response.GlobalResponse
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.Constants
@@ -29,6 +31,14 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     val checkInResponse: LiveData<DataHandler<GlobalResponse>> =
         _checkInResponse
 
+    private val _checkInStatusResponse = MutableLiveData<DataHandler<CheckInStatusResponse>>()
+    val checkInStatusResponse: LiveData<DataHandler<CheckInStatusResponse>> =
+        _checkInStatusResponse
+
+    private val _rejectRideResponse = MutableLiveData<DataHandler<GlobalResponse>>()
+    val rejectRideResponse: LiveData<DataHandler<GlobalResponse>> =
+        _rejectRideResponse
+
 
     fun getMyVehicles(request: GlobalUserIdRequest) {
         viewModelScope.launch {
@@ -36,6 +46,7 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
             _myVehicleResponse.postValue(handleMyVehicleResponse(response))
         }
     }
+
     private fun handleMyVehicleResponse(response: Response<MyVehicleResponse>?): DataHandler<MyVehicleResponse> {
         if (response != null && response.isSuccessful && response.body() != null && response.body()?.response != null) {
             response.body()?.let { data ->
@@ -52,10 +63,14 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     fun checkIn(request: DriverCheckInRequest) {
         viewModelScope.launch {
             val response = networkRepository.driverCheck(request)
-            _checkInResponse.postValue(handleCheckInResponse(response,request.check_in_status))
+            _checkInResponse.postValue(handleCheckInResponse(response, request.check_in_status))
         }
     }
-    private fun handleCheckInResponse(response: Response<GlobalResponse>?, checkInStatus: String): DataHandler<GlobalResponse> {
+
+    private fun handleCheckInResponse(
+        response: Response<GlobalResponse>?,
+        checkInStatus: String
+    ): DataHandler<GlobalResponse> {
         if (response != null && response.isSuccessful && response.body() != null) {
             response.body()?.let { data ->
                 data.otherValue = checkInStatus;
@@ -70,6 +85,32 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     }
 
 
+    fun checkInStatus(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.checkInStatus(request)
+            _checkInStatusResponse.postValue(handleCheckInStatusResponse(response))
+        }
+    }
+
+    private fun handleCheckInStatusResponse(response: Response<CheckInStatusResponse>?): DataHandler<CheckInStatusResponse> {
+        if (response != null && response.isSuccessful && response.body() != null) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
+        }
+    }
+
+    fun rejectRide(request: RejectRideRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.rejectRide(request)
+            _rejectRideResponse.postValue(handleCheckInResponse(response, ""))
+        }
+    }
 
 
 }

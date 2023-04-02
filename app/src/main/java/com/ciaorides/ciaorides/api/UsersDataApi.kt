@@ -102,4 +102,10 @@ interface UsersDataApi {
 
     @POST("driver1/check_in")
     suspend fun driverCheckIn(@Body request: DriverCheckInRequest): Response<GlobalResponse>
+
+    @POST("driver1/check_in_validate")
+    suspend fun checkInStatus(@Body request: GlobalUserIdRequest): Response<CheckInStatusResponse>
+
+    @POST("driver1/reject_ride")
+    suspend fun rejectRide(@Body request: RejectRideRequest): Response<GlobalResponse>
 }

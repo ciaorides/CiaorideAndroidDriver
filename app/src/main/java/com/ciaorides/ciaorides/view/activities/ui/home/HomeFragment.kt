@@ -28,8 +28,11 @@ import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.FragmentHomeBinding
+import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
+import com.ciaorides.ciaorides.model.request.RejectRideRequest
+import com.ciaorides.ciaorides.model.response.BookResp
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
@@ -43,6 +46,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -81,9 +89,18 @@ class HomeFragment : Fragment() {
         checkPermissions()
         handleMyVehicle()
         handleCheckIn()
+        handleCheckInStatus()
+        handleRejectRideResponse()
+        binding.progressLayout.root.visibility = View.VISIBLE
+        viewModel.checkInStatus(
+            GlobalUserIdRequest(
+                driver_id = Constants.getValue(requireActivity(), Constants.USER_ID)
+            )
+        )
         binding.btnStart.setOnClickListener {
             vehiclesCall()
         }
+
         vehicleSheetBehavior = BottomSheetBehavior.from(binding.vehiclesSheet.bottomSheetLayout)
         vehicleSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.vehiclesSheet.btnStartRide.visibility = View.GONE
@@ -165,6 +182,26 @@ class HomeFragment : Fragment() {
                     dataHandler.data?.let { data ->
                         if (data.status) {
                             updateSearchState(data.otherValue)
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun handleCheckInStatus() {
+        viewModel.checkInStatusResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            updateSearchState(data.response.status)
+                            getBookingChanges()
                         }
                     }
                 }
@@ -480,5 +517,75 @@ class HomeFragment : Fragment() {
     override fun onPause() {
         super.onPause()
     }
+
+    private fun getBookingChanges() {
+        val messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
+            .child(Constants.getValue(requireActivity(), Constants.USER_ID)).child("bookingData")
+        messagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val bookRideResponse = snapshot.getValue(BookResp::class.java)
+                if (bookRideResponse != null) {
+                    updateRideDetails(bookRideResponse)
+                } else {
+                    binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+                    binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), "cancel Testing", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun updateRideDetails(bookRideResponse: BookResp) {
+        binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
+        binding.localRideSheet.bottomSheetLayout.visibility = View.VISIBLE
+
+        binding.localRideSheet.btnAccept.setOnClickListener {
+
+        }
+        binding.localRideSheet.btnReject.setOnClickListener {
+            binding.progressLayout.root.visibility = View.VISIBLE
+            viewModel.rejectRide(
+                RejectRideRequest(
+                    order_id = bookRideResponse.order_id.toString(),
+                    driver_id = Constants.getValue(requireActivity(), Constants.USER_ID),
+                    user_id = "2214"
+                )
+            )
+        }
+
+        /*with(binding.localRideSheet){
+
+        }*/
+    }
+
+    private fun handleRejectRideResponse() {
+        viewModel.rejectRideResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+                            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+                            val bookingData =
+                                Firebase.database.reference.child(FcmBookUtils.BOOKING)
+                                    .child(Constants.getValue(requireActivity(), Constants.USER_ID))
+                                    .child("bookingData")
+                            bookingData.removeValue()
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
 
 }

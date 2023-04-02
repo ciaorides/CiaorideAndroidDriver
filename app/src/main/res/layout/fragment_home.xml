@@ -208,6 +208,13 @@
         />
 
     <include
+        android:id="@+id/localRideSheet"
+        layout="@layout/bottom_sheet_local_ride"
+        android:visibility="gone"
+        />
+
+
+    <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_progress" />
 

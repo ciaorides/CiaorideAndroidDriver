@@ -195,4 +195,8 @@
     <string name="finding_a_best_customers_for_you">Please wait we are in the process of finding a best customers for you</string>
     <string name="cancel_search">Cancel Search</string>
     <string name="pause_search">Pause Search</string>
+    <string name="accept_ride">Accept Ride</string>
+    <string name="reject">Reject</string>
+    <string name="book_message">Congratulations! A new ride has been found</string>
+    <string name="local_ride">Local Ride</string>
 </resources>
