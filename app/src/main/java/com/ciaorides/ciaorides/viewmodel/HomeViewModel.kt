@@ -7,11 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.model.request.HomeBannersRequest
 import com.ciaorides.ciaorides.model.response.GlobalResponse
-import com.ciaorides.ciaorides.model.response.HomeBannersResponse
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
-import com.ciaorides.ciaorides.model.response.UserDetailsResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,9 +25,9 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     val myVehicleResponse: LiveData<DataHandler<MyVehicleResponse>> =
         _myVehicleResponse
 
-    private val _globalResponse = MutableLiveData<DataHandler<GlobalResponse>>()
-    val globalResponse: LiveData<DataHandler<GlobalResponse>> =
-        _globalResponse
+    private val _checkInResponse = MutableLiveData<DataHandler<GlobalResponse>>()
+    val checkInResponse: LiveData<DataHandler<GlobalResponse>> =
+        _checkInResponse
 
 
     fun getMyVehicles(request: GlobalUserIdRequest) {
@@ -55,12 +52,13 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     fun checkIn(request: DriverCheckInRequest) {
         viewModelScope.launch {
             val response = networkRepository.driverCheck(request)
-            _globalResponse.postValue(handleCheckInResponse(response))
+            _checkInResponse.postValue(handleCheckInResponse(response,request.check_in_status))
         }
     }
-    private fun handleCheckInResponse(response: Response<GlobalResponse>?): DataHandler<GlobalResponse> {
+    private fun handleCheckInResponse(response: Response<GlobalResponse>?, checkInStatus: String): DataHandler<GlobalResponse> {
         if (response != null && response.isSuccessful && response.body() != null) {
             response.body()?.let { data ->
+                data.otherValue = checkInStatus;
                 return DataHandler.SUCCESS(data)
             }
         }

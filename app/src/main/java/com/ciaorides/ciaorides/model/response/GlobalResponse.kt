@@ -7,5 +7,6 @@ import android.os.Parcelable
 @Parcelize
 data class GlobalResponse(
     val message: String,
-    val status: Boolean
+    val status: Boolean,
+    var otherValue: String? = ""
 ) : Parcelable

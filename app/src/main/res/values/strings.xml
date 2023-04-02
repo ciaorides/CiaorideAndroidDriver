@@ -190,4 +190,9 @@
     <string name="total_bookings">Total Bookings</string>
     <string name="start_ride">Start Ride</string>
     <string name="start">Start</string>
+    <string name="total_earnings">Total Earnings</string>
+    <string name="you_are_online_now">You are online now</string>
+    <string name="finding_a_best_customers_for_you">Please wait we are in the process of finding a best customers for you</string>
+    <string name="cancel_search">Cancel Search</string>
+    <string name="pause_search">Pause Search</string>
 </resources>

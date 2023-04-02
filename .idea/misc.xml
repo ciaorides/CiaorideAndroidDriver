@@ -11,7 +11,10 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_my_vehicles.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/alert_delete_vehicle.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/book_ride_progress_fragment.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/bottom_sheet_searching.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/bottom_sheet_vehicle_info.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/content_home.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2911458333333333" />

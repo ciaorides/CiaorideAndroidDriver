@@ -2,13 +2,12 @@ package com.ciaorides.ciaorides.view.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Gravity.LEFT
 import android.view.Menu
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -16,10 +15,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
-import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
 import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.menu.*
 import com.ciaorides.ciaorides.view.activities.user.EditProfileActivity
 import com.ciaorides.ciaorides.view.adapter.MenuListAdapter
@@ -39,7 +36,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

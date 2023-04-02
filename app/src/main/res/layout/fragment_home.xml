@@ -123,7 +123,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_regular"
-                            android:text="@string/previous_rides"
+                            android:text="@string/total_earnings"
                             android:textColor="@color/black" />
 
                         <LinearLayout
@@ -198,6 +198,12 @@
     <include
         android:id="@+id/vehiclesSheet"
         layout="@layout/bottom_sheet_vehicle_info"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/searchingSheet"
+        layout="@layout/bottom_sheet_searching"
         android:visibility="gone"
         />
 

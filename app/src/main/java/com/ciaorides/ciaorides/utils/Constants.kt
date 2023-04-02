@@ -41,10 +41,11 @@ object Constants {
     const val IS_RIDE_OFFER = "is_ride_offer"
     const val DESTINATION = "destination"
 
-    //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
-    //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
-    //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
-    //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
+    const val ONLINE = "online"
+    const val OFFLINE = "offline"
+    const val BUSY = "busy"
+
+    //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
     const val MAIN_PREF = "main_pref"
     const val HOME = "home"

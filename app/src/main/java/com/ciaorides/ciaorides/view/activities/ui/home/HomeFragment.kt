@@ -2,8 +2,10 @@ package com.ciaorides.ciaorides.view.activities.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -23,6 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.FragmentHomeBinding
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
@@ -30,7 +33,6 @@ import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
-import com.ciaorides.ciaorides.utils.InfoPopUpDialog
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -44,6 +46,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     @Inject
@@ -54,11 +57,12 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     var selectedVehicleId = ""
-    var currentLatlng: LatLng? = null
+    var currentLatLng: LatLng? = null
 
     private var lastKnownLocation: Location? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: HomeViewModel by viewModels()
+    var broadCastReceiver: BroadcastReceiver? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,6 +80,7 @@ class HomeFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireActivity())
         checkPermissions()
         handleMyVehicle()
+        handleCheckIn()
         binding.btnStart.setOnClickListener {
             vehiclesCall()
         }
@@ -83,16 +88,37 @@ class HomeFragment : Fragment() {
         vehicleSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.vehiclesSheet.btnStartRide.visibility = View.GONE
         binding.vehiclesSheet.btnStartRide.setOnClickListener {
-            viewModel.checkIn(
-                DriverCheckInRequest(
-                    check_in_status = "online",
-                    vehicle_id = selectedVehicleId,
-                    from_lng = currentLatlng?.longitude.toString(),
-                    from_lat = currentLatlng?.latitude.toString(),
-                    driver_id = Constants.getValue(requireActivity(), Constants.USER_ID)
-                )
-            )
+            makeCheckInCall(Constants.ONLINE)
         }
+        binding.searchingSheet.btnCancel.setOnClickListener {
+            makeCheckInCall(Constants.OFFLINE)
+        }
+        binding.searchingSheet.btnPauseSearch.setOnClickListener {
+            makeCheckInCall(Constants.OFFLINE)
+        }
+
+        broadCastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(contxt: Context?, intent: Intent?) {
+                Toast.makeText(activity, "Reciev", Toast.LENGTH_SHORT).show()
+                updateSearchState(Constants.ONLINE)
+            }
+        }
+
+        LocalBroadcastManager.getInstance(requireActivity())
+            .registerReceiver(broadCastReceiver!!, IntentFilter(Constants.FCM_TOKEN))
+
+    }
+
+    private fun makeCheckInCall(state: String) {
+        viewModel.checkIn(
+            DriverCheckInRequest(
+                check_in_status = state,
+                vehicle_id = selectedVehicleId,
+                from_lng = currentLatLng?.longitude.toString(),
+                from_lat = currentLatLng?.latitude.toString(),
+                driver_id = Constants.getValue(requireActivity(), Constants.USER_ID)
+            )
+        )
     }
 
     private fun setupMap() {
@@ -131,6 +157,34 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun handleCheckIn() {
+        viewModel.checkInResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            updateSearchState(data.otherValue)
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun updateSearchState(otherValue: String?) {
+        if (otherValue == Constants.ONLINE) {
+            binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
+            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+        } else {
+            binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
+        }
+    }
+
     private fun updateVehicles(vehicleData: MyVehicleResponse) {
         binding.vehiclesSheet.rvCars.apply {
             adapter = vehiclesAdapter
@@ -145,6 +199,8 @@ class HomeFragment : Fragment() {
         if (cars.isNotEmpty()) {
             binding.vehiclesSheet.cardCars.visibility = View.VISIBLE
             vehiclesAdapter.differ.submitList(cars)
+            vehiclesAdapter.selectedPosition = -1
+            vehiclesAdapter.notifyDataSetChanged()
         } else {
             binding.vehiclesSheet.cardCars.visibility = View.GONE
         }
@@ -334,18 +390,18 @@ class HomeFragment : Fragment() {
                     lastKnownLocation = task.result
                     if (lastKnownLocation != null) {
                         Log.d("##Location", "lastKnownLocation not null")
-                        currentLatlng = LatLng(
+                        currentLatLng = LatLng(
                             lastKnownLocation!!.latitude,
                             lastKnownLocation!!.longitude
                         )
                         this.googleMap?.moveCamera(
                             CameraUpdateFactory.newLatLngZoom(
-                                currentLatlng!!, 12.0f
+                                currentLatLng!!, 12.0f
                             )
                         )
 
                         val marker = displayOnMarker(
-                            currentLatlng!!,
+                            currentLatLng!!,
                             R.drawable.ic_location,
                             title = "Your are here"
                         )
@@ -413,7 +469,16 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        broadCastReceiver?.let {
+            LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(
+                it
+            )
+        }
         _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
 }
