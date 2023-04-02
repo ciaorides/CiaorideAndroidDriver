@@ -26,9 +26,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.FragmentHomeBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
+import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.request.RejectRideRequest
@@ -91,6 +93,8 @@ class HomeFragment : Fragment() {
         handleCheckIn()
         handleCheckInStatus()
         handleRejectRideResponse()
+        handleBookingInfoResponse()
+        handleAcceptBookingResponse()
         binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.checkInStatus(
             GlobalUserIdRequest(
@@ -519,8 +523,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getBookingChanges() {
-        val messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
-            .child(Constants.getValue(requireActivity(), Constants.USER_ID)).child("bookingData")
+        val messagesRef =
+            Firebase.database.reference.child(FcmBookUtils.BOOKING).child(FcmBookUtils.RIDES)
+                .child(Constants.getValue(requireActivity(), Constants.USER_ID))
+                .child("bookingData")
+
         messagesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val bookRideResponse = snapshot.getValue(BookResp::class.java)
@@ -539,12 +546,28 @@ class HomeFragment : Fragment() {
         })
     }
 
+    //2245
     private fun updateRideDetails(bookRideResponse: BookResp) {
         binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
         binding.localRideSheet.bottomSheetLayout.visibility = View.VISIBLE
-
         binding.localRideSheet.btnAccept.setOnClickListener {
+            val vehicleInfo = bookRideResponse.response.find {
+                it.driver_id == Constants.getValue(requireActivity(), Constants.USER_ID)
+            }
+            vehicleInfo?.let {
+                binding.progressLayout.root.visibility = View.VISIBLE
+                viewModel.acceptRideRequest(
+                    AcceptRideRequest(
+                        booking_id = bookRideResponse.booking_id.toString(),
+                        driver_id = it.driver_id,
+                        order_id = bookRideResponse.order_id.toString(),
+                        user_id = bookRideResponse.user_id,
+                        vehicle_id = it.vehicle_id
+                    ),
+                    bookRideResponse.booking_id.toString()
 
+                )
+            }
         }
         binding.localRideSheet.btnReject.setOnClickListener {
             binding.progressLayout.root.visibility = View.VISIBLE
@@ -552,14 +575,15 @@ class HomeFragment : Fragment() {
                 RejectRideRequest(
                     order_id = bookRideResponse.order_id.toString(),
                     driver_id = Constants.getValue(requireActivity(), Constants.USER_ID),
-                    user_id = "2214"
+                    user_id = bookRideResponse.user_id
                 )
             )
         }
-
-        /*with(binding.localRideSheet){
-
-        }*/
+        viewModel.getRideDetails(
+            GlobalUserIdRequest(
+                booking_id = bookRideResponse.booking_id.toString()
+            )
+        )
     }
 
     private fun handleRejectRideResponse() {
@@ -576,6 +600,72 @@ class HomeFragment : Fragment() {
                                     .child(Constants.getValue(requireActivity(), Constants.USER_ID))
                                     .child("bookingData")
                             bookingData.removeValue()
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun handleAcceptBookingResponse() {
+        viewModel.acceptRideResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            // binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+                            //binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+
+                            Firebase.database.reference.child(FcmBookUtils.BOOKING)
+                                .child(FcmBookUtils.SENDERS)
+                                .child(data.otherValue.toString()).get().addOnSuccessListener {
+                                    val senderIds = it.getValue(String::class.java)
+
+                                    if (senderIds != null) {
+                                        val data= senderIds.split(",")
+                                        for (item in data){
+
+                                        }
+                                    }
+                                }.addOnFailureListener {
+
+                                }
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+    private fun handleBookingInfoResponse() {
+        viewModel.bookingInfoResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            with(binding.localRideSheet) {
+                                tvSource.text = data.response.from_address
+                                tvDestination.text = data.response.to_address
+                                tvName.text = data.response.user_details.first_name
+                                tvPayment.text = "Rs " + data.response.total_amount
+                                if (!TextUtils.isEmpty(data.response.user_details.profile_pic)) {
+                                    Constants.showGlide(
+                                        requireActivity(),
+                                        BuildConfig.IMAGE_BASE_URL + data.response.user_details.profile_pic,
+                                        profileImage
+                                    )
+                                }
+                            }
                         }
                     }
                 }

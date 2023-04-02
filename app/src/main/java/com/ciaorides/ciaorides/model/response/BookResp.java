@@ -20,6 +20,9 @@ public class BookResp {
     public String message;
     @SerializedName("status")
     public boolean status;
+    @SerializedName("user_id")
+    public String user_id;
+
 
     public static class Response {
         @SerializedName("distance")

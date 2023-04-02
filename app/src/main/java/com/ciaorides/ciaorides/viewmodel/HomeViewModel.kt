@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
+import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.request.RejectRideRequest
+import com.ciaorides.ciaorides.model.response.BookingInfoResponse
 import com.ciaorides.ciaorides.model.response.CheckInStatusResponse
 import com.ciaorides.ciaorides.model.response.GlobalResponse
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
@@ -38,6 +40,14 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     private val _rejectRideResponse = MutableLiveData<DataHandler<GlobalResponse>>()
     val rejectRideResponse: LiveData<DataHandler<GlobalResponse>> =
         _rejectRideResponse
+
+    private val _acceptRideResponse = MutableLiveData<DataHandler<GlobalResponse>>()
+    val acceptRideResponse: LiveData<DataHandler<GlobalResponse>> =
+        _acceptRideResponse
+
+    private val _bookingInfoResponse = MutableLiveData<DataHandler<BookingInfoResponse>>()
+    val bookingInfoResponse: LiveData<DataHandler<BookingInfoResponse>> =
+        _bookingInfoResponse
 
 
     fun getMyVehicles(request: GlobalUserIdRequest) {
@@ -109,6 +119,50 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
         viewModelScope.launch {
             val response = networkRepository.rejectRide(request)
             _rejectRideResponse.postValue(handleCheckInResponse(response, ""))
+        }
+    }
+
+    fun getRideDetails(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.getRideDetails(request)
+            _bookingInfoResponse.postValue(handleMyBookingInfoResponse(response))
+        }
+    }
+
+    private fun handleMyBookingInfoResponse(response: Response<BookingInfoResponse>?): DataHandler<BookingInfoResponse> {
+        if (response != null && response.isSuccessful && response.body() != null && response.body()?.response != null) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
+        }
+    }
+
+    fun acceptRideRequest(request: AcceptRideRequest, bookingId: String) {
+        viewModelScope.launch {
+            val response = networkRepository.acceptRideRequest(request)
+            _acceptRideResponse.postValue(handleAcceptRideRequest(response, bookingId))
+        }
+    }
+
+    private fun handleAcceptRideRequest(
+        response: Response<GlobalResponse>?,
+        bookingId: String
+    ): DataHandler<GlobalResponse> {
+        if (response != null && response.isSuccessful && response.body() != null) {
+            response.body()?.let { data ->
+                data.otherValue = bookingId
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
         }
     }
 

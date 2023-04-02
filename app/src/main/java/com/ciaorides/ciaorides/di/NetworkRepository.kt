@@ -148,12 +148,13 @@ class NetworkRepository @Inject constructor(
 
     suspend fun rejectRide(request: RejectRideRequest): Response<GlobalResponse> {
         return usersDataApi.rejectRide(request)
-
     }
 
-
-
-
-
+    suspend fun getRideDetails(request: GlobalUserIdRequest): Response<BookingInfoResponse> {
+        return usersDataApi.getRideDetails(request)
+    }
+    suspend fun acceptRideRequest(request: AcceptRideRequest): Response<GlobalResponse> {
+        return usersDataApi.acceptRideRequest(request)
+    }
 
 }

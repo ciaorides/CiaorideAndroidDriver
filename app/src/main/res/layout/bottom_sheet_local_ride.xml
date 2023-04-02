@@ -117,55 +117,9 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:gravity="center"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
+                        android:textSize="@dimen/_18ssp"
                         tools:text="karthik" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:src="@drawable/ic_rating" />
-
-                    <TextView
-                        style="@style/GlobalTextViewStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:text="4.3" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tvVehicleNumber"
-                        style="@style/GlobalTextViewStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:text="Ap2052845" />
-
-                    <TextView
-                        android:id="@+id/tvVehicleType"
-                        style="@style/GlobalTextViewStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:drawablePadding="@dimen/_10sdp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_12ssp"
-                        tools:text="Honda City" />
-                </LinearLayout>
-
 
             </LinearLayout>
 

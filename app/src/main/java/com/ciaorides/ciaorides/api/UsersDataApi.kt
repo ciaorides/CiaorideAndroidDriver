@@ -108,4 +108,10 @@ interface UsersDataApi {
 
     @POST("driver1/reject_ride")
     suspend fun rejectRide(@Body request: RejectRideRequest): Response<GlobalResponse>
+
+    @POST("taxi_flow/get_booking_info")
+    suspend fun getRideDetails(@Body request: GlobalUserIdRequest): Response<BookingInfoResponse>
+
+    @POST("driver1/accept_ride")
+    suspend fun acceptRideRequest(@Body request: AcceptRideRequest): Response<GlobalResponse>
 }
