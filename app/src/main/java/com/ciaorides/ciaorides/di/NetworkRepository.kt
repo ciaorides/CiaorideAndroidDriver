@@ -132,5 +132,10 @@ class NetworkRepository @Inject constructor(
         }
     }
 
+    suspend fun driverCheck(request: DriverCheckInRequest): Response<GlobalResponse> {
+        return usersDataApi.driverCheckIn(request)
+    }
+
+
 
 }

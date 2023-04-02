@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemVehiclesBinding
+import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
 import com.ciaorides.ciaorides.model.response.VehicleInfoResponse
 import com.ciaorides.ciaorides.utils.InfoPopUpDialog
@@ -20,17 +21,17 @@ class VehiclesAdapter @Inject constructor() :
     var selectedPosition = -1;
 
     private val diffUtil =
-        object : DiffUtil.ItemCallback<VehicleInfoResponse.Response.Car>() {
+        object : DiffUtil.ItemCallback<MyVehicleResponse.Response>() {
             override fun areItemsTheSame(
-                oldItem: VehicleInfoResponse.Response.Car,
-                newItem: VehicleInfoResponse.Response.Car
+                oldItem: MyVehicleResponse.Response,
+                newItem: MyVehicleResponse.Response
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: VehicleInfoResponse.Response.Car,
-                newItem: VehicleInfoResponse.Response.Car
+                oldItem: MyVehicleResponse.Response,
+                newItem: MyVehicleResponse.Response
             ): Boolean {
                 return oldItem == newItem
             }
@@ -52,8 +53,9 @@ class VehiclesAdapter @Inject constructor() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vehicle = differ.currentList[position]
         holder.binding.apply {
-            tvVehicleSub.text = vehicle.sub_vehicle_type
-            tvMaxSize.text = "Max No. (" + vehicle.max_seat_capacity + ")"
+            if(vehicle.vehicle_makes.isNotEmpty()){
+                tvVehicleSub.text = vehicle.vehicle_makes[0].title
+            }
         }
         if (selectedPosition == position) {
             holder.binding.cardSelected.strokeColor = ContextCompat.getColor(
@@ -76,34 +78,16 @@ class VehiclesAdapter @Inject constructor() :
                 it(vehicle)
             }
         }
-        holder.binding.ivInfo.setOnClickListener {
-            setInfoClickCallBack?.let {
-                it(vehicle)
-            }
-        }
-
-        holder.binding.ivInfo.setOnClickListener {
-            setInfoClickCallBack?.let {
-                it(vehicle)
-            }
-        }
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
 
-    private var setVehicleClickListener: ((user: VehicleInfoResponse.Response.Car) -> Unit)? =
+    private var setVehicleClickListener: ((user: MyVehicleResponse.Response) -> Unit)? =
         null
 
-    fun selectedVehicle(listener: (VehicleInfoResponse.Response.Car) -> Unit) {
+    fun selectedVehicle(listener: (MyVehicleResponse.Response) -> Unit) {
         setVehicleClickListener = listener
-    }
-
-    private var setInfoClickCallBack: ((user: VehicleInfoResponse.Response.Car) -> Unit)? =
-        null
-
-    fun infoClickCallBack(listener: (VehicleInfoResponse.Response.Car) -> Unit) {
-        setInfoClickCallBack = listener
     }
 }

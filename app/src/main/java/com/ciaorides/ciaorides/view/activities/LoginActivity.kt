@@ -1,6 +1,7 @@
 package com.ciaorides.ciaorides.view.activities
 
 import android.content.Intent
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -20,7 +21,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             binding.etPhoneNumber.text.toString().let { phoneNumber ->
                 if (phoneNumber.length > 9) {
                     binding.progressBar.root.visibility = View.VISIBLE
-                    viewModel.validateUser(LoginRequest(phoneNumber, "No"))
+                    val token =
+                        applicationContext.getSharedPreferences(Constants.MAIN_PREF, MODE_PRIVATE).getString(Constants.FCM_TOKEN, "").toString()
+
+                    viewModel.validateUser(
+                        LoginRequest(
+                            phoneNumber,
+                            "No",
+                            token = if (TextUtils.isEmpty(token)) Constants.FCM_TOKEN else token
+                        )
+                    )
                 }
             }
         }

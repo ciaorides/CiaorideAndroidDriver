@@ -51,9 +51,6 @@
             android:label="@string/title_activity_earnings"
             android:theme="@style/Theme.CIAORides.NoActionBar" />
         <activity
-            android:name=".view.activities.rides.TaxiFlowActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.activities.ui.vehicleDetails.VehicleDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_vehicle_details"
@@ -111,10 +108,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activities.SearchActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activities.menu.BankDetailsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -156,6 +149,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <service
+            android:name=".fcm.MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
+import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.request.HomeBannersRequest
+import com.ciaorides.ciaorides.model.response.GlobalResponse
 import com.ciaorides.ciaorides.model.response.HomeBannersResponse
+import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
+import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,42 +22,56 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
     ViewModel() {
-    private val _homeBannersResponse = MutableLiveData<DataHandler<HomeBannersResponse>>()
-    val homeBannersResponse: LiveData<DataHandler<HomeBannersResponse>> = _homeBannersResponse
 
 
-    private val _userDetailsResponse = MutableLiveData<DataHandler<UserDetailsResponse>>()
-    val userDetailsResponse: LiveData<DataHandler<UserDetailsResponse>> = _userDetailsResponse
+    private val _myVehicleResponse = MutableLiveData<DataHandler<MyVehicleResponse>>()
+    val myVehicleResponse: LiveData<DataHandler<MyVehicleResponse>> =
+        _myVehicleResponse
 
-    fun validateUser(bannersRequest: HomeBannersRequest) {
+    private val _globalResponse = MutableLiveData<DataHandler<GlobalResponse>>()
+    val globalResponse: LiveData<DataHandler<GlobalResponse>> =
+        _globalResponse
+
+
+    fun getMyVehicles(request: GlobalUserIdRequest) {
         viewModelScope.launch {
-            val response = networkRepository.getHomeBanners(bannersRequest)
-            _homeBannersResponse.postValue(handleResponse(response))
+            val response = networkRepository.getMyVehicles(request)
+            _myVehicleResponse.postValue(handleMyVehicleResponse(response))
         }
     }
-
-    private fun handleResponse(response: Response<HomeBannersResponse>): DataHandler<HomeBannersResponse> {
-        if (response.isSuccessful) {
+    private fun handleMyVehicleResponse(response: Response<MyVehicleResponse>?): DataHandler<MyVehicleResponse> {
+        if (response != null && response.isSuccessful && response.body() != null && response.body()?.response != null) {
             response.body()?.let { data ->
                 return DataHandler.SUCCESS(data)
             }
         }
-        return DataHandler.ERROR(message = response.errorBody().toString())
-    }
-
-    fun getUserDetails(request: GlobalUserIdRequest) {
-        viewModelScope.launch {
-            val response = networkRepository.getUserDetails(request)
-            _userDetailsResponse.postValue(handleUserDetails(response))
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
         }
     }
 
-    private fun handleUserDetails(response: Response<UserDetailsResponse>): DataHandler<UserDetailsResponse> {
-        if (response.isSuccessful) {
+    fun checkIn(request: DriverCheckInRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.driverCheck(request)
+            _globalResponse.postValue(handleCheckInResponse(response))
+        }
+    }
+    private fun handleCheckInResponse(response: Response<GlobalResponse>?): DataHandler<GlobalResponse> {
+        if (response != null && response.isSuccessful && response.body() != null) {
             response.body()?.let { data ->
                 return DataHandler.SUCCESS(data)
             }
         }
-        return DataHandler.ERROR(message = response.errorBody().toString())
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
+        }
     }
+
+
+
+
 }

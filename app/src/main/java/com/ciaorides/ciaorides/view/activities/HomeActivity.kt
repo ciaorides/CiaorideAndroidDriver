@@ -65,14 +65,6 @@ class HomeActivity : AppCompatActivity() {
 
         }*/
         setupMenu()
-        handleUserResponse()
-        if (!TextUtils.isEmpty(Constants.getValue(this@HomeActivity, Constants.USER_ID))) {
-            viewModel.getUserDetails(
-                GlobalUserIdRequest(
-                    user_id = Constants.getValue(this@HomeActivity, Constants.USER_ID)
-                )
-            )
-        }
 
         binding.userDetails.tvEditProfile.setOnClickListener {
             binding.drawerLayout.closeDrawers()
@@ -157,24 +149,5 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleUserResponse() {
-        viewModel.userDetailsResponse.observe(this) { dataHandler ->
-            when (dataHandler) {
-                is DataHandler.SUCCESS -> {
-                    dataHandler.data?.let { data ->
-                        if (data.status) {
-                            profileData = data.response
-                            binding.userDetails.tvName.text = data.response.first_name
-                            binding.userDetails.tvNumber.text = data.response.mobile
-                        }
-                    }
-                }
-                is DataHandler.ERROR -> {
-                    Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
-    }
 
 }

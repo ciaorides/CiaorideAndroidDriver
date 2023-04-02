@@ -8,14 +8,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityOtpBinding
 import com.ciaorides.ciaorides.model.request.LoginRequest
 import com.ciaorides.ciaorides.model.request.OtpRequest
 import com.ciaorides.ciaorides.model.response.UserResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
-import com.ciaorides.ciaorides.view.fragments.BookRideProgressFragment
 import com.ciaorides.ciaorides.viewmodel.OtpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -120,7 +118,19 @@ class OtpActivity : BaseActivity<ActivityOtpBinding>() {
                 if (TextUtils.isEmpty(it.id)) {
                     phoneNumber?.let { number ->
                         binding.progressBar.root.visibility = View.VISIBLE
-                        viewModel.validateUser(LoginRequest(number, "Yes"))
+                        val token =
+                            applicationContext.getSharedPreferences(
+                                Constants.MAIN_PREF,
+                                MODE_PRIVATE
+                            ).getString(Constants.FCM_TOKEN, "").toString()
+
+                        viewModel.validateUser(
+                            LoginRequest(
+                                number,
+                                "Yes",
+                                token = if (TextUtils.isEmpty(token)) Constants.FCM_TOKEN else token
+                            )
+                        )
                     }
                 } else {
                     saveUserData(it)

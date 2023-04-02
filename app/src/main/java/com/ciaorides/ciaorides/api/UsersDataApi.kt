@@ -99,4 +99,7 @@ interface UsersDataApi {
         @Part image: List<MultipartBody.Part>,
         @Part upload_type: Int
     ): Response<ImageUploadResponse>
+
+    @POST("driver1/check_in")
+    suspend fun driverCheckIn(@Body request: DriverCheckInRequest): Response<GlobalResponse>
 }

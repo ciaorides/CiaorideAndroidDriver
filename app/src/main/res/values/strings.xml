@@ -186,4 +186,8 @@
     <string name="refer_1">Earn upto Rs. 500 for a new user invite!</string>
     <string name="refer_2">Make upto 500 rs for each new driver you invite who complete 5 Trips.</string>
     <string name="share_your_link">Share link</string>
+    <string name="previous_rides">Previous Rides</string>
+    <string name="total_bookings">Total Bookings</string>
+    <string name="start_ride">Start Ride</string>
+    <string name="start">Start</string>
 </resources>
