@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutOtpScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -13,7 +14,6 @@
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"
         android:background="@drawable/bg_serach_gradiant"
         android:orientation="vertical"
         android:padding="@dimen/_10sdp">
@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/rounded_edittext_gray"
             android:padding="@dimen/_8sdp"
+            android:singleLine="true"
             tools:text="Source Location" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -32,6 +33,7 @@
             style="@style/GlobalTextViewStyle"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/_8sdp"
+            android:singleLine="true"
             android:background="@drawable/rounded_edittext_gray"
             android:padding="@dimen/_8sdp"
             tools:text="Destination Location" />
@@ -65,6 +67,8 @@
         android:fontFamily="@font/inter_medium"
         android:includeFontPadding="false"
         android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
         android:text="@string/otp_confirm_message"
         android:textColor="@color/black"
         android:textSize="@dimen/_18ssp" />
@@ -75,6 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_gravity="center"
         android:cursorVisible="true"
         android:focusable="true"
         android:inputType="number"

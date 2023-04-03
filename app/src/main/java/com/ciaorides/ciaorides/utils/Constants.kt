@@ -45,8 +45,17 @@ object Constants {
     const val ONLINE = "online"
     const val OFFLINE = "offline"
     const val BUSY = "busy"
+    const val PENDING = "pending"
+    const val APPROVED = "approved"
+    const val PICKED = "picked"
+    const val REACHED = "reached"
+    const val OTP_VALIDATED = "otp_validated"
+    const val RIDE_COMPLETED = "ride_completed"
 
-    //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
+
+
+
+    //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
     const val MAIN_PREF = "main_pref"
     const val HOME = "home"
@@ -396,6 +405,9 @@ fun showRejectReasonsAlert(
         builder.dismiss()
         okCallBack?.invoke(true)
     }
-
     builder.show()
+}
+
+fun View.visible(state: Boolean) {
+    visibility = if (state) View.VISIBLE else View.GONE
 }

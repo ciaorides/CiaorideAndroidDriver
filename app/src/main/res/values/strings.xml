@@ -202,4 +202,7 @@
     <string name="call">Call</string>
     <string name="otp_confirm_message">Please confirm the OTP sent to customer</string>
     <string name="added_ride_msg">Congratulations! A new ride has been added</string>
+    <string name="reached">Reached</string>
+    <string name="pickup">Picked Up</string>
+    <string name="complete_ride">Complete Ride</string>
 </resources>

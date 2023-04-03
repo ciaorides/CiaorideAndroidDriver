@@ -34,11 +34,13 @@ import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.request.RejectRideRequest
-import com.ciaorides.ciaorides.model.response.BookResp
+import com.ciaorides.ciaorides.model.response.BookingFcmData
+import com.ciaorides.ciaorides.model.response.BookingInfoResponse
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.utils.showRejectReasonsAlert
+import com.ciaorides.ciaorides.utils.visible
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -75,6 +77,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     var broadCastReceiver: BroadcastReceiver? = null
 
+    private var bookingFcmResponse: BookingFcmData? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,8 +88,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private var driverId = ""
+
     private fun initData() {
         setupMap()
+        driverId = Constants.getValue(requireActivity(), Constants.USER_ID)
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         checkPermissions()
@@ -96,10 +102,11 @@ class HomeFragment : Fragment() {
         handleRejectRideResponse()
         handleBookingInfoResponse()
         handleAcceptBookingResponse()
+        handleBookingClicks()
         binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.checkInStatus(
             GlobalUserIdRequest(
-                driver_id = Constants.getValue(requireActivity(), Constants.USER_ID)
+                driver_id = driverId
             )
         )
         binding.btnStart.setOnClickListener {
@@ -138,7 +145,7 @@ class HomeFragment : Fragment() {
                 vehicle_id = selectedVehicleId,
                 from_lng = currentLatLng?.longitude.toString(),
                 from_lat = currentLatLng?.latitude.toString(),
-                driver_id = Constants.getValue(requireActivity(), Constants.USER_ID)
+                driver_id = driverId
             )
         )
     }
@@ -150,7 +157,7 @@ class HomeFragment : Fragment() {
 
 
     private fun vehiclesCall() {
-        if (!TextUtils.isEmpty(Constants.getValue(requireActivity(), Constants.USER_ID))) {
+        if (!TextUtils.isEmpty(driverId)) {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getMyVehicles(
                 GlobalUserIdRequest(
@@ -206,7 +213,6 @@ class HomeFragment : Fragment() {
                     dataHandler.data?.let { data ->
                         if (data.status) {
                             updateSearchState(data.response.status)
-                            getBookingChanges()
                         }
                     }
                 }
@@ -222,7 +228,8 @@ class HomeFragment : Fragment() {
         if (otherValue == Constants.ONLINE) {
             binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-        } else {
+            getBookingChanges()
+        } else if (otherValue == Constants.BUSY) {
             binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
         }
     }
@@ -524,20 +531,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getBookingChanges() {
-        val messagesRef =
-            Firebase.database.reference.child(FcmBookUtils.BOOKING).child(FcmBookUtils.RIDES)
-                .child(Constants.getValue(requireActivity(), Constants.USER_ID))
-                .child("bookingData")
 
-        messagesRef.addValueEventListener(object : ValueEventListener {
+        FcmBookUtils.getBookingFcmRef(driverId).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val bookRideResponse = snapshot.getValue(BookResp::class.java)
-                if (bookRideResponse != null) {
-                    updateRideDetails(bookRideResponse)
-                } else {
-                    binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-                    binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-                }
+                bookingFcmResponse = snapshot.getValue(BookingFcmData::class.java)
+                displayStateUi()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -547,46 +545,67 @@ class HomeFragment : Fragment() {
         })
     }
 
-    //2245
-    private fun updateRideDetails(bookRideResponse: BookResp) {
-        binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
-        binding.localRideSheet.bottomSheetLayout.visibility = View.VISIBLE
+    private fun handleBookingClicks() {
+        binding.localRideSheet.btnPickup.setOnClickListener {
+            FcmBookUtils.updateApprovedStatus(driverId, Constants.PICKED)
+        }
+        binding.localRideSheet.btnReached.setOnClickListener {
+            FcmBookUtils.updateApprovedStatus(driverId, Constants.REACHED)
+        }
+        binding.localRideSheet.btnComplete.setOnClickListener {
+            FcmBookUtils.updateApprovedStatus(driverId, Constants.RIDE_COMPLETED)
+        }
+        binding.layoutOtp.btnVerify.setOnClickListener {
+            val otp = binding.layoutOtp.firstPinView.text.toString()
+            bookingFcmResponse?.let { data ->
+                if (otp?.length == 4 && otp.equals(data.bookingData.otp.toString())) {
+                    FcmBookUtils.updateApprovedStatus(driverId, Constants.OTP_VALIDATED)
+                } else {
+                    Toast.makeText(requireActivity(), "Enter OTP", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         binding.localRideSheet.btnAccept.setOnClickListener {
-            val vehicleInfo = bookRideResponse.response.find {
-                it.driver_id == Constants.getValue(requireActivity(), Constants.USER_ID)
+            FcmBookUtils.updateApprovedStatus(driverId, Constants.APPROVED)
+            /*val vehicleInfo = bookingFcmResponse.bookingData.response.find {
+                it.driver_id == driverId
             }
             vehicleInfo?.let {
                 binding.progressLayout.root.visibility = View.VISIBLE
                 viewModel.acceptRideRequest(
                     AcceptRideRequest(
-                        booking_id = bookRideResponse.booking_id.toString(),
+                        booking_id = bookingFcmResponse.bookingData.booking_id.toString(),
                         driver_id = it.driver_id,
-                        order_id = bookRideResponse.order_id.toString(),
-                        user_id = bookRideResponse.user_id,
+                        order_id = bookingFcmResponse.bookingData.order_id.toString(),
+                        user_id = bookingFcmResponse.bookingData.user_id,
                         vehicle_id = it.vehicle_id
                     ),
-                    bookRideResponse.booking_id.toString()
+                    bookingFcmResponse.bookingData.booking_id.toString()
 
                 )
-            }
+            }*/
         }
         binding.localRideSheet.btnReject.setOnClickListener {
-            showRejectReasonsAlert(requireActivity()) {
+            // FcmBookUtils.updateApprovedStatus(driverId, Constants.APPROVED)
+            /*showRejectReasonsAlert(requireActivity()) {
                 binding.progressLayout.root.visibility = View.VISIBLE
                 viewModel.rejectRide(
                     RejectRideRequest(
-                        order_id = bookRideResponse.order_id.toString(),
-                        driver_id = Constants.getValue(requireActivity(), Constants.USER_ID),
-                        user_id = bookRideResponse.user_id
+                        order_id = bookingFcmResponse.bookingData.order_id.toString(),
+                        driver_id = driverId,
+                        user_id = bookingFcmResponse.bookingData.user_id
                     )
                 )
-            }
-
-
+            }*/
         }
+    }
+
+    private fun updateRideDetails(bookingFcmResponse: BookingFcmData) {
+        binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
+        binding.localRideSheet.bottomSheetLayout.visibility = View.VISIBLE
         viewModel.getRideDetails(
             GlobalUserIdRequest(
-                booking_id = bookRideResponse.booking_id.toString()
+                booking_id = bookingFcmResponse.bookingData.booking_id.toString()
             )
         )
     }
@@ -600,11 +619,7 @@ class HomeFragment : Fragment() {
                         if (data.status) {
                             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
                             binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-                            val bookingData =
-                                Firebase.database.reference.child(FcmBookUtils.BOOKING)
-                                    .child(Constants.getValue(requireActivity(), Constants.USER_ID))
-                                    .child("bookingData")
-                            bookingData.removeValue()
+                            FcmBookUtils.removeFcmBooingForReject(driverId)
                         }
                     }
                 }
@@ -623,22 +638,22 @@ class HomeFragment : Fragment() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            // binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-                            //binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-
-                            Firebase.database.reference.child(FcmBookUtils.BOOKING)
-                                .child(FcmBookUtils.SENDERS)
+                            FcmBookUtils.getBookingSendersFcmRef()
                                 .child(data.otherValue.toString()).get().addOnSuccessListener {
                                     val senderIds = it.getValue(String::class.java)
-
                                     if (senderIds != null) {
                                         val data = senderIds.split(",")
                                         for (item in data) {
-
+                                            if (item != Constants.getValue(
+                                                    requireActivity(),
+                                                    Constants.USER_ID
+                                                )
+                                            ) {
+                                                FcmBookUtils.removeFcmBooingForReject(item)
+                                            }
                                         }
                                     }
-                                }.addOnFailureListener {
-
+                                    FcmBookUtils.updateApprovedStatus(driverId, Constants.APPROVED)
                                 }
                         }
                     }
@@ -679,6 +694,70 @@ class HomeFragment : Fragment() {
                         .show()
                 }
             }
+        }
+    }
+
+
+    private fun displayStateUi() {
+        if (bookingFcmResponse != null) {
+            bookingFcmResponse?.let { fcmResponse ->
+                with(binding.localRideSheet) {
+                    when (fcmResponse.rideStatus) {
+                        Constants.PENDING -> {
+                            updateRideDetails(fcmResponse)
+                            btnAccept.visible(true)
+                            btnReached.visible(false)
+                            btnPickup.visible(false)
+                        }
+                        Constants.APPROVED -> {
+                            tvCongratsMsg.text = "Enjoy your ride!"
+                            btnAccept.visible(false)
+                            btnReached.visible(true)
+                            btnPickup.visible(false)
+                            tvHeader.visible(false)
+                        }
+                        Constants.PICKED -> {
+                            tvCongratsMsg.text = "Enjoy your ride!"
+                            btnAccept.visible(false)
+                            btnReached.visible(false)
+                            btnPickup.visible(true)
+                            btnReject.visible(false)
+                            tvHeader.visible(false)
+                        }
+                        Constants.REACHED -> {
+                            tvCongratsMsg.text = "Enjoy your ride!"
+                            binding.layoutOtp.layoutOtpScreen.visible(true)
+                            binding.layoutOtp.tvSource.text =
+                                fcmResponse.locationAddress.fromAddress
+                            binding.layoutOtp.tvDestination.text =
+                                fcmResponse.locationAddress.toAddress
+                            tvHeader.visible(false)
+                        }
+                        Constants.OTP_VALIDATED -> {
+                            tvCongratsMsg.text = "Enjoy your ride!"
+                            btnAccept.visible(false)
+                            tvHeader.visible(false)
+                            btnReached.visible(false)
+                            btnPickup.visible(false)
+                            btnReject.visible(false)
+                            binding.layoutOtp.layoutOtpScreen.visible(false)
+                            bottomSheetLayout.visible(true)
+                            btnComplete.visible(true)
+
+                            tvSource.text =
+                                fcmResponse.locationAddress.fromAddress
+                            tvDestination.text =
+                                fcmResponse.locationAddress.toAddress
+                            tvPayment.text =
+                                fcmResponse.bookingData.time
+                        }
+                    }
+                }
+            }
+
+        } else {
+            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
         }
     }
 

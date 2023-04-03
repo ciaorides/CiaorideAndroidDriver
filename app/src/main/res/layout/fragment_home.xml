@@ -213,13 +213,12 @@
         android:visibility="gone"
         />
 
-
     <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_progress" />
 
     <include
-        android:id="@+id/progressLayout"
+        android:id="@+id/layoutOtp"
         layout="@layout/layout_otp_screen"
         android:visibility="gone"
         />

@@ -13,7 +13,6 @@
         android:fontFamily="@font/inter_medium"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:text="@string/reason_for_rejection"
         android:textColor="@color/black"
         android:textSize="@dimen/_14ssp" />
 

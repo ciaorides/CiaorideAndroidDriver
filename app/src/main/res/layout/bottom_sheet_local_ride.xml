@@ -10,6 +10,7 @@
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <TextView
+        android:id="@+id/tvHeader"
         style="@style/GlobalTextViewBoldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
 
 
         <TextView
+            android:id="@+id/tvCongratsMsg"
             style="@style/GlobalTextViewBoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -248,6 +250,49 @@
                 android:fontFamily="@font/inter_medium"
                 android:text="@string/accept_ride"
                 android:textAllCaps="false"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/_5sdp" />
+
+            <Button
+                android:id="@+id/btnReached"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/appBlue"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/reached"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/_5sdp" />
+
+            <Button
+                android:id="@+id/btnPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/appBlue"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/pickup"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:cornerRadius="@dimen/_5sdp" />
+
+            <Button
+                android:id="@+id/btnComplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/appBlue"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/complete_ride"
+                android:textAllCaps="false"
+                android:visibility="gone"
                 app:cornerRadius="@dimen/_5sdp" />
 
             <Button
