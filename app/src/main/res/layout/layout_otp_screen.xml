@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context=".view.activities.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@drawable/bg_serach_gradiant"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSource"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="match_parent"
+            android:background="@drawable/rounded_edittext_gray"
+            android:padding="@dimen/_8sdp"
+            tools:text="Source Location" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDestination"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/rounded_edittext_gray"
+            android:padding="@dimen/_8sdp"
+            tools:text="Destination Location" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_8sdp"
+
+        android:gravity="center"
+        android:padding="@dimen/_8sdp"
+        android:text="@string/added_ride_msg"
+        android:textColor="@color/green"
+        android:textSize="@dimen/_15ssp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/progree_ing" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvWelcome"
+        style="@style/GlobalTextViewStyle"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:padding="@dimen/_10sdp"
+        android:text="@string/otp_confirm_message"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18ssp" />
+
+    <com.chaos.view.PinView
+        android:id="@+id/firstPinView"
+        style="@style/PinWidget.PinView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:cursorVisible="true"
+        android:focusable="true"
+        android:inputType="number"
+        android:itemBackground="@drawable/rounded_edittext_gray"
+        android:padding="@dimen/_10sdp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cursorColor="@color/appGray"
+        app:cursorWidth="2dp"
+        app:hideLineWhenFilled="true"
+        app:itemCount="4"
+        app:itemHeight="@dimen/_35sdp"
+        app:itemRadius="4dp"
+        app:itemSpacing="@dimen/_10sdp"
+        app:itemWidth="@dimen/_35sdp"
+        app:layout_constraintBottom_toTopOf="@+id/tvOtpMsg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lineColor="@color/editBgColor"
+        app:lineWidth="2dp"
+        app:viewType="rectangle" />
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/layout_progress"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:backgroundTint="@color/appBlue"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:text="@string/verify"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_5sdp" />
+
+</LinearLayout>

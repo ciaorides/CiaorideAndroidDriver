@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/activity_my_vehicles.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_otp.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/alert_delete_vehicle.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/book_ride_progress_fragment.xml" value="0.2911458333333333" />
@@ -29,7 +30,10 @@
         <entry key="app/src/main/res/layout/item_message_recieve.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/item_message_send.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/item_vehicles.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_otp_screen.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_pickup_user_otp.xml" value="0.2911458333333333" />
         <entry key="app/src/main/res/layout/layout_progress.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_reject_resons.xml" value="0.2911458333333333" />
       </map>
     </option>
   </component>

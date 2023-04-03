@@ -38,6 +38,7 @@ import com.ciaorides.ciaorides.model.response.BookResp
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.utils.showRejectReasonsAlert
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -570,14 +571,18 @@ class HomeFragment : Fragment() {
             }
         }
         binding.localRideSheet.btnReject.setOnClickListener {
-            binding.progressLayout.root.visibility = View.VISIBLE
-            viewModel.rejectRide(
-                RejectRideRequest(
-                    order_id = bookRideResponse.order_id.toString(),
-                    driver_id = Constants.getValue(requireActivity(), Constants.USER_ID),
-                    user_id = bookRideResponse.user_id
+            showRejectReasonsAlert(requireActivity()) {
+                binding.progressLayout.root.visibility = View.VISIBLE
+                viewModel.rejectRide(
+                    RejectRideRequest(
+                        order_id = bookRideResponse.order_id.toString(),
+                        driver_id = Constants.getValue(requireActivity(), Constants.USER_ID),
+                        user_id = bookRideResponse.user_id
+                    )
                 )
-            )
+            }
+
+
         }
         viewModel.getRideDetails(
             GlobalUserIdRequest(
@@ -627,8 +632,8 @@ class HomeFragment : Fragment() {
                                     val senderIds = it.getValue(String::class.java)
 
                                     if (senderIds != null) {
-                                        val data= senderIds.split(",")
-                                        for (item in data){
+                                        val data = senderIds.split(",")
+                                        for (item in data) {
 
                                         }
                                     }

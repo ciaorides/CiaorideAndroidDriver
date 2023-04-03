@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OtpActivity : BaseActivity<ActivityOtpBinding>() {
-    private var timer: CountDownTimer? = null
     var userData: UserResponse? = null
     var phoneNumber: String? = null
     var myCountDownTimer: MyCountDownTimer? = null

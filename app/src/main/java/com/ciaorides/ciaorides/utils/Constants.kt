@@ -24,6 +24,7 @@ import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.AlertDeleteVehicleBinding
 import com.ciaorides.ciaorides.databinding.AlertFevBinding
 import com.ciaorides.ciaorides.databinding.AlertScheduleBinding
+import com.ciaorides.ciaorides.databinding.LayoutRejectResonsBinding
 import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -380,4 +381,21 @@ enum class FevType {
     HOME,
     OFFICE,
     OTHER
+}
+
+fun showRejectReasonsAlert(
+    context: Activity,
+    okCallBack: ((Boolean) -> Unit?)? = null
+) {
+
+    val builder = AlertDialog.Builder(context)
+        .create()
+    val binding = LayoutRejectResonsBinding.inflate(LayoutInflater.from(context), null, false)
+    builder.setView(binding.root)
+    binding.btnReject.setOnClickListener {
+        builder.dismiss()
+        okCallBack?.invoke(true)
+    }
+
+    builder.show()
 }

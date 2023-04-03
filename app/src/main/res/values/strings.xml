@@ -200,4 +200,6 @@
     <string name="book_message">Congratulations! A new ride has been found</string>
     <string name="local_ride">Local Ride</string>
     <string name="call">Call</string>
+    <string name="otp_confirm_message">Please confirm the OTP sent to customer</string>
+    <string name="added_ride_msg">Congratulations! A new ride has been added</string>
 </resources>
