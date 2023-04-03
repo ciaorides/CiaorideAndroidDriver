@@ -45,7 +45,7 @@ object Constants {
     const val OFFLINE = "offline"
     const val BUSY = "busy"
 
-    //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
+    //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
     const val MAIN_PREF = "main_pref"
     const val HOME = "home"
