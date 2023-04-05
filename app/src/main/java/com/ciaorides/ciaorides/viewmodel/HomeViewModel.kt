@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
-import com.ciaorides.ciaorides.model.request.AcceptRideRequest
-import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
-import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.model.request.RejectRideRequest
+import com.ciaorides.ciaorides.model.request.*
+import com.ciaorides.ciaorides.model.request.HomePageRidesResponse
 import com.ciaorides.ciaorides.model.response.BookingInfoResponse
 import com.ciaorides.ciaorides.model.response.CheckInStatusResponse
 import com.ciaorides.ciaorides.model.response.GlobalResponse
@@ -48,6 +46,13 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     private val _bookingInfoResponse = MutableLiveData<DataHandler<BookingInfoResponse>>()
     val bookingInfoResponse: LiveData<DataHandler<BookingInfoResponse>> =
         _bookingInfoResponse
+
+    private val _homePageRidesResponse = MutableLiveData<DataHandler<HomePageRidesResponse>>()
+    val homePageRidesResponse: LiveData<DataHandler<HomePageRidesResponse>> =
+        _homePageRidesResponse
+
+
+
 
 
     fun getMyVehicles(request: GlobalUserIdRequest) {
@@ -156,6 +161,26 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
         if (response != null && response.isSuccessful && response.body() != null) {
             response.body()?.let { data ->
                 data.otherValue = bookingId
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
+        }
+    }
+
+    fun getHomePageRidesData(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.getHomePageRidesData(request)
+            _homePageRidesResponse.postValue(handleHomePageRidesResponse(response))
+        }
+    }
+
+    private fun handleHomePageRidesResponse(response: Response<HomePageRidesResponse>?): DataHandler<HomePageRidesResponse> {
+        if (response != null && response.isSuccessful && response.body() != null && response.body()?.response != null) {
+            response.body()?.let { data ->
                 return DataHandler.SUCCESS(data)
             }
         }

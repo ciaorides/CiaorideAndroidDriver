@@ -30,17 +30,11 @@ import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.FragmentHomeBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
-import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.model.request.RejectRideRequest
 import com.ciaorides.ciaorides.model.response.BookingFcmData
-import com.ciaorides.ciaorides.model.response.BookingInfoResponse
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
-import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.DataHandler
-import com.ciaorides.ciaorides.utils.showRejectReasonsAlert
-import com.ciaorides.ciaorides.utils.visible
+import com.ciaorides.ciaorides.utils.*
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -54,10 +48,9 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.collections.isNotEmpty as isNotEmpty1
 
 
 @AndroidEntryPoint
@@ -65,9 +58,8 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var vehiclesAdapter: VehiclesAdapter
     private var vehicleSheetBehavior: BottomSheetBehavior<*>? = null
-    private var _binding: FragmentHomeBinding? = null
+    lateinit var binding: FragmentHomeBinding
     var googleMap: GoogleMap? = null
-    private val binding get() = _binding!!
 
     var selectedVehicleId = ""
     var currentLatLng: LatLng? = null
@@ -83,7 +75,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         initData()
         return binding.root
     }
@@ -103,7 +95,9 @@ class HomeFragment : Fragment() {
         handleBookingInfoResponse()
         handleAcceptBookingResponse()
         handleBookingClicks()
+        //getHomePageRidesData()
         binding.progressLayout.root.visibility = View.VISIBLE
+        // viewModel.getHomePageRidesData(GlobalUserIdRequest(driver_id = driverId))
         viewModel.checkInStatus(
             GlobalUserIdRequest(
                 driver_id = driverId
@@ -229,7 +223,11 @@ class HomeFragment : Fragment() {
             binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
             getBookingChanges()
-        } else if (otherValue == Constants.BUSY) {
+        } else if (otherValue == Constants.OFFLINE){
+            binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
+            binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
+        }
+        else if (otherValue == Constants.BUSY) {
             binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
         }
     }
@@ -245,7 +243,7 @@ class HomeFragment : Fragment() {
         val cars = vehicleData.response.filter {
             it.vehicle_type == "car"
         }
-        if (cars.isNotEmpty()) {
+        if (cars.isNotEmpty1()) {
             binding.vehiclesSheet.cardCars.visibility = View.VISIBLE
             vehiclesAdapter.differ.submitList(cars)
             vehiclesAdapter.selectedPosition = -1
@@ -259,7 +257,7 @@ class HomeFragment : Fragment() {
         val bikes = vehicleData.response.filter {
             it.vehicle_type == "bike"
         }
-        if (bikes.isNotEmpty()) {
+        if (bikes.isNotEmpty1()) {
             binding.vehiclesSheet.cardBike.visibility = View.VISIBLE
         } else {
             binding.vehiclesSheet.cardBike.visibility = View.GONE
@@ -268,7 +266,7 @@ class HomeFragment : Fragment() {
         val auto = vehicleData.response.filter {
             it.vehicle_type == "auto"
         }
-        if (auto.isNotEmpty()) {
+        if (auto.isNotEmpty1()) {
             binding.vehiclesSheet.cardAuto.visibility = View.VISIBLE
         } else {
             binding.vehiclesSheet.cardAuto.visibility = View.GONE
@@ -398,7 +396,7 @@ class HomeFragment : Fragment() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             1 -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
+                if (grantResults.isNotEmpty1() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED
                 ) {
                     if ((ContextCompat.checkSelfPermission(
@@ -523,7 +521,6 @@ class HomeFragment : Fragment() {
                 it
             )
         }
-        _binding = null
     }
 
     override fun onPause() {
@@ -751,6 +748,9 @@ class HomeFragment : Fragment() {
                             tvPayment.text =
                                 fcmResponse.bookingData.time
                         }
+                        Constants.RIDE_COMPLETED ->{
+                            updateSearchState(Constants.ONLINE)
+                        }
                     }
                 }
             }
@@ -758,6 +758,35 @@ class HomeFragment : Fragment() {
         } else {
             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
             binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+        }
+    }
+
+    private fun getHomePageRidesData() {
+        viewModel.homePageRidesResponse.observe(requireActivity()) { dataHandler ->
+            binding.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            with(binding) {
+                                tvTotalBookings.text = getPrice(data.response.total_bookings)
+                                tvTotalEarnings.text = getPrice(data.response.total_earnings)
+                                if (data.response.previous_booking_data.isNotEmpty1()
+                                ) {
+                                    tvPreviousRides.text =
+                                        getPrice(data.response.previous_booking_data[0].total_amount)
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
         }
     }
 

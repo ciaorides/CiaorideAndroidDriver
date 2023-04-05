@@ -408,6 +408,7 @@ fun showRejectReasonsAlert(
     builder.show()
 }
 
+fun getPrice(price: String) = "₹ $price"
 fun View.visible(state: Boolean) {
     visibility = if (state) View.VISIBLE else View.GONE
 }

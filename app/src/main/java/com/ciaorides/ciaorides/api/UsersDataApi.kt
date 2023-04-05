@@ -114,4 +114,8 @@ interface UsersDataApi {
 
     @POST("driver1/accept_ride")
     suspend fun acceptRideRequest(@Body request: AcceptRideRequest): Response<GlobalResponse>
+
+    @POST("driver1/home_page_data")
+    suspend fun getHomePageRidesData(@Body request: GlobalUserIdRequest): Response<HomePageRidesResponse>
+
 }

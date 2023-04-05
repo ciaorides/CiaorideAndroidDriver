@@ -156,5 +156,10 @@ class NetworkRepository @Inject constructor(
     suspend fun acceptRideRequest(request: AcceptRideRequest): Response<GlobalResponse> {
         return usersDataApi.acceptRideRequest(request)
     }
+    suspend fun getHomePageRidesData(request: GlobalUserIdRequest): Response<HomePageRidesResponse> {
+        return usersDataApi.getHomePageRidesData(request)
+    }
+
+
 
 }
