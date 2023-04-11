@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
             }
-            //startActivity(Intent(this@SplashActivity, PaymentsActivity::class.java))
+            //startActivity(Intent(this@SplashActivity, PaymentsActivity::class.java))2247
             //startActivity(Intent(this@SplashActivity, RidesActivity::class.java))
             //startActivity(Intent(this@SplashActivity, RideDetailsActivity::class.java))
             //startActivity(Intent(this@SplashActivity, EarningsActivity::class.java))

@@ -1,6 +1,5 @@
 package com.ciaorides.ciaorides.fcm
 
-import com.ciaorides.ciaorides.utils.Constants
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
