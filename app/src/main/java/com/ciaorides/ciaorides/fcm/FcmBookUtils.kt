@@ -8,6 +8,7 @@ object FcmBookUtils {
     const val RIDES = "Rides"
     const val SENDERS = "Senders"
     const val RIDE_STATUS = "rideStatus"
+    const val RIDE_STATUS1 = "rideStatus1"
 
     fun getBookingFcmRef(driverId: String) =
         Firebase.database.reference.child(BOOKING).child(RIDES)
