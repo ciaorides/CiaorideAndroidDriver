@@ -32,9 +32,10 @@ import com.ciaorides.ciaorides.databinding.FragmentHomeBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.model.response.BookingFcmData
+import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.utils.*
+import com.ciaorides.ciaorides.view.activities.chat.ChatViewActivity
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -48,13 +49,17 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.HashMap
 import javax.inject.Inject
 import kotlin.collections.isNotEmpty as isNotEmpty1
 
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+
     @Inject
     lateinit var vehiclesAdapter: VehiclesAdapter
     private var vehicleSheetBehavior: BottomSheetBehavior<*>? = null
@@ -69,7 +74,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     var broadCastReceiver: BroadcastReceiver? = null
 
-    private var bookingFcmResponse: BookingFcmData? = null
+    private var fcmViewModel: FcmBookingModel? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -129,6 +134,12 @@ class HomeFragment : Fragment() {
 
         LocalBroadcastManager.getInstance(requireActivity())
             .registerReceiver(broadCastReceiver!!, IntentFilter(Constants.FCM_TOKEN))
+
+        binding.localRideSheet.tvChat.setOnClickListener {
+            val intent = Intent(requireActivity(), ChatViewActivity::class.java)
+            intent.putExtra(Constants.DATA_VALUE, fcmViewModel)
+            startActivity(intent)
+        }
 
     }
 
@@ -222,12 +233,11 @@ class HomeFragment : Fragment() {
         if (otherValue == Constants.ONLINE) {
             binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-            getBookingChanges()
-        } else if (otherValue == Constants.OFFLINE){
+            checkStateOfBookApi()
+        } else if (otherValue == Constants.OFFLINE) {
             binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
             binding.vehiclesSheet.bottomSheetLayout.visibility = View.GONE
-        }
-        else if (otherValue == Constants.BUSY) {
+        } else if (otherValue == Constants.BUSY) {
             binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
         }
     }
@@ -527,16 +537,47 @@ class HomeFragment : Fragment() {
         super.onPause()
     }
 
-    private fun getBookingChanges() {
-
-        FcmBookUtils.getBookingFcmRef(driverId).addValueEventListener(object : ValueEventListener {
+    private fun checkStateOfBookApi() {
+        val messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
+            .child(FcmBookUtils.ACTIVE_BOOKINGS).child(FcmBookUtils.DRIVERS).child(driverId)
+        messagesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                bookingFcmResponse = snapshot.getValue(BookingFcmData::class.java)
-                displayStateUi()
+                snapshot.getValue(String()::class.java)?.let { getBookingInfo(it) }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireActivity(), "cancel Testing", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Failed", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    private fun getBookingInfo(bookingId: String) {
+        val messagesRef =
+            Firebase.database.reference.child(FcmBookUtils.BOOKING).child(FcmBookUtils.RIDES)
+                .child(bookingId)
+        messagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val map = (snapshot.value as? HashMap<*, *>)
+
+                if (map != null) {
+                    if (map.size == 1) {
+                        fcmViewModel =
+                            snapshot.child(driverId).getValue(FcmBookingModel::class.java)
+                    } else {
+                        for ((key, value) in map) {
+                            if(driverId == key){
+                                fcmViewModel =
+                                    snapshot.child(key.toString()).getValue(FcmBookingModel::class.java)
+                            }
+                        }
+                    }
+                    displayStateUi()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireActivity(), "Failed", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -544,26 +585,47 @@ class HomeFragment : Fragment() {
 
     private fun handleBookingClicks() {
         binding.localRideSheet.btnPickup.setOnClickListener {
-            FcmBookUtils.updateApprovedStatus(driverId, Constants.PICKED)
+            FcmBookUtils.updateApprovedStatus(
+                fcmViewModel?.bookingNumber.toString(),
+                driverId,
+                Constants.PICKED
+            )
         }
         binding.localRideSheet.btnReached.setOnClickListener {
-            FcmBookUtils.updateApprovedStatus(driverId, Constants.REACHED)
+            FcmBookUtils.updateApprovedStatus(
+                fcmViewModel?.bookingNumber.toString(),
+                driverId,
+                Constants.REACHED
+            )
         }
         binding.localRideSheet.btnComplete.setOnClickListener {
-            FcmBookUtils.updateApprovedStatus(driverId, Constants.RIDE_COMPLETED)
+            FcmBookUtils.updateApprovedStatus(
+                fcmViewModel?.bookingNumber.toString(),
+                driverId,
+                Constants.RIDE_COMPLETED
+            )
         }
         binding.layoutOtp.btnVerify.setOnClickListener {
             val otp = binding.layoutOtp.firstPinView.text.toString()
-            bookingFcmResponse?.let { data ->
-                if (otp?.length == 4 && otp.equals(data.bookingData.otp.toString())) {
-                    FcmBookUtils.updateApprovedStatus(driverId, Constants.OTP_VALIDATED)
+            fcmViewModel?.let { data ->
+                if (otp?.length == 4 && otp.equals(data.otp.toString())) {
+                    FcmBookUtils.updateApprovedStatus(
+                        fcmViewModel?.bookingNumber.toString(),
+                        driverId,
+                        Constants.OTP_VALIDATED
+                    )
                 } else {
                     Toast.makeText(requireActivity(), "Enter OTP", Toast.LENGTH_SHORT).show()
                 }
             }
         }
         binding.localRideSheet.btnAccept.setOnClickListener {
-            FcmBookUtils.updateApprovedStatus(driverId, Constants.APPROVED)
+            FcmBookUtils.updateApprovedStatus(
+                fcmViewModel?.bookingNumber.toString(),
+                driverId,
+                Constants.APPROVED
+            )
+            removeOtherDrivers()
             /*val vehicleInfo = bookingFcmResponse.bookingData.response.find {
                 it.driver_id == driverId
             }
@@ -597,12 +659,12 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateRideDetails(bookingFcmResponse: BookingFcmData) {
+    private fun updateRideDetails(bookingFcmResponse: FcmBookingModel) {
         binding.searchingSheet.bottomSheetLayout.visibility = View.GONE
         binding.localRideSheet.bottomSheetLayout.visibility = View.VISIBLE
         viewModel.getRideDetails(
             GlobalUserIdRequest(
-                booking_id = bookingFcmResponse.bookingData.booking_id.toString()
+                booking_id = bookingFcmResponse.bookingNumber.toString()
             )
         )
     }
@@ -616,7 +678,10 @@ class HomeFragment : Fragment() {
                         if (data.status) {
                             binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
                             binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-                            FcmBookUtils.removeFcmBooingForReject(driverId)
+                            FcmBookUtils.removeFcmBooingForReject(
+                                fcmViewModel?.bookingNumber.toString(),
+                                driverId
+                            )
                         }
                     }
                 }
@@ -635,23 +700,7 @@ class HomeFragment : Fragment() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            FcmBookUtils.getBookingSendersFcmRef()
-                                .child(data.otherValue.toString()).get().addOnSuccessListener {
-                                    val senderIds = it.getValue(String::class.java)
-                                    if (senderIds != null) {
-                                        val data = senderIds.split(",")
-                                        for (item in data) {
-                                            if (item != Constants.getValue(
-                                                    requireActivity(),
-                                                    Constants.USER_ID
-                                                )
-                                            ) {
-                                                FcmBookUtils.removeFcmBooingForReject(item)
-                                            }
-                                        }
-                                    }
-                                    FcmBookUtils.updateApprovedStatus(driverId, Constants.APPROVED)
-                                }
+                            removeOtherDrivers()
                         }
                     }
                 }
@@ -661,6 +710,33 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun removeOtherDrivers() {
+        FcmBookUtils.getBookingSendersFcmRef()
+            .child(fcmViewModel?.bookingNumber.toString())
+            .get().addOnSuccessListener {
+                val senderIds = it.getValue(String::class.java)
+                if (senderIds != null) {
+                    val data = senderIds.split(",")
+                    for (item in data) {
+                        if (item != driverId) {
+                            FcmBookUtils.removeFcmBooingForReject(
+                                fcmViewModel?.bookingNumber.toString(),
+                                item
+                            )
+                        }
+                    }
+                }
+                FcmBookUtils.updateApprovedStatus(
+                    fcmViewModel?.bookingNumber.toString(),
+                    driverId,
+                    Constants.APPROVED
+                )
+                FcmBookUtils.getBookingSendersFcmRef()
+                    .child(fcmViewModel?.bookingNumber.toString())
+                    .setValue(driverId)
+            }
     }
 
     private fun handleBookingInfoResponse() {
@@ -696,8 +772,8 @@ class HomeFragment : Fragment() {
 
 
     private fun displayStateUi() {
-        if (bookingFcmResponse != null) {
-            bookingFcmResponse?.let { fcmResponse ->
+        if (fcmViewModel != null) {
+            fcmViewModel?.let { fcmResponse ->
                 with(binding.localRideSheet) {
                     when (fcmResponse.rideStatus) {
                         Constants.PENDING -> {
@@ -725,9 +801,9 @@ class HomeFragment : Fragment() {
                             tvCongratsMsg.text = "Enjoy your ride!"
                             binding.layoutOtp.layoutOtpScreen.visible(true)
                             binding.layoutOtp.tvSource.text =
-                                fcmResponse.locationAddress.fromAddress
+                                fcmResponse.sourceAddress
                             binding.layoutOtp.tvDestination.text =
-                                fcmResponse.locationAddress.toAddress
+                                fcmResponse.destinationAddress
                             tvHeader.visible(false)
                         }
                         Constants.OTP_VALIDATED -> {
@@ -742,13 +818,13 @@ class HomeFragment : Fragment() {
                             btnComplete.visible(true)
 
                             tvSource.text =
-                                fcmResponse.locationAddress.fromAddress
+                                fcmResponse.sourceAddress
                             tvDestination.text =
-                                fcmResponse.locationAddress.toAddress
+                                fcmResponse.destinationAddress
                             tvPayment.text =
-                                fcmResponse.bookingData.time
+                                fcmResponse.time
                         }
-                        Constants.RIDE_COMPLETED ->{
+                        Constants.RIDE_COMPLETED -> {
                             updateSearchState(Constants.ONLINE)
                         }
                     }
@@ -789,6 +865,5 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 
 }

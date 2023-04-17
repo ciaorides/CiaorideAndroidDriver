@@ -8,20 +8,36 @@ object FcmBookUtils {
     const val RIDES = "Rides"
     const val SENDERS = "Senders"
     const val RIDE_STATUS = "rideStatus"
-    const val RIDE_STATUS1 = "rideStatus1"
+    const val ACTIVE_BOOKINGS = "activeBookings"
+    const val USERS = "users"
+    const val DRIVERS = "drivers"
+    const val CHAT = "chat"
 
-    fun getBookingFcmRef(driverId: String) =
-        Firebase.database.reference.child(BOOKING).child(RIDES)
+    private fun getBookingFcmRef(bookingId: String, driverId: String) =
+        Firebase.database.reference.child(BOOKING).child(bookingId).child(RIDES)
             .child(driverId)
 
-    fun removeFcmBooingForReject(driverId: String) = getBookingFcmRef(driverId).removeValue()
+    fun removeFcmBooingForReject(bookingId: String, driverId: String) =
+        getBookingFcmRef(bookingId, driverId).removeValue()
 
     fun getBookingSendersFcmRef() = Firebase.database.reference.child(BOOKING).child(SENDERS)
 
-    fun updateApprovedStatus(driverId: String, status: String) {
-        Firebase.database.reference.child(BOOKING).child(RIDES)
-            .child(driverId).child(RIDE_STATUS).setValue(status)
+    fun updateApprovedStatus(bookingId: String, driverId: String, status: String) {
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(RIDES)
+            .child(bookingId)
+            .child(driverId)
+            .child(RIDE_STATUS)
+            .setValue(status)
     }
+
+    fun getBookingChatRef(bookingId: String, chatId: String) =
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(CHAT)
+            .child(bookingId)
+            .child(chatId)
 
 
 }

@@ -1,21 +1,12 @@
 package com.ciaorides.ciaorides.view.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemBankDetailsBinding
-import com.ciaorides.ciaorides.databinding.ItemMyRideBinding
-import com.ciaorides.ciaorides.databinding.ItemMyVehicleBinding
-import com.ciaorides.ciaorides.databinding.ItemVehiclesBinding
 import com.ciaorides.ciaorides.model.response.BankDetailsResponse
-import com.ciaorides.ciaorides.model.response.MyRidesResponse
-import com.ciaorides.ciaorides.model.response.MyVehicleResponse
-import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
 import javax.inject.Inject
 
 class BankDetailsAdapter @Inject constructor() :

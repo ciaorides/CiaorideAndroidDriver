@@ -1,14 +1,11 @@
 package com.ciaorides.ciaorides.view.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.R
-import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.VehicleBrandsResponse
 
 class VehicleBrandsAdapter(private val data: VehicleBrandsResponse) :

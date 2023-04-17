@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemVehiclesBinding
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
-import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
-import com.ciaorides.ciaorides.model.response.VehicleInfoResponse
-import com.ciaorides.ciaorides.utils.InfoPopUpDialog
 import javax.inject.Inject
 
 class VehiclesAdapter @Inject constructor() :

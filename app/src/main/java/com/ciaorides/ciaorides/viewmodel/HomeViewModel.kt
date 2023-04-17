@@ -63,7 +63,7 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     }
 
     private fun handleMyVehicleResponse(response: Response<MyVehicleResponse>?): DataHandler<MyVehicleResponse> {
-        if (response != null && response.isSuccessful && response.body() != null && response.body()?.response != null) {
+        if (response != null && response.isSuccessful && response.body() != null) {
             response.body()?.let { data ->
                 return DataHandler.SUCCESS(data)
             }

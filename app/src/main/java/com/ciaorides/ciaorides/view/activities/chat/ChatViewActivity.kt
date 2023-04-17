@@ -6,9 +6,12 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityChatViewBinding
+import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.response.BookRideResponse
+import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.ciaorides.ciaorides.model.response.Message
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.getCurrentTimeStamp
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.ktx.database
@@ -16,13 +19,23 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
-    private var chatToken = ""
     private lateinit var chatAdapter: ChatAdapter
+    lateinit var userId: String
+    private var bookingId: String = ""
     override fun init() {
 
-        val userId = intent.getStringExtra(Constants.USER_ID)
-        chatToken = userId + "-" + Constants.getValue(applicationContext, Constants.USER_ID)
-        val messagesRef = Firebase.database.reference.child("Chats").child(chatToken)
+        var driverId = ""
+
+        val model = intent.getSerializableExtra(Constants.DATA_VALUE) as? FcmBookingModel
+        model?.let { res ->
+            driverId = res.driverInfo.driver_id
+            bookingId = res.bookingNumber
+            userId = res.userId
+        }
+
+
+        val chatToken = userId + "_" + driverId
+        val messagesRef = FcmBookUtils.getBookingChatRef(bookingId, chatToken)
         val options = FirebaseRecyclerOptions.Builder<Message>()
             .setQuery(messagesRef, Message::class.java)
             .build()
@@ -33,6 +46,7 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
                 with(binding) { recyclerView.scrollToPosition(chatAdapter.itemCount - 1) }
             }
         })
+        chatAdapter.userId = driverId
         binding.recyclerView.adapter = chatAdapter
 
         binding.toolbar.tvHeader.text = getString(R.string.chat)
@@ -65,9 +79,10 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
             if (binding.editText.text.toString().isNullOrBlank()) {
                 Toast.makeText(this, "Please enter Message", Toast.LENGTH_SHORT).show()
             } else {
-                val database = Firebase.database.reference
-                val friendlyMessage = Message(binding.editText.text.toString(), "12345", Date())
-                database.child("Chats").child(chatToken).push().setValue(friendlyMessage)
+                val friendlyMessage =
+                    Message(binding.editText.text.toString(), userId, getCurrentTimeStamp())
+                FcmBookUtils.getBookingChatRef(bookingId, chatToken).push()
+                    .setValue(friendlyMessage)
                 binding.editText.text?.clear()
             }
         }
@@ -75,12 +90,12 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
 
     override fun onStart() {
         super.onStart()
-        chatAdapter.startListening();
+        chatAdapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
-        chatAdapter.stopListening();
+        chatAdapter.stopListening()
     }
 
     override fun getViewBinding(): ActivityChatViewBinding =

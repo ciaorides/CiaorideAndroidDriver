@@ -19,6 +19,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Message, ChatAdapter.Vi
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
+    public String userId ="";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
