@@ -54,7 +54,7 @@ object Constants {
 
 
 
-    //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
+    //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
     const val MAIN_PREF = "main_pref"
     const val HOME = "home"
