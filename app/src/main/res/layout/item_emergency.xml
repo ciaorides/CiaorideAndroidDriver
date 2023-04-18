@@ -29,20 +29,22 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtName"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Srikanth K"
-                    android:textSize="@dimen/_12sdp"></TextView>
+                    android:textSize="@dimen/_12sdp"/>
 
                 <TextView
+                    android:id="@+id/txtContact"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:text="9999999999"
                     android:textColor="@color/appTextGray"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp"/>
             </LinearLayout>
 
             <CheckBox

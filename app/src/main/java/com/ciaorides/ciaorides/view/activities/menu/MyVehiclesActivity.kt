@@ -11,6 +11,7 @@ import com.ciaorides.ciaorides.databinding.ActivityMyVehiclesBinding
 import com.ciaorides.ciaorides.model.request.DeleteVehicleRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.activities.ui.vehicleDetails.VehicleDetailsActivity
@@ -38,6 +39,12 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
         }
+
+        binding.rvVehicles.apply {
+            adapter = myVehiclesAdapter
+            layoutManager = LinearLayoutManager(this@MyVehiclesActivity)
+            visibility = View.VISIBLE
+        }
         handleMyVehicle()
         handleDeleteVehicle()
         vehiclesCall()
@@ -52,7 +59,7 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
     }
 
     private fun vehiclesCall() {
-        if (!TextUtils.isEmpty(Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID))) {
+//        if (!TextUtils.isEmpty(Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID))) {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getMyVehicles(
                 GlobalUserIdRequest(
@@ -60,13 +67,13 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
                     user_id = Constants.TEMP_USER_ID
                 )
             )
-        }
+//        }
     }
 
     private fun makeVehicleDeleteCall(id: String) {
         viewModel.deleteVehicle(
             DeleteVehicleRequest(
-                user_id = Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID),
+                user_id =TEMP_USER_ID/* Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)*/,
                 vehicle_id = id
             )
         )

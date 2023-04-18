@@ -118,4 +118,14 @@ interface UsersDataApi {
     @POST("driver1/home_page_data")
     suspend fun getHomePageRidesData(@Body request: GlobalUserIdRequest): Response<HomePageRidesResponse>
 
+    @POST("menuitems/add_driver_bank_details_step1")
+    suspend fun addBankAccount(@Body request: SaveBankDetailsRequest): Response<SaveBankResponse>
+
+    @POST("menuitems/update_change_password")
+    suspend fun changePassword(@Body request: ChangePassword): Response<ChangePasswordResponse>
+
+    @POST("menuitems/get_emergency_contacts_list")
+    suspend fun getEmergencyContactList(@Body request: GlobalUserIdRequest): Response<EmergencyContactResponse>
+
+
 }

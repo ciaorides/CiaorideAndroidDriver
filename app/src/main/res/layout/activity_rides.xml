@@ -12,13 +12,25 @@
         android:id="@+id/toolbar"
         layout="@layout/custom_tool_bar" />
 
-    <include layout="@layout/item_my_ride" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRides"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
-    <include layout="@layout/item_my_ride" />
-
-    <include layout="@layout/item_my_ride" />
-
-    <include layout="@layout/item_my_ride" />
+    <TextView
+        android:id="@+id/noResultsFound"
+        style="@style/GlobalTextViewBoldStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/no_results_found"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone"
+        />
 
     <include
         android:id="@+id/progressLayout"

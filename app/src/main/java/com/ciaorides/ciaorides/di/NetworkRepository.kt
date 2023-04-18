@@ -159,6 +159,15 @@ class NetworkRepository @Inject constructor(
     suspend fun getHomePageRidesData(request: GlobalUserIdRequest): Response<HomePageRidesResponse> {
         return usersDataApi.getHomePageRidesData(request)
     }
+    suspend fun saveBankDetails(request: SaveBankDetailsRequest): Response<SaveBankResponse> {
+        return usersDataApi.addBankAccount(request)
+    }
+    suspend fun getEmergencyContactList(request: GlobalUserIdRequest): Response<EmergencyContactResponse> {
+        return usersDataApi.getEmergencyContactList(request)
+    }
+    suspend fun changePassword(request: ChangePassword): Response<ChangePasswordResponse> {
+        return usersDataApi.changePassword(request)
+    }
 
 
 

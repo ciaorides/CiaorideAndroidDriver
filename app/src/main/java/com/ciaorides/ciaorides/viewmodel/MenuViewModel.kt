@@ -1,5 +1,6 @@
 package com.ciaorides.ciaorides.viewmodel
 
+import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MenuViewModel @Inject constructor(private val networkRepository: NetworkRepository) :
     ViewModel() {
+
+    var nameOfBank = MutableLiveData<String>()
+    var location = MutableLiveData<String>()
+    var accountHolderName = MutableLiveData<String>()
+    var accountNumber = MutableLiveData<String>()
+    var ifscCode = MutableLiveData<String>()
+
+    var _showErrorMessage = MutableLiveData<Any>()
+    val showErrorMessage: LiveData<Any> = _showErrorMessage
 
     private val _myRidesResposne = MutableLiveData<DataHandler<MyRidesResponse>>()
     val myRidesResponse: LiveData<DataHandler<MyRidesResponse>> =
@@ -38,6 +48,15 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     private val _bankDetailsResponse = MutableLiveData<DataHandler<BankDetailsResponse>>()
     val bankDetailsResponse: LiveData<DataHandler<BankDetailsResponse>> =
         _bankDetailsResponse
+    private val _saveBankResponse = MutableLiveData<DataHandler<SaveBankResponse>>()
+    val saveBankResponse: LiveData<DataHandler<SaveBankResponse>> =
+        _saveBankResponse
+    private val _changePasswordResponse = MutableLiveData<DataHandler<ChangePasswordResponse>>()
+    val changePasswordResponse: LiveData<DataHandler<ChangePasswordResponse>> =
+        _changePasswordResponse
+    private val _contactResponse = MutableLiveData<DataHandler<EmergencyContactResponse>>()
+    val contactResponse: LiveData<DataHandler<EmergencyContactResponse>> =
+        _contactResponse
 
     fun getMyRides(request: GlobalUserIdRequest) {
         viewModelScope.launch {
@@ -148,6 +167,78 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
             }
         }
         return DataHandler.ERROR(message = response.message())
+    }
+
+    fun saveBankDetails(request: SaveBankDetailsRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.saveBankDetails(request)
+            _saveBankResponse.postValue(handleSaveBankResponse(response))
+        }
+    }
+
+    private fun handleSaveBankResponse(response: Response<SaveBankResponse>): DataHandler<SaveBankResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = response.message())
+    }
+
+    fun changePassword(request: ChangePassword) {
+        viewModelScope.launch {
+            val response = networkRepository.changePassword(request)
+            _changePasswordResponse.postValue(handleChangePasswordResponse(response))
+        }
+    }
+
+    private fun handleChangePasswordResponse(response: Response<ChangePasswordResponse>): DataHandler<ChangePasswordResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = response.message())
+    }
+    fun getEmergencyContactList(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.getEmergencyContactList(request)
+            _contactResponse.postValue(handleGetContacts(response))
+        }
+    }
+
+    private fun handleGetContacts(response: Response<EmergencyContactResponse>): DataHandler<EmergencyContactResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = response.message())
+    }
+
+
+    fun validateBankForm() {
+        if (TextUtils.isEmpty(nameOfBank.value)) {
+            _showErrorMessage.value = "Please enter Bank Name"
+        } else if (TextUtils.isEmpty(location.value)) {
+            _showErrorMessage.value = "Please enter Location Name"
+        } else if (TextUtils.isEmpty(accountHolderName.value)) {
+            _showErrorMessage.value = "Please enter Account Holder name"
+        } else if (TextUtils.isEmpty(accountNumber.value)) {
+            _showErrorMessage.value = "Please enter Account Number"
+        } else if (TextUtils.isEmpty(ifscCode.value)) {
+            _showErrorMessage.value = "Please enter IFSC Code"
+        } else {
+            val getBankDetails = SaveBankDetailsRequest(
+                user_id = "2250",
+                country_id = "101",
+                bank_name = nameOfBank.value.toString(),
+                account_holder_name = accountHolderName.value.toString(),
+                account_number = accountNumber.value.toString(),
+                ifsc_code = ifscCode.value.toString()
+            )
+            saveBankDetails(getBankDetails)
+        }
     }
 
 }

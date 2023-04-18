@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.menu.MyVehiclesActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+
+
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:backgroundTint="@color/appBlue"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:text="@string/add_a_bank"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_above="@+id/addVehicle"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+</RelativeLayout>

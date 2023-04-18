@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityFavBinding
 import com.ciaorides.ciaorides.model.request.DeleteBankDetailsRequest
+import com.ciaorides.ciaorides.model.request.DeleteFavRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.FavResponse
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.adapter.FavAdapter
@@ -33,6 +35,11 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
         }
+        binding.rvFev.apply {
+            adapter = favAdapter
+            layoutManager = LinearLayoutManager(this@FavActivity)
+            visibility = View.VISIBLE
+        }
         makeApiCall()
         handleDeleteFav()
         favAdapter.onClicked { vehicle ->
@@ -45,21 +52,21 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
         }
     }
     private fun makeApiCall(){
-        if (!TextUtils.isEmpty(Constants.getValue(this@FavActivity, Constants.USER_ID))) {
+//        if (!TextUtils.isEmpty(Constants.getValue(this@FavActivity, Constants.USER_ID))) {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getFav(
                 GlobalUserIdRequest(
-                    user_id = Constants.getValue(this@FavActivity, Constants.USER_ID)
+                    user_id = TEMP_USER_ID
                 )
             )
-        }
+//        }
     }
 
     private fun deleteFav(id: String) {
-        viewModel.deleteBankDetails(
-            DeleteBankDetailsRequest(
-                user_id = Constants.getValue(this@FavActivity, Constants.USER_ID),
-                bank_id = id
+        viewModel.deleteFav(
+            DeleteFavRequest(
+                user_id = TEMP_USER_ID/*Constants.getValue(this@FavActivity, Constants.USER_ID)*/,
+                favourite_id = id
             )
         )
     }

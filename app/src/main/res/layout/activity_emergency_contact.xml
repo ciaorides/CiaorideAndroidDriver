@@ -10,15 +10,24 @@
         android:id="@+id/toolbar"
         layout="@layout/custom_tool_bar" />
 
-    <include layout="@layout/item_emergency"></include>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvRides"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress" />
 
-    <include layout="@layout/item_emergency"></include>
-
-    <include layout="@layout/item_emergency"></include>
-
-    <include layout="@layout/item_emergency"></include>
-
-    <include layout="@layout/item_emergency"></include>
-
-
+    <TextView
+        android:id="@+id/noResultsFound"
+        style="@style/GlobalTextViewBoldStyle"
+        android:text="@string/no_results_found"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        />
 </LinearLayout>

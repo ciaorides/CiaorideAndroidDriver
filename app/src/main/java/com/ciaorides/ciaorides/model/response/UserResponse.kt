@@ -66,3 +66,8 @@ data class UserResponse(
         val userid: String?
     ) : Serializable
 }
+data class ChangePasswordResponse(
+    val status: Boolean,
+    val message: String,
+    val response: Any
+)
