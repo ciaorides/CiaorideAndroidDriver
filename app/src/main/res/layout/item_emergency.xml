@@ -61,7 +61,7 @@
             android:weightSum="2">
 
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnEdit"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.databinding.ItemEmergencyBinding
+import com.ciaorides.ciaorides.model.response.BankDetailsResponse
 import com.ciaorides.ciaorides.model.response.EmergencyContactResponse
 import javax.inject.Inject
 
@@ -47,6 +48,9 @@ class EmergencyContactAdapter @Inject constructor() :
             btnDelete.setOnClickListener {
                 setClickListener?.invoke(contact)
             }
+            btnEdit.setOnClickListener {
+                editClickListener?.invoke(contact)
+            }
         }
 
     }
@@ -58,7 +62,14 @@ class EmergencyContactAdapter @Inject constructor() :
     private var setClickListener: ((user: EmergencyContactResponse.Response) -> Unit)? =
         null
 
+    private var editClickListener: ((user: EmergencyContactResponse.Response) -> Unit)? =
+        null
+
     fun onDeleteClicked(listener: (EmergencyContactResponse.Response) -> Unit) {
         setClickListener = listener
+    }
+
+    fun onEditClicked(listener: (EmergencyContactResponse.Response) -> Unit) {
+        editClickListener = listener
     }
 }

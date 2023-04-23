@@ -48,7 +48,7 @@ class BankDetailsAdapter @Inject constructor() :
                 setClickListener?.invoke(bankModel)
             }
             btnEdit.setOnClickListener{
-                setClickListener?.invoke(bankModel)
+                editClickListener?.invoke(bankModel)
             }
         }
 
@@ -60,10 +60,13 @@ class BankDetailsAdapter @Inject constructor() :
 
     private var setClickListener: ((user: BankDetailsResponse.Response) -> Unit)? =
         null
+    private var editClickListener: ((user: BankDetailsResponse.Response) -> Unit)? =
+        null
 
     fun onDeleteClicked(listener: (BankDetailsResponse.Response) -> Unit) {
         setClickListener = listener
+
     }fun onEditClicked(listener: (BankDetailsResponse.Response) -> Unit) {
-        setClickListener = listener
+        editClickListener = listener
     }
 }

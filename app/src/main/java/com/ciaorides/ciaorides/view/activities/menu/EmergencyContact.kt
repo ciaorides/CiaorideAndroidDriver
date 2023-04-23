@@ -1,5 +1,6 @@
 package com.ciaorides.ciaorides.view.activities.menu
 
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -21,7 +22,7 @@ class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
         ActivityEmergencyContactBinding.inflate(layoutInflater)
 
     @Inject
-    lateinit var adapter: EmergencyContactAdapter
+    lateinit var contactAdapter: EmergencyContactAdapter
 
     private val viewModel: MenuViewModel by viewModels()
 
@@ -32,8 +33,22 @@ class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
             onBackPressed()
         }
 
+        contactAdapter.onDeleteClicked { user ->
+            Constants.showDeleteVehicleAlert(this@EmergencyContact) {
+                if (it) {
+                    binding.progressLayout.root.visibility = View.VISIBLE
+//                    user.id?.let { it1 -> deleteBankDetails(it1) }
+                }
+            }
+        }
+        contactAdapter.onEditClicked { user ->
+            val intent =  Intent(this,AddBankActivity::class.java)
+//            intent.putExtra(Constants.KEY_BANK_DETAILS,bankModel)
+            startActivity(intent)
+        }
+
         binding.rvRides.apply {
-            adapter = adapter
+            adapter = contactAdapter
             layoutManager = LinearLayoutManager(this@EmergencyContact)
             visibility = View.VISIBLE
         }
@@ -63,7 +78,7 @@ class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
                             binding.rvRides.visibility = View.GONE
                             binding.noResultsFound.visibility = View.VISIBLE
                         } else {
-                            adapter.differ.submitList(data.response)
+                            contactAdapter.differ.submitList(data.response)
                             binding.rvRides.apply {
                                 adapter = adapter
                                 layoutManager = LinearLayoutManager(this@EmergencyContact)

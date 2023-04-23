@@ -51,7 +51,7 @@ class MenuListAdapter @Inject constructor() : RecyclerView.Adapter<MenuListAdapt
         data.add(Constants.MENU_BANK_DETAILS)
         data.add(Constants.MENU_INBOX)
         data.add(Constants.MENU_REFER_FRIEND)
-        data.add(Constants.MENU_PAYMENTS)
+//        data.add(Constants.MENU_PAYMENTS)
         data.add(Constants.MENU_SETTINGS)
         data.add(Constants.MENU_ABOUT_US)
         data.add(Constants.MENU_TERMS_N_CONDITIONS)

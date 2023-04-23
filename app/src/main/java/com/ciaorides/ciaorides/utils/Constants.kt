@@ -117,6 +117,9 @@ object Constants {
 
     const val KEY_RIDES_TAKEN = "rides_taken"
     const val KEY_BANK_DETAILS = "bank_details"
+    const val KEY_EMERGENCY_CONTACT = "emergency_contact"
+
+
     fun saveValue(context: Context, key: String, value: String) {
         val sharedPreferences = (context as Activity).getSharedPreferences(MAIN_PREF, MODE_PRIVATE)
         sharedPreferences.edit().putString(key, value).commit()
