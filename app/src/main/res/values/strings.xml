@@ -205,4 +205,6 @@
     <string name="reached">Reached</string>
     <string name="pickup">Picked Up</string>
     <string name="complete_ride">Complete Ride</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="update">Update</string>
 </resources>

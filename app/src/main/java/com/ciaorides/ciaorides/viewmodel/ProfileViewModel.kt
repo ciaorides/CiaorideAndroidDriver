@@ -11,6 +11,7 @@ import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -22,10 +23,11 @@ class ProfileViewModel @Inject constructor(private val networkRepository: Networ
     private val _imageUploadResponse = MutableLiveData<DataHandler<ImageUploadResponse>>()
     val imageUploadResponse: LiveData<DataHandler<ImageUploadResponse>> = _imageUploadResponse
 
-    fun imageUpload(request: ArrayList<MultipartBody.Part>) {
+    fun imageUpload(request: ArrayList<MultipartBody.Part>, value: RequestBody) {
         viewModelScope.launch {
-            val response = networkRepository.uploadImage(request)
-            _imageUploadResponse.postValue(handleResponse(response))
+            val imageUploadResponse = networkRepository.uploadImage(request, value)
+            //   Log.d("response", imageUploadResponse?.toString()!!)
+            //val test = Gson().fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
         }
     }
 //    fun imageUpload(request: ImageUploadRequest) {

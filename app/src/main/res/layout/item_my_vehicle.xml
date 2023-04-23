@@ -115,7 +115,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/appBlue"
                     android:fontFamily="@font/inter_medium"
-                    android:text="@string/edit"
+                    android:text="@string/update"
                     android:textAllCaps="false"
                     app:cornerRadius="@dimen/_5sdp"
                     app:layout_constraintBottom_toTopOf="@+id/btnSkip" />

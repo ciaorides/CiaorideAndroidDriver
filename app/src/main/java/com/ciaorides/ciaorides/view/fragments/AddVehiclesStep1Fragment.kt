@@ -72,7 +72,7 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
                 )
             }
         }
-        handleStep1()
+
     }
 
     private fun handleVehicleBrandResponse() {
@@ -83,7 +83,12 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
                         if (data.status) {
                             openDialogForVehicleBrand(data)
 
-                        }
+                        } else
+                            Toast.makeText(
+                                requireActivity(),
+                                data.message,
+                                Toast.LENGTH_SHORT
+                            ).show()
                     }
                 }
                 is DataHandler.ERROR -> {
@@ -102,7 +107,11 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
                         if (data.status) {
                             openDialogForVehicleModel(data)
 
-                        }
+                        } else Toast.makeText(
+                            requireActivity(),
+                            dataHandler.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 is DataHandler.ERROR -> {
@@ -215,10 +224,10 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
 
     fun makeFirstStepCall() {
         //TODO remove below code after all screens done
-        (activity as? VehicleDetailsActivity)?.let {
-            it.changeTabs(1)
-            return
-        }
+//        (activity as? VehicleDetailsActivity)?.let {
+//            it.changeTabs(1)
+//            return
+//        }
         //to here
 
         if (TextUtils.isEmpty(vehicleType)) {
@@ -242,9 +251,11 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
                 brand_id = brandId,
                 vehicle_type = vehicleType,
                 model_id = modelId,
+                vehicle_step1 = "yes",
                 user_id = Constants.getValue(requireActivity(), Constants.USER_ID)
             )
         )
+        handleStep1()
     }
 
     private fun handleStep1() {
@@ -252,9 +263,13 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
             when (dataHandler) {
                 is DataHandler.SUCCESS -> {
                     //binding.progressLayout.root.visibility = View.GONE
+//                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+//                        .show()
                     dataHandler.data?.let { data ->
                         (activity as? VehicleDetailsActivity)?.let {
-                            it.changeTabs(2)
+                            it.vehicleId = dataHandler.data.response
+                            it.changeTabs(1)
+
                         }
                     }
                 }
@@ -267,3 +282,4 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
         }
     }
 }
+

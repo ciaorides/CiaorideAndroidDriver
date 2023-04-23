@@ -1,12 +1,15 @@
 package com.ciaorides.ciaorides.view.adapter
 
+import android.opengl.Visibility
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ciaorides.ciaorides.databinding.ItemMyVehicleBinding
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
+import com.ciaorides.ciaorides.utils.visible
 import javax.inject.Inject
 
 class MyVehiclesAdapter @Inject constructor() :
@@ -42,14 +45,20 @@ class MyVehiclesAdapter @Inject constructor() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vehicle = differ.currentList[position]
         with(holder.binding) {
+
             tvVehicleName.text = vehicle.vehicle_type
             tvVehicleNumber.text = vehicle.number_plate
             tvVehicleType.text = vehicle.color
+            if (vehicle.vehicle_step1 == "yes" && vehicle.vehicle_step2 == "yes" && vehicle.vehicle_step3 == "yes") {
+                btnEdit.visibility = View.GONE
+            } else btnEdit.visibility = View.VISIBLE
             btnDelete.setOnClickListener {
+                setDeleteClickListener?.invoke(vehicle)
+            }
+            btnEdit.setOnClickListener {
                 setClickListener?.invoke(vehicle)
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -58,8 +67,14 @@ class MyVehiclesAdapter @Inject constructor() :
 
     private var setClickListener: ((user: MyVehicleResponse.Response) -> Unit)? =
         null
+    private var setDeleteClickListener: ((user: MyVehicleResponse.Response) -> Unit)? =
+        null
 
     fun onDeleteClicked(listener: (MyVehicleResponse.Response) -> Unit) {
+        setDeleteClickListener = listener
+    }
+
+    fun onUpdateClick(listener: (MyVehicleResponse.Response) -> Unit) {
         setClickListener = listener
     }
 }

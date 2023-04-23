@@ -28,6 +28,10 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -52,7 +56,8 @@ object Constants {
     const val RIDE_COMPLETED = "ride_completed"
 
 
-
+    const val STAGE_STATUS = "STAGE_STATUS"
+    const val VEHICLE_ID = "VEHICLE_ID"
 
     //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
@@ -120,6 +125,15 @@ object Constants {
             .getString(key, "").toString()
     }
 
+    fun getMultipartData(realPath: String): ArrayList<MultipartBody.Part> {
+        val file = File(realPath)
+        var imagePartFile: MultipartBody.Part? = null
+        val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        imagePartFile = MultipartBody.Part.createFormData("image[]", file.name, requestBody)
+        val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
+        descriptionList.add(imagePartFile)
+        return descriptionList
+    }
     fun showGlide(context: Context, url: String, imageView: ImageView, progress: View? = null) {
         Glide
             .with(context)

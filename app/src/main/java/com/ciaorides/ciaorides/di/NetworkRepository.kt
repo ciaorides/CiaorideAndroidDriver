@@ -1,11 +1,19 @@
 package com.ciaorides.ciaorides.di
 
+import android.content.Context
+import android.util.Log
 import com.ciaorides.ciaorides.api.UsersDataApi
+import com.ciaorides.ciaorides.model.AddVehicleImageUpload
+import com.ciaorides.ciaorides.model.ImageUpload
 import com.ciaorides.ciaorides.model.UserDetailsItem
 import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.request.RecentFevRequest
 import com.ciaorides.ciaorides.model.response.*
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -123,13 +131,102 @@ class NetworkRepository @Inject constructor(
         return usersDataApi.addVehiclesStep2(request)
     }
 
-    suspend fun uploadImage(request: ArrayList<MultipartBody.Part>): Response<ImageUploadResponse>? {
-        return try {
-            usersDataApi.uploadImage(request, 1)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
+    suspend fun addVehiclesStage3(request: AddVehicleStage3Request): Response<AddVehicleStage3Response> {
+        return usersDataApi.addVehiclesStep3(request)
+    }
+
+    companion object {
+        private var imageUpload: ImageUpload? = null
+        private var imageUploadVehicle: AddVehicleImageUpload? = null
+        fun setInterfaceInstance(context: Context) {
+
+            imageUpload = context as ImageUpload?
         }
+        fun setInterfaceInstanceAddVehicle(context: Context) {
+            imageUploadVehicle = context as AddVehicleImageUpload?
+        }
+    }
+    fun vehicleUploadImage(
+        request: ArrayList<MultipartBody.Part>,
+        value: RequestBody
+    ) {
+        val call: Call<JsonObject>? = usersDataApi.uploadImage1(request, value)
+        call?.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>,
+                response: Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Upload Image", "Upload successful")
+                    //     if (imageUpload == null) return@OnClickListener
+                    imageUploadVehicle?.imageUploadResponseHanding(response)
+//                    Gson().fromJson(
+//                        Gson().toJson(response),
+//                        ImageUploadResponse::class.java)
+                    Log.d("Upload Image", imageUploadVehicle.toString() + "Upload successful")
+
+                } else {
+                    Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("Upload Image", "Upload FAIL")
+                //TODO("Not yet implemented")
+            }
+        })
+
+        /*  return try {
+              usersDataApi.uploadImage1(request,value)
+          } catch (e: Exception) {
+              e.printStackTrace()
+              null
+          }*/
+    }
+
+
+
+
+    fun uploadImage(
+        request: ArrayList<MultipartBody.Part>,
+        value: RequestBody
+    ) {
+
+
+        var imageUploadResponse: ImageUploadResponse? = null
+
+        val call: Call<JsonObject>? = usersDataApi.uploadImage1(request, value)
+        call?.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>,
+                response: Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Upload Image", "Upload successful")
+                    //     if (imageUpload == null) return@OnClickListener
+                    imageUpload?.imageUploadResponseHanding(response)
+//                    Gson().fromJson(
+//                        Gson().toJson(response),
+//                        ImageUploadResponse::class.java)
+                    Log.d("Upload Image", imageUpload.toString() + "Upload successful")
+
+                } else {
+                    Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("Upload Image", "Upload FAIL")
+                //TODO("Not yet implemented")
+            }
+        })
+
+        /*  return try {
+              usersDataApi.uploadImage1(request,value)
+          } catch (e: Exception) {
+              e.printStackTrace()
+              null
+          }*/
     }
 
     suspend fun driverCheck(request: DriverCheckInRequest): Response<GlobalResponse>? {
