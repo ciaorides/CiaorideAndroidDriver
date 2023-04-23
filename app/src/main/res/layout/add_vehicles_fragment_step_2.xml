@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +11,7 @@
         android:id="@+id/addVehicles2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        >
+        android:orientation="vertical">
 
         <RelativeLayout
 
@@ -30,14 +29,12 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_6sdp">
 
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
-
                     app:cardBackgroundColor="@color/quantum_bluegrey50"
-                    app:cardCornerRadius="@dimen/_15sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_reg"
@@ -46,7 +43,7 @@
                         android:layout_gravity="center"
                         android:background="@color/colorLightBlue"
                         android:gravity="center"
-                        android:orientation="vertical">>
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/icCamera"
@@ -69,13 +66,22 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/regNum"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_edittext_gray"
+                    android:hint="@string/registration_number"
+                    android:padding="@dimen/_10sdp" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     app:cardBackgroundColor="@color/quantum_bluegrey50"
-                    app:cardCornerRadius="@dimen/_15sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_insurance"
@@ -84,7 +90,7 @@
                         android:layout_gravity="center"
                         android:background="@color/colorLightBlue"
                         android:gravity="center"
-                        android:orientation="vertical">>
+                        android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
 
@@ -108,12 +114,22 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/insuranceNum"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_edittext_gray"
+                    android:hint="Insurance number"
+                    android:padding="@dimen/_10sdp" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     app:cardBackgroundColor="@color/quantum_bluegrey50"
-                    app:cardCornerRadius="@dimen/_15sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_fitness"
@@ -146,12 +162,22 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/fitnessNum"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_edittext_gray"
+                    android:hint="Fitness certificate number"
+                    android:padding="@dimen/_10sdp" />
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_90sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     app:cardBackgroundColor="@color/quantum_bluegrey50"
-                    app:cardCornerRadius="@dimen/_15sdp">
+                    app:cardCornerRadius="@dimen/_10sdp">
 
                     <LinearLayout
                         android:id="@+id/ll_permit"
@@ -181,6 +207,17 @@
                             android:textSize="@dimen/_12sdp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/permitNum"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/rounded_edittext_gray"
+                    android:hint="Permit number"
+                    android:padding="@dimen/_10sdp" />
+
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -202,4 +239,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</ScrollView>

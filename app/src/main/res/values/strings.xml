@@ -213,4 +213,6 @@
     <string name="account_number">Account Number</string>
     <string name="ifsc_code">IFSC code</string>
     <string name="save_details">Save Details</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="update">Update</string>
 </resources>

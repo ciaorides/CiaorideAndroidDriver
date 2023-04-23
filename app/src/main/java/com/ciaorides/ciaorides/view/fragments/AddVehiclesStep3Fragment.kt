@@ -4,10 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,15 +19,23 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.AddVehiclesFragmentStep3Binding
+import com.ciaorides.ciaorides.di.NetworkRepository
+import com.ciaorides.ciaorides.model.ImageUpload
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.view.activities.ui.vehicleDetails.VehicleDetailsActivity
 import com.ciaorides.ciaorides.view.adapter.VehicleImagesAdapter
 import com.ciaorides.ciaorides.viewmodel.ManageVehicleImagesViewModel
+import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Response
 import java.io.File
 
 @AndroidEntryPoint
@@ -38,10 +48,17 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
     val data = ArrayList<Uri>()
     private lateinit var binding: AddVehiclesFragmentStep3Binding
     private val viewModel: ManageVehicleImagesViewModel by viewModels()
+    val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = AddVehiclesFragmentStep3Binding.bind(view)
-        imagesAdapter = VehicleImagesAdapter(ArrayList())
+        imagesAdapter = VehicleImagesAdapter(data)
+        binding.rviewVehicleImgs.adapter = imagesAdapter
+        binding.rviewVehicleImgs.layoutManager = LinearLayoutManager(
+            activity, LinearLayoutManager.HORIZONTAL,
+            false
+        )
+
         binding.icCamera3.setOnClickListener {
             checkPermission(
                 arrayOf(
@@ -53,6 +70,7 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
             )
             imgType = "vehicleImages"
         }
+
     }
 
 
@@ -96,6 +114,11 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
 
 
     private fun captureFromGallery() {
+//        val i = Intent()
+//        i.type = "image/*"
+//        i.action = Intent.ACTION_GET_CONTENT
+//        resultGalleryLauncher.launch(i);
+
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         resultGalleryLauncher.launch(intent)
@@ -142,12 +165,56 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
         resultLauncher.launch(intent)
     }
 
+//    private var resultGalleryLauncher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            when (result.resultCode) {
+//                AppCompatActivity.RESULT_OK -> {
+//                    finalUrl = result.data?.data
+//                    manageImageTypes()
+//                }
+//                AppCompatActivity.RESULT_CANCELED -> {
+//                    Toast.makeText(
+//                        activity, "Photo capture cancelled.",
+//                        Toast.LENGTH_LONG
+//                    ).show();
+//                }
+//                else -> {
+//                    Toast.makeText(
+//                        activity, "Failed to capture the photo",
+//                        Toast.LENGTH_LONG
+//                    ).show();
+//                }
+//
+//            }
+//        }
+
+    fun getRealPathFromURI(uri: Uri?): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor = requireActivity().managedQuery(uri, projection, null, null, null)
+        val column_index: Int = cursor
+            .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
+    }
+
+
     private var resultGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 AppCompatActivity.RESULT_OK -> {
                     finalUrl = result.data?.data
-                    manageImageTypes()
+                    // manageImageTypes()
+                    data.add(finalUrl!!)
+                    // binding.rviewVehicleImgs.adapter = imagesAdapter
+                    imagesAdapter.notifyItemChanged(data.size)
+                    realPath = getRealPathFromURI(result.data?.data)
+                    val file = File(realPath.toString())
+                    var imagePartFile: MultipartBody.Part? = null
+                    val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                    imagePartFile =
+                        MultipartBody.Part.createFormData("image[]", file.name, requestBody)
+                    descriptionList.add(imagePartFile)
+
                 }
                 AppCompatActivity.RESULT_CANCELED -> {
                     Toast.makeText(
@@ -161,7 +228,6 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
                         Toast.LENGTH_LONG
                     ).show();
                 }
-
             }
         }
 
@@ -191,8 +257,22 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
         when (imgType) {
             "vehicleImages" -> {
                 data.add(finalUrl!!)
+                // binding.rviewVehicleImgs.adapter = imagesAdapter
                 imagesAdapter.notifyItemChanged(data.size)
-                callImageUploadApi()
+                //callImageUploadApi()
+                val file = File(realPath.toString())
+                var imagePartFile: MultipartBody.Part? = null
+                val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                imagePartFile =
+                    MultipartBody.Part.createFormData("image[]", file.name, requestBody)
+                descriptionList.add(imagePartFile)
+//                val file = File(realPath.toString())
+//                var imagePartFile: MultipartBody.Part? = null
+//                val requestBody =
+//                    RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+//                imagePartFile = MultipartBody.Part.createFormData("image[]", file.name, requestBody)
+//
+//                descriptionList.add(imagePartFile)
             }
 
 
@@ -207,7 +287,7 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
         imagePartFile = MultipartBody.Part.createFormData("image[]", file.name, requestBody)
         val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
         descriptionList.add(imagePartFile)
-        viewModel.imageUpload(descriptionList)
+        // viewModel.imageUpload(descriptionList)
     }
 
     companion object {
@@ -218,6 +298,15 @@ class AddVehiclesStep3Fragment : Fragment(R.layout.add_vehicles_fragment_step_3)
     }
 
     fun makeFirstStepCall() {
+        val stringData = "1"
+        val requestBody: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), stringData)
 
+        viewModel.vehicleImageUpload(descriptionList, requestBody)
     }
+
+
 }
+
+
+

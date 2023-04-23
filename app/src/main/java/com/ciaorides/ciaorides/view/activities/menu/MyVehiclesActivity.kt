@@ -34,6 +34,8 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
         binding.toolbar.tvHeader.text = getString(R.string.my_vehicles)
         binding.addVehicle.setOnClickListener {
             val intent = Intent(this, VehicleDetailsActivity::class.java)
+            intent.putExtra(Constants.STAGE_STATUS, "1")
+            intent.putExtra(Constants.VEHICLE_ID, "0")
             startActivity(intent)
         }
         binding.toolbar.ivMenu.setOnClickListener {
@@ -56,6 +58,16 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
                 }
             }
         }
+        myVehiclesAdapter.onUpdateClick { vehicle ->
+            val intent = Intent(this, VehicleDetailsActivity::class.java)
+            if (vehicle.vehicle_step2 == "no")
+                intent.putExtra(Constants.STAGE_STATUS, "2")
+            else
+                intent.putExtra(Constants.STAGE_STATUS, "3")
+
+            intent.putExtra(Constants.VEHICLE_ID, vehicle.id)
+            startActivity(intent)
+        }
     }
 
     private fun vehiclesCall() {
@@ -63,8 +75,8 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getMyVehicles(
                 GlobalUserIdRequest(
-                    //user_id = Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)
-                    user_id = Constants.TEMP_USER_ID
+                    user_id = Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)
+                    //user_id = Constants.TEMP_USER_ID
                 )
             )
 //        }
@@ -98,6 +110,11 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
                 }
             }
         }
+    }
+
+    override fun onRestart() {
+        vehiclesCall()
+        super.onRestart()
     }
 
     private fun handleMyVehicle() {

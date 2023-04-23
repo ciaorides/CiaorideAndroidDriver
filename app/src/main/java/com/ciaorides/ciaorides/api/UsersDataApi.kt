@@ -3,8 +3,10 @@ package com.ciaorides.ciaorides.api
 import com.ciaorides.ciaorides.model.UserDetailsItem
 import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.response.*
+import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -77,6 +79,10 @@ interface UsersDataApi {
     @POST("menuitems/add_driver_vehicles_step2")
     suspend fun addVehiclesStep2(@Body request: AddVehicleDetailsStage2Request): Response<AddVehiclesStage2Response>
 
+    @POST("menuitems/add_driver_vehicles_step3")
+    suspend fun addVehiclesStep3(@Body request: AddVehicleStage3Request): Response<AddVehicleStage3Response>
+
+
     @POST("taxi_flow/get_vehicle_brands")
     suspend fun getVehicleBrands(@Body request: BrandsRequest): Response<VehicleBrandsResponse>
 
@@ -93,11 +99,12 @@ interface UsersDataApi {
 //    @POST("https://www.ciaorides.com/new/app/taxi_flow/upload")
 //    suspend fun uploadImage(@Part files:List<MultipartBody.Part>): Response<ImageUploadResponse>
     @Multipart
-    @POST("https://www.ciaorides.com/new/app/taxi_flow/upload")
-    suspend fun uploadImage(
+    @POST("https://ciaorides.com/new/app/taxi_flow/upload")
+    fun uploadImage1(
         @Part image: List<MultipartBody.Part>,
-        @Part upload_type: Int
-    ): Response<ImageUploadResponse>
+        @Part("upload_type") description: RequestBody
+    ): Call<JsonObject>?
+
 
     @POST("driver1/check_in")
     suspend fun driverCheckIn(@Body request: DriverCheckInRequest): Response<GlobalResponse>
