@@ -12,5 +12,9 @@ class CompletedPaymentsActivity : BaseActivity<ActivityCompletedPaymentsBinding>
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.completed_payments)
         binding.toolbar.profileView.visibility = View.GONE
+
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

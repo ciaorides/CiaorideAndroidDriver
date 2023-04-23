@@ -38,15 +38,16 @@
                     android:layout_height="@dimen/_8sdp"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:background="@drawable/blue_dot"></ImageView>
+                    android:background="@drawable/blue_dot"/>
 
                 <TextView
+                    android:id="@+id/textViewToAddress"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="West maredpally, Secunderabad, Hyderabad"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -63,15 +64,16 @@
                     android:layout_height="@dimen/_12sdp"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="@dimen/_12sdp"
-                    android:background="@drawable/location_rides"></ImageView>
+                    android:background="@drawable/location_rides"/>
 
                 <TextView
+                    android:id="@+id/textViewFromAddress"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="Inayath, Gachibowli Hyderabad"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -130,7 +132,7 @@
                         android:layout_gravity="center"
                         android:drawablePadding="@dimen/_10sdp"
                         android:gravity="center"
-                        android:text=" ₹ 150 "
+
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
                 </LinearLayout>
@@ -179,6 +181,7 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:gravity="center"
                         android:text="4.3"
+                        android:id="@+id/textViewRating"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_12ssp" />
                 </LinearLayout>

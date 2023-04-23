@@ -17,5 +17,8 @@ class PaymentsActivity : BaseActivity<ActivityPaymentsBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.payments)
         binding.toolbar.profileView.visibility = View.GONE
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

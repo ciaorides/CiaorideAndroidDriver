@@ -1,5 +1,7 @@
 package com.ciaorides.ciaorides.view.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +13,10 @@ import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemMyRideBinding
 import com.ciaorides.ciaorides.model.response.MyRidesResponse
 import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
+import com.ciaorides.ciaorides.view.activities.menu.RideDetailsActivity
 import javax.inject.Inject
 
-class MyRidesAdapter @Inject constructor() :
+class MyRidesAdapter @Inject constructor(private val listener : OnItemClickListener) :
     RecyclerView.Adapter<MyRidesAdapter.ViewHolder>() {
     var typeRide = 0
     private val diffUtil =
@@ -35,6 +38,12 @@ class MyRidesAdapter @Inject constructor() :
 
     val differ = AsyncListDiffer(this, diffUtil)
 
+    interface OnItemClickListener {
+        fun onItemClick(position: Int, ridesTaken: MyRidesResponse.Response.RidesTaken)
+    }
+
+    val onItemClickListener : OnItemClickListener = listener
+
     inner class ViewHolder(val binding: ItemMyRideBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -48,7 +57,7 @@ class MyRidesAdapter @Inject constructor() :
         val ride = differ.currentList[position]
         when (typeRide) {
             0 -> {
-                handleRidsTaken(holder.binding, ride)
+                handleRidsTaken(holder.binding, ride,position)
             }
             1 -> {
                 handleRideOffered(holder.binding, ride)
@@ -59,16 +68,16 @@ class MyRidesAdapter @Inject constructor() :
         }
     }
 
-    private fun handleRidsTaken(
-        binding: ItemMyRideBinding,
-        ride: MyRidesResponse.Response.RidesTaken
-    ) {
+    private fun handleRidsTaken(binding: ItemMyRideBinding, ride: MyRidesResponse.Response.RidesTaken,position: Int) {
         with(binding) {
-//            tvName.text = ride.first_name
-//               tvPrice.text = "Rs " + ride.total_amount
-//            tvFromAddress.text = ride.from_address
-//            tvToAddress.text = ride.to_address
-         //   tvDate.text = ride.ride_time
+            textViewFullName.text = ride.first_name +" "+ ride.last_name
+            textViewPrice.text = "Rs " + ride.total_amount
+            tvFromAddress.text = ride.from_address
+            tvToAddress.text = ride.to_address
+            textViewDate.text = ride.ride_time
+            cardRootLayout.setOnClickListener {
+                onItemClickListener.onItemClick(position,ride)
+            }
         }
     }
 

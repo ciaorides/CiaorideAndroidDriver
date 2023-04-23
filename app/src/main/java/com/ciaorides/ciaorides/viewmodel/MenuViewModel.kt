@@ -10,6 +10,7 @@ import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.response.*
 import com.ciaorides.ciaorides.model.response.GlobalResponse
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +26,8 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     var accountHolderName = MutableLiveData<String>()
     var accountNumber = MutableLiveData<String>()
     var ifscCode = MutableLiveData<String>()
+    var isEditBankDetails: Boolean = false
+    lateinit var bankId: String
 
     var _showErrorMessage = MutableLiveData<Any>()
     val showErrorMessage: LiveData<Any> = _showErrorMessage
@@ -54,9 +57,16 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     private val _changePasswordResponse = MutableLiveData<DataHandler<ChangePasswordResponse>>()
     val changePasswordResponse: LiveData<DataHandler<ChangePasswordResponse>> =
         _changePasswordResponse
+
     private val _contactResponse = MutableLiveData<DataHandler<EmergencyContactResponse>>()
+
     val contactResponse: LiveData<DataHandler<EmergencyContactResponse>> =
         _contactResponse
+
+    private val _earningsResponse = MutableLiveData<DataHandler<EarningsResponse>>()
+
+    val earningsResponse: LiveData<DataHandler<EarningsResponse>> =
+        _earningsResponse
 
     fun getMyRides(request: GlobalUserIdRequest) {
         viewModelScope.launch {
@@ -169,10 +179,15 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
         return DataHandler.ERROR(message = response.message())
     }
 
-    fun saveBankDetails(request: SaveBankDetailsRequest) {
+    private fun saveBankDetails(request: SaveBankDetailsRequest) {
         viewModelScope.launch {
-            val response = networkRepository.saveBankDetails(request)
-            _saveBankResponse.postValue(handleSaveBankResponse(response))
+            if (isEditBankDetails) {
+                val response = networkRepository.editBankDetails(request)
+                _saveBankResponse.postValue(handleSaveBankResponse(response))
+            } else {
+                val response = networkRepository.saveBankDetails(request)
+                _saveBankResponse.postValue(handleSaveBankResponse(response))
+            }
         }
     }
 
@@ -200,6 +215,7 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
         }
         return DataHandler.ERROR(message = response.message())
     }
+
     fun getEmergencyContactList(request: GlobalUserIdRequest) {
         viewModelScope.launch {
             val response = networkRepository.getEmergencyContactList(request)
@@ -208,6 +224,22 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     }
 
     private fun handleGetContacts(response: Response<EmergencyContactResponse>): DataHandler<EmergencyContactResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = response.message())
+    }
+
+    fun getMyEarnings(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.getMyEarnings(request)
+            _earningsResponse.postValue(handleEarningsResponse(response))
+        }
+    }
+
+    private fun handleEarningsResponse(response: Response<EarningsResponse>): DataHandler<EarningsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { data ->
                 return DataHandler.SUCCESS(data)
@@ -230,7 +262,8 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
             _showErrorMessage.value = "Please enter IFSC Code"
         } else {
             val getBankDetails = SaveBankDetailsRequest(
-                user_id = "2250",
+                id = if (isEditBankDetails) bankId else null,
+                user_id = TEMP_USER_ID,
                 country_id = "101",
                 bank_name = nameOfBank.value.toString(),
                 account_holder_name = accountHolderName.value.toString(),

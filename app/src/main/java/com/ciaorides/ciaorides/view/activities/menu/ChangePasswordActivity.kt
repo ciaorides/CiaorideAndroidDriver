@@ -28,6 +28,9 @@ class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.settings)
         binding.toolbar.profileView.visibility = View.GONE
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
 
         binding.BtnSave.setOnClickListener {
             if (binding.edtOldPassword.text.toString().isNullOrBlank()) {

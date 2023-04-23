@@ -15,6 +15,11 @@ class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.settings)
         binding.toolbar.profileView.visibility = View.GONE
+
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.layoutChangePassword.setOnClickListener {
             startActivity(Intent(this, ChangePasswordActivity::class.java))
         }

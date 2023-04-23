@@ -109,6 +109,9 @@ object Constants {
     const val MENU_PRIVACY_POLICY = "Privacy Policy"
     const val MENU_HELP = "Help"
 
+
+    const val KEY_RIDES_TAKEN = "rides_taken"
+    const val KEY_BANK_DETAILS = "bank_details"
     fun saveValue(context: Context, key: String, value: String) {
         val sharedPreferences = (context as Activity).getSharedPreferences(MAIN_PREF, MODE_PRIVATE)
         sharedPreferences.edit().putString(key, value).commit()

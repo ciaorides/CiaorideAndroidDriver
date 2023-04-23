@@ -92,6 +92,7 @@
                     android:textSize="@dimen/_10sdp"></TextView>
 
                 <TextView
+                    android:id="@+id/textViewOnlineTime"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -350,4 +351,9 @@
         android:textAllCaps="false"
         app:cornerRadius="@dimen/_5sdp"
         app:strokeColor="@color/appBlue" />
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress" />
+
 </RelativeLayout>

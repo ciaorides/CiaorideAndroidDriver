@@ -207,6 +207,7 @@
     <string name="complete_ride">Complete Ride</string>
 
     <string name="add_a_bank">Add a Bank</string>
+    <string name="edit_bank">Edit  Bank Details</string>
     <string name="name_of_bank">Name of Bank</string>
     <string name="account_holder_name">Account Holder Name</string>
     <string name="account_number">Account Number</string>

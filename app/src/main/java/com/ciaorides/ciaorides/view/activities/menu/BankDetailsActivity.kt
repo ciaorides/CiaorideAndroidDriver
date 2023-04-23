@@ -13,6 +13,7 @@ import com.ciaorides.ciaorides.model.request.DeleteBankDetailsRequest
 import com.ciaorides.ciaorides.model.request.DeleteVehicleRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.Constants.KEY_BANK_DETAILS
 import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
@@ -42,13 +43,18 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
         binding.addBank.setOnClickListener{
             startActivity(Intent(this,AddBankActivity::class.java))
         }
-        bankDetailsAdapter.onDeleteClicked { vehicle ->
+        bankDetailsAdapter.onDeleteClicked { bankModel ->
             Constants.showDeleteVehicleAlert(this@BankDetailsActivity) {
                 if (it) {
                     binding.progressLayout.root.visibility = View.VISIBLE
-                    deleteBankDetails(vehicle.id)
+                    bankModel.id?.let { it1 -> deleteBankDetails(it1) }
                 }
             }
+        }
+        bankDetailsAdapter.onEditClicked { bankModel ->
+            val intent =  Intent(this,AddBankActivity::class.java)
+            intent.putExtra(KEY_BANK_DETAILS,bankModel)
+            startActivity(intent)
         }
     }
 

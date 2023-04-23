@@ -52,12 +52,11 @@ interface UsersDataApi {
     @POST("menuitems/get_my_vehicle_details")
     suspend fun getMyVehicles(@Body request: GlobalUserIdRequest): Response<MyVehicleResponse>
 
-    @POST("menuitems/get_my_vehicle_details")
+    @POST("menuitems/my_vehicle_details_delete")
     suspend fun deleteVehicle(@Body request: DeleteVehicleRequest): Response<GlobalResponse>
 
     @POST("menuitems/driver_bank_details")
     suspend fun getBankDetails(@Body request: GlobalUserIdRequest): Response<BankDetailsResponse>
-
 
     @POST("menuitems/driver_bank_details_delete")
     suspend fun deleteBankDetails(@Body request: DeleteBankDetailsRequest): Response<GlobalResponse>
@@ -121,11 +120,17 @@ interface UsersDataApi {
     @POST("menuitems/add_driver_bank_details_step1")
     suspend fun addBankAccount(@Body request: SaveBankDetailsRequest): Response<SaveBankResponse>
 
+    @POST("menuitems/update_driver_bank_details_step1")
+    suspend fun editBankDetails(@Body request: SaveBankDetailsRequest): Response<SaveBankResponse>
+
     @POST("menuitems/update_change_password")
     suspend fun changePassword(@Body request: ChangePassword): Response<ChangePasswordResponse>
 
     @POST("menuitems/get_emergency_contacts_list")
     suspend fun getEmergencyContactList(@Body request: GlobalUserIdRequest): Response<EmergencyContactResponse>
+
+ @POST("menuitems/my_earnings")
+    suspend fun getMyEarnings(@Body request: GlobalUserIdRequest): Response<EarningsResponse>
 
 
 }

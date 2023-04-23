@@ -12,13 +12,13 @@ data class BankDetailsResponse(
 ) : Parcelable {
     @Parcelize
     data class Response(
-        val account_holder_name: String,
-        val account_number: String,
-        val bank_name: String,
-        val country_id: String,
-        val created_on: String,
-        val id: String,
-        val ifsc_code: String,
-        val user_id: String
+        val account_holder_name: String?=null,
+        val account_number: String?=null,
+        val bank_name: String?=null,
+        val country_id: String?=null,
+        val created_on: String?=null,
+        val id: String?=null,
+        val ifsc_code: String?=null,
+        val user_id: String?=null
     ) : Parcelable
 }

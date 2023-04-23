@@ -19,20 +19,20 @@ data class MyRidesResponse(
 
         @Parcelize
         data class RidesTaken(
-            val car_type: String,
-            val first_name: String,
-            val from_address: String,
-            val last_name: String,
-            val number_plate: String,
-            val order_id: String,
-            val rating: String,
-            val ride_time: String,
-            val to_address: String,
-            val total_amount: String,
-            val trip_distance: String,
-            val user_id: String,
-            val vehicle_id: String,
-            val ride_type: String
+            val car_type: String? = null,
+            val first_name: String? = null,
+            val from_address: String? = null,
+            val last_name: String? = null,
+            val number_plate: String? = null,
+            val order_id: String? = null,
+            val rating: String? = null,
+            val ride_time: String? = null,
+            val to_address: String? = null,
+            val total_amount: String? = null,
+            val trip_distance: String? = null,
+            val user_id: String? = null,
+            val vehicle_id: String? = null,
+            val ride_type: String? = null
         ) : Parcelable
     }
 }

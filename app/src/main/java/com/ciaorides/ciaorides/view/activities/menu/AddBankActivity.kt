@@ -1,14 +1,12 @@
 package com.ciaorides.ciaorides.view.activities.menu
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityAddBankBinding
-import com.ciaorides.ciaorides.databinding.ActivitySettingsBinding
+import com.ciaorides.ciaorides.model.response.BankDetailsResponse
+import com.ciaorides.ciaorides.utils.Constants.KEY_BANK_DETAILS
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
@@ -18,13 +16,27 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddBankActivity :  BaseActivity<ActivityAddBankBinding>() {
 
     private val viewModel: MenuViewModel by viewModels()
+   lateinit var bankModel : BankDetailsResponse.Response
+
     override fun getViewBinding(): ActivityAddBankBinding =
         ActivityAddBankBinding.inflate(layoutInflater)
 
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.add_a_bank)
         binding.toolbar.profileView.visibility = View.GONE
-
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
+        bankModel = intent?.getParcelableExtra<BankDetailsResponse.Response>(KEY_BANK_DETAILS)!!
+        if (bankModel != null) {
+            viewModel.bankId = bankModel.id!!
+            viewModel.isEditBankDetails = true
+            binding.tVNameOfBank.setText( bankModel.bank_name)
+            binding.tVLocation.setText("")
+            binding.tVAccountHolderName.setText( bankModel.account_holder_name)
+            binding.tVAccountNumber.setText( bankModel.account_number)
+            binding.tVIFSC.setText( bankModel.ifsc_code)
+        }
         binding.BtnSaveDetails.setOnClickListener{
             viewModel.nameOfBank.value = binding.tVNameOfBank.text.toString()
             viewModel.location.value = binding.tVLocation.text.toString()
@@ -52,12 +64,13 @@ class AddBankActivity :  BaseActivity<ActivityAddBankBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@AddBankActivity, data.message, Toast.LENGTH_SHORT).show()
+                            finish()
                         }
                     }
                 }
                 is DataHandler.ERROR -> {
-                    Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT)
+                    Toast.makeText(this@AddBankActivity, dataHandler.message, Toast.LENGTH_SHORT)
                         .show()
                 }
             }

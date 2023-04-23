@@ -15,5 +15,8 @@ class ReferActivity : BaseActivity<ActivityReferBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.refer_friend)
         binding.toolbar.profileView.visibility = View.GONE
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

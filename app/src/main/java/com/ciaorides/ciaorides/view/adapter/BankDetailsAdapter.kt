@@ -40,12 +40,15 @@ class BankDetailsAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val vehicle = differ.currentList[position]
+        val bankModel = differ.currentList[position]
         with(holder.binding) {
-            tvBankName.text = vehicle.bank_name
-            tvAccountNumber.text = vehicle.account_number
+            tvBankName.text = bankModel.bank_name
+            tvAccountNumber.text = bankModel.account_number
             btnDelete.setOnClickListener {
-                setClickListener?.invoke(vehicle)
+                setClickListener?.invoke(bankModel)
+            }
+            btnEdit.setOnClickListener{
+                setClickListener?.invoke(bankModel)
             }
         }
 
@@ -59,6 +62,8 @@ class BankDetailsAdapter @Inject constructor() :
         null
 
     fun onDeleteClicked(listener: (BankDetailsResponse.Response) -> Unit) {
+        setClickListener = listener
+    }fun onEditClicked(listener: (BankDetailsResponse.Response) -> Unit) {
         setClickListener = listener
     }
 }

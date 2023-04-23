@@ -15,5 +15,9 @@ class InboxActivity : BaseActivity<ActivityInboxBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.inbox)
         binding.toolbar.profileView.visibility = View.GONE
+
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

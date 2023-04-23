@@ -11,6 +11,8 @@ data class SaveBankResponse(
     val status: Boolean
 )
 data class SaveBankDetailsRequest(
+
+    val id : String? = null,
     val user_id : String,
     val country_id: String,
     val bank_name: String,

@@ -143,6 +143,8 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 Constants.MENU_MY_EARNINGS -> {
+                    val intent = Intent(this, EarningsActivity::class.java)
+                    startActivity(intent)
 
                 }
                 Constants.MENU_MY_VEHICLES -> {

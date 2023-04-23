@@ -14,6 +14,10 @@ class PendingPaymentsActivity : BaseActivity<ActivityPendingPaymentsBinding>() {
     override fun init() {
         binding.toolbar.tvHeader.text = getString(R.string.pending_payments)
         binding.toolbar.profileView.visibility = View.GONE
+
+        binding.toolbar.ivMenu.setOnClickListener {
+            onBackPressed()
+        }
     }
 
 }

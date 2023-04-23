@@ -9,8 +9,9 @@
     android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginEnd="@dimen/_10sdp"
     android:layout_marginBottom="@dimen/_5sdp"
-    app:cardElevation="@dimen/_10sdp"
-    app:cardCornerRadius="@dimen/_10sdp">
+    app:cardCornerRadius="@dimen/_10sdp"
+    android:id="@+id/cardRootLayout"
+    app:cardElevation="@dimen/_10sdp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,11 +36,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewFullName"
                     style="@style/GlobalTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Srikanth Kalloji "
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp" />
 
@@ -50,12 +51,12 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/textViewDate"
                         style="@style/GlobalTextViewStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="24 June | 9:30 AM"
                         android:textColor="@color/appGray"
-                        android:textSize="@dimen/_8sdp"></TextView>
+                        android:textSize="@dimen/_8sdp"/>
 
                 </LinearLayout>
 
@@ -81,6 +82,7 @@
                     android:background="@drawable/ic_payments_green_bg">
 
                     <TextView
+                        android:id="@+id/textViewPrice"
                         style="@style/GlobalTextViewStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,7 +90,7 @@
                         android:gravity="center"
                         android:text="₹ 150 "
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_14sdp"></TextView>
+                        android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -133,9 +135,9 @@
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:fontFamily="@font/inter_regular"
                     android:includeFontPadding="false"
-
+                    android:maxLines="1"
+                    android:minLines="1"
                     android:singleLine="true"
-                    android:text="West maredpally, Secunderabad, Hyderabad"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp" />
             </LinearLayout>
@@ -172,8 +174,9 @@
                     android:fontFamily="@font/inter_regular"
                     android:includeFontPadding="false"
 
+                    android:maxLines="1"
+                    android:minLines="1"
                     android:singleLine="true"
-                    android:text="Inayath, Gachibowli Hyderabad"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp" />
             </LinearLayout>
