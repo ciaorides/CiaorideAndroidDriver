@@ -37,6 +37,7 @@ import java.util.*
 
 
 object Constants {
+    const val YES: String = "Yes"
     const val FCM_TOKEN = "fcm_token"
     const val TEMP_USER_ID = "2250"
     const val REQUEST_TYPE = "request_type"
@@ -447,8 +448,9 @@ fun getCurrentTimeStamp(): String? {
 fun globalAlert(
     context: Activity,
     message: String,
-    yesText:String,
-    noText:String,
+    yesText: String,
+    noText: String?="",
+    isCancel: Boolean = true,
     listener: ((Boolean) -> Unit?)? = null
 
 ) {
@@ -461,11 +463,13 @@ fun globalAlert(
     binding.btnYes.text = yesText
     binding.tvMessage.text = message
     binding.btnCancel.text = noText
+    builder.setCanceledOnTouchOutside(isCancel)
+    if (TextUtils.isEmpty(noText)) {
+        binding.btnCancel.visibility = View.INVISIBLE
+    }
     binding.btnYes.setOnClickListener {
-        listener?.let {
-            builder.dismiss()
-            it.invoke(true)
-        }
+        builder.dismiss()
+        listener?.invoke(true)
     }
     binding.btnCancel.setOnClickListener {
         builder.dismiss()

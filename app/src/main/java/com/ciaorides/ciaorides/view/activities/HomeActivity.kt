@@ -60,6 +60,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import org.w3c.dom.Text
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -216,12 +217,9 @@ class HomeActivity : AppCompatActivity() {
         handleBookingClicks()
         getHomePageRidesData()
         binding.appBarHome.layoutHome.progressLayout.root.visibility = View.VISIBLE
-        viewModel.getHomePageRidesData(GlobalUserIdRequest(driver_id = driverId))
-        viewModel.checkInStatus(
-            GlobalUserIdRequest(
-                driver_id = driverId
-            )
-        )
+        viewModel.getUserDetails(GlobalUserIdRequest(user_id = driverId))
+
+        handleUserResponse()
         binding.appBarHome.layoutHome.btnStart.setOnClickListener {
             vehiclesCall()
         }
@@ -925,6 +923,13 @@ class HomeActivity : AppCompatActivity() {
                             btnReached.visible(true)
                             btnPickup.visible(false)
                             tvHeader.visible(false)
+                            homeBinding.bottomSheetLayout.visible(false)
+                            bottomSheetLayout.visible(true)
+
+                            binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
+                                fcmResponse.sourceAddress
+                            binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
+                                fcmResponse.destinationAddress
                         }
                         com.ciaorides.ciaorides.utils.Constants.PICKED -> {
                             tvCongratsMsg.text = "Enjoy your ride!"
@@ -1041,6 +1046,56 @@ class HomeActivity : AppCompatActivity() {
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
+        }
+    }
+
+    private fun handleUserResponse() {
+        viewModel.userDetailsResponse.observe(this) { dataHandler ->
+            binding.appBarHome.layoutHome.progressLayout.root.visibility = View.GONE
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            var alertValue = ""
+                            if(data.response.driver_license_verified != Constants.YES){
+                                alertValue = getString(R.string.driving_licence)+", "
+                            }
+                            if(data.response.pan_card_verified != Constants.YES){
+                                alertValue = alertValue + " "+getString(R.string.pan_card)+", "
+                            }
+                            if(data.response.aadhar_card_verified != Constants.YES){
+                                alertValue = alertValue + " "+getString(R.string.adhar_card)+", "
+                            }
+                            if(!TextUtils.isEmpty(alertValue)){
+                                globalAlert(
+                                    this@HomeActivity,
+                                    alertValue + "is(are) not updated/verified",
+                                    "Upload",
+                                    isCancel = false
+
+                                ) {
+                                    if(it){
+                                        Toast.makeText(applicationContext,"Navigate to profile update",Toast.LENGTH_SHORT).show()
+                                      //TODO navigate to profile activity
+                                    }
+                                }
+                            }else{
+                                binding.appBarHome.layoutHome.btnStart.visible(true)
+                                viewModel.getHomePageRidesData(GlobalUserIdRequest(driver_id = driverId))
+                                viewModel.checkInStatus(
+                                    GlobalUserIdRequest(
+                                        driver_id = driverId
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
         }
     }
 

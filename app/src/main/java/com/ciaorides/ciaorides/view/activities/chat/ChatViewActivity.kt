@@ -22,11 +22,12 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
     private lateinit var chatAdapter: ChatAdapter
     lateinit var userId: String
     private var bookingId: String = ""
+    private var model: FcmBookingModel? = null
     override fun init() {
 
         var driverId = ""
 
-        val model = intent.getSerializableExtra(Constants.DATA_VALUE) as? FcmBookingModel
+        model = intent.getSerializableExtra(Constants.DATA_VALUE) as? FcmBookingModel
         model?.let { res ->
             driverId = res.driverInfo.driver_id
             bookingId = res.bookingNumber
@@ -41,6 +42,7 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
             .build()
 
         chatAdapter = ChatAdapter(options)
+        chatAdapter.startListening()
         chatAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 with(binding) { recyclerView.scrollToPosition(chatAdapter.itemCount - 1) }
@@ -53,10 +55,10 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
         val dataResponse =
             intent.getParcelableExtra(Constants.DATA_VALUE) as? BookRideResponse
         dataResponse?.response?.get(0)?.let { response ->
-            /* binding.tvVehicleNumber.text = response.number_plate
-             binding.tvName.text = response.first_name
-             binding.tvVehicleType.text = response.vehicle_make + " " + response.vehicle_model
-             binding.tvRating.text = response.r_ratings*/
+           /* binding.tvVehicleNumber.text = model.number_plate
+            binding.tvName.text = response.first_name
+            binding.tvVehicleType.text = response.vehicle_make + " " + response.vehicle_model
+            binding.tvRating.text = response.r_ratings*/
             binding.cardCall.setOnClickListener {
                 val callIntent = Intent(Intent.ACTION_DIAL)
                 callIntent.data = Uri.parse("tel:" + response.mobile)
@@ -80,7 +82,7 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
                 Toast.makeText(this, "Please enter Message", Toast.LENGTH_SHORT).show()
             } else {
                 val friendlyMessage =
-                    Message(binding.editText.text.toString(), userId, getCurrentTimeStamp())
+                    Message(binding.editText.text.toString(), driverId, getCurrentTimeStamp())
                 FcmBookUtils.getBookingChatRef(bookingId, chatToken).push()
                     .setValue(friendlyMessage)
                 binding.editText.text?.clear()
@@ -90,11 +92,11 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
 
     override fun onStart() {
         super.onStart()
-        chatAdapter.startListening()
+
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         chatAdapter.stopListening()
     }
 

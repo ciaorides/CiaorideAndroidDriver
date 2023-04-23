@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ciaorides.ciaorides.di.NetworkRepository
 import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.request.HomePageRidesResponse
-import com.ciaorides.ciaorides.model.response.BookingInfoResponse
-import com.ciaorides.ciaorides.model.response.CheckInStatusResponse
-import com.ciaorides.ciaorides.model.response.GlobalResponse
-import com.ciaorides.ciaorides.model.response.MyVehicleResponse
+import com.ciaorides.ciaorides.model.response.*
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,7 +48,8 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
     val homePageRidesResponse: LiveData<DataHandler<HomePageRidesResponse>> =
         _homePageRidesResponse
 
-
+    private val _userDetailsResponse = MutableLiveData<DataHandler<UserDetailsResponse>>()
+    val userDetailsResponse: LiveData<DataHandler<UserDetailsResponse>> = _userDetailsResponse
 
 
 
@@ -73,6 +71,22 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
         } else {
             DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
         }
+    }
+
+    fun getUserDetails(request: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            val response = networkRepository.getUserDetails(request)
+            _userDetailsResponse.postValue(handleUserDetails(response))
+        }
+    }
+
+    private fun handleUserDetails(response: Response<UserDetailsResponse>): DataHandler<UserDetailsResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = response.errorBody().toString())
     }
 
     fun checkIn(request: DriverCheckInRequest) {

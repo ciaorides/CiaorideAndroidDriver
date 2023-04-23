@@ -52,7 +52,7 @@ public class ChatAdapter extends FirebaseRecyclerAdapter<Message, ChatAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-        if (getItem(position).getUserId().equals("5264"))
+        if (getItem(position).getUserId().equals(userId))
             return MSG_TYPE_RIGHT;
         else
             return MSG_TYPE_LEFT;

@@ -30,9 +30,11 @@
             android:id="@+id/progressLayout"
             layout="@layout/layout_progress" />
         <LinearLayout
+            android:id="@+id/prevRides"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -176,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="@dimen/_5sdp"
+                android:visibility="gone"
                 android:backgroundTint="@color/appBlue"
                 android:fontFamily="@font/inter_medium"
                 android:includeFontPadding="false"
