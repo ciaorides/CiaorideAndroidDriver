@@ -61,8 +61,7 @@ class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
         binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.getEmergencyContactList(
             GlobalUserIdRequest(
-                //user_id = Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)
-                user_id = Constants.TEMP_USER_ID
+                user_id = Constants.getValue(this@EmergencyContact, Constants.USER_ID)
             )
         )
 //        }

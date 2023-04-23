@@ -4,12 +4,10 @@ package com.ciaorides.ciaorides.view.activities.menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityEarningsBinding
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
+import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
@@ -38,7 +36,7 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
         binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.getEmergencyContactList(
             GlobalUserIdRequest(
-                user_id = TEMP_USER_ID
+                user_id = Constants.getValue(this@EarningsActivity, Constants.USER_ID)
             )
         )
     }

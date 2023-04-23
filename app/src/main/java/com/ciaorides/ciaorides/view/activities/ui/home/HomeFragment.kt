@@ -166,7 +166,7 @@ class HomeFragment : Fragment() {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getMyVehicles(
                 GlobalUserIdRequest(
-                    user_id = Constants.TEMP_USER_ID
+                    user_id = Constants.getValue(requireActivity(), Constants.USER_ID)
                 )
             )
         }

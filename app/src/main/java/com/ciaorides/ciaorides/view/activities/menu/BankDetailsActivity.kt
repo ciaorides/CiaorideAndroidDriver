@@ -1,20 +1,16 @@
 package com.ciaorides.ciaorides.view.activities.menu
 
 import android.content.Intent
-import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityBankDetailsBinding
-import com.ciaorides.ciaorides.databinding.ActivityMyVehiclesBinding
 import com.ciaorides.ciaorides.model.request.DeleteBankDetailsRequest
-import com.ciaorides.ciaorides.model.request.DeleteVehicleRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.Constants.KEY_BANK_DETAILS
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.adapter.BankDetailsAdapter
@@ -63,8 +59,7 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getBankDetails(
                 GlobalUserIdRequest(
-                    //user_id = Constants.getValue(this@BankDetailsActivity, Constants.USER_ID)
-                    user_id = Constants.TEMP_USER_ID
+                    user_id = Constants.getValue(this@BankDetailsActivity, Constants.USER_ID)
                 )
             )
 //        }
@@ -73,7 +68,7 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
     private fun deleteBankDetails(id: String) {
         viewModel.deleteBankDetails(
             DeleteBankDetailsRequest(
-                user_id =TEMP_USER_ID,
+                user_id =Constants.getValue(this@BankDetailsActivity, Constants.USER_ID),
                 bank_id = id
             )
         )

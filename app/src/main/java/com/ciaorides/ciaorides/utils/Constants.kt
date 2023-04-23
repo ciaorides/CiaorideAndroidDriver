@@ -39,7 +39,6 @@ import java.util.*
 object Constants {
     const val YES: String = "Yes"
     const val FCM_TOKEN = "fcm_token"
-    const val TEMP_USER_ID = "2250"
     const val REQUEST_TYPE = "request_type"
     const val RIDE_TYPE = "ride_type"
     const val SOURCE = "source"

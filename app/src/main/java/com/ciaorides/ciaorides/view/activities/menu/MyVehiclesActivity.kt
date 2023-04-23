@@ -1,7 +1,6 @@
 package com.ciaorides.ciaorides.view.activities.menu
 
 import android.content.Intent
-import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,7 +10,6 @@ import com.ciaorides.ciaorides.databinding.ActivityMyVehiclesBinding
 import com.ciaorides.ciaorides.model.request.DeleteVehicleRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.activities.ui.vehicleDetails.VehicleDetailsActivity
@@ -85,7 +83,7 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
     private fun makeVehicleDeleteCall(id: String) {
         viewModel.deleteVehicle(
             DeleteVehicleRequest(
-                user_id =TEMP_USER_ID/* Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)*/,
+                user_id =Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID),
                 vehicle_id = id
             )
         )

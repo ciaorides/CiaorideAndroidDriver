@@ -6,9 +6,7 @@ import androidx.activity.viewModels
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityChangePasswordBinding
 import com.ciaorides.ciaorides.model.request.ChangePassword
-import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
@@ -41,7 +39,7 @@ class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
                 Toast.makeText(this, "Please enter Confirm Password", Toast.LENGTH_SHORT).show()
             } else {
                 val changePasswordReq = ChangePassword(
-                    TEMP_USER_ID,
+                    Constants.getValue(this@ChangePasswordActivity, Constants.USER_ID),
                     binding.edtOldPassword.text.toString(), binding.edtNewPassword.text.toString()
                 )
                 changePasswordCall(changePasswordReq)

@@ -1,18 +1,14 @@
 package com.ciaorides.ciaorides.view.activities.menu
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityFavBinding
-import com.ciaorides.ciaorides.model.request.DeleteBankDetailsRequest
 import com.ciaorides.ciaorides.model.request.DeleteFavRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
-import com.ciaorides.ciaorides.model.response.FavResponse
 import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.adapter.FavAdapter
@@ -56,7 +52,7 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
             binding.progressLayout.root.visibility = View.VISIBLE
             viewModel.getFav(
                 GlobalUserIdRequest(
-                    user_id = TEMP_USER_ID
+                    user_id = Constants.getValue(this@FavActivity, Constants.USER_ID)
                 )
             )
 //        }
@@ -65,7 +61,7 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
     private fun deleteFav(id: String) {
         viewModel.deleteFav(
             DeleteFavRequest(
-                user_id = TEMP_USER_ID/*Constants.getValue(this@FavActivity, Constants.USER_ID)*/,
+                user_id = Constants.getValue(this@FavActivity, Constants.USER_ID),
                 favourite_id = id
             )
         )

@@ -62,8 +62,7 @@ class RidesActivity : BaseActivity<ActivityRidesBinding>() {
         binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.getMyRides(
             GlobalUserIdRequest(
-                //user_id = Constants.getValue(this@MyVehiclesActivity, Constants.USER_ID)
-                user_id = Constants.TEMP_USER_ID
+                user_id = Constants.getValue(this@RidesActivity, Constants.USER_ID)
             )
         )
 //        }

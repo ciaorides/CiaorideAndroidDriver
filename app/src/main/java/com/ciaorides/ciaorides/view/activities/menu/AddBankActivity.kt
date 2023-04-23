@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityAddBankBinding
 import com.ciaorides.ciaorides.model.response.BankDetailsResponse
+import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.Constants.KEY_BANK_DETAILS
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
@@ -43,7 +44,7 @@ class AddBankActivity :  BaseActivity<ActivityAddBankBinding>() {
             viewModel.accountHolderName.value = binding.tVAccountHolderName.text.toString()
             viewModel.accountNumber.value = binding.tVAccountNumber.text.toString()
             viewModel.ifscCode.value = binding.tVIFSC.text.toString()
-            viewModel.validateBankForm()
+            viewModel.validateBankForm(Constants.getValue(this@AddBankActivity, Constants.USER_ID))
         }
 
         handleMyBankDetails()

@@ -10,7 +10,6 @@ import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.response.*
 import com.ciaorides.ciaorides.model.response.GlobalResponse
 import com.ciaorides.ciaorides.utils.Constants
-import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -249,7 +248,7 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     }
 
 
-    fun validateBankForm() {
+    fun validateBankForm(userId:String) {
         if (TextUtils.isEmpty(nameOfBank.value)) {
             _showErrorMessage.value = "Please enter Bank Name"
         } else if (TextUtils.isEmpty(location.value)) {
@@ -263,7 +262,7 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
         } else {
             val getBankDetails = SaveBankDetailsRequest(
                 id = if (isEditBankDetails) bankId else null,
-                user_id = TEMP_USER_ID,
+                user_id = userId,
                 country_id = "101",
                 bank_name = nameOfBank.value.toString(),
                 account_holder_name = accountHolderName.value.toString(),
