@@ -2,15 +2,13 @@ package com.ciaorides.ciaorides.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BookingFcmData {
-    public BookResp bookingData;
-    public String rideStatus;
-    public LocationAddress locationAddress;
+public class BookingFcmData implements Serializable{
 
 
-    public static class BookResp {
+    public static class BookResp implements Serializable{
 
         @SerializedName("booking_id")
         public int booking_id;
@@ -21,7 +19,7 @@ public class BookingFcmData {
         @SerializedName("time")
         public String time;
         @SerializedName("response")
-        public List<com.ciaorides.ciaorides.model.response.BookResp.Response> response;
+        public List<Response> response;
         @SerializedName("message")
         public String message;
         @SerializedName("status")
@@ -30,7 +28,7 @@ public class BookingFcmData {
         public String user_id;
 
 
-        public static class Response {
+        public static class Response implements Serializable {
             @SerializedName("distance")
             public String distance;
             @SerializedName("lng")
@@ -45,16 +43,22 @@ public class BookingFcmData {
             public String driver_id;
             @SerializedName("mobile")
             public String mobile;
+
+            @SerializedName("profile_pic")
+            public String profile_pic;
+
+            @SerializedName("vehicle_model")
+            public String vehicle_model;
+            @SerializedName("vehicle_make")
+            public String vehicle_make;
+            @SerializedName("first_name")
+            public String first_name;
+            @SerializedName("last_name")
+            public String last_name;
+            @SerializedName("r_ratings")
+            public String r_ratings;
         }
     }
 
 
-    public static class LocationAddress {
-        public String fromLat;
-        public String fromLng;
-        public String toLat;
-        public String toLng;
-        public String fromAddress;
-        public String toAddress;
-    }
 }

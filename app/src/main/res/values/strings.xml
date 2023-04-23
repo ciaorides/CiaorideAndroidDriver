@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CIAO Rides</string>
+    <string name="app_name">Driver CIAO Rides</string>
     <string name="user_not_found">No users found</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>

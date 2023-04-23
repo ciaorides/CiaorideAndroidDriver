@@ -1,5 +1,6 @@
 package com.ciaorides.ciaorides.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -21,15 +22,13 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
-import com.ciaorides.ciaorides.databinding.AlertDeleteVehicleBinding
-import com.ciaorides.ciaorides.databinding.AlertFevBinding
-import com.ciaorides.ciaorides.databinding.AlertScheduleBinding
-import com.ciaorides.ciaorides.databinding.LayoutRejectResonsBinding
+import com.ciaorides.ciaorides.databinding.*
 import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.button.MaterialButton
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -55,7 +54,7 @@ object Constants {
 
 
 
-    //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
+    //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
     const val SOME_THING_WENT_WRONG = "Something went wrong.."
     const val MAIN_PREF = "main_pref"
     const val HOME = "home"
@@ -411,4 +410,46 @@ fun showRejectReasonsAlert(
 fun getPrice(price: String) = "₹ $price"
 fun View.visible(state: Boolean) {
     visibility = if (state) View.VISIBLE else View.GONE
+}
+
+@SuppressLint("SimpleDateFormat")
+fun getCurrentTimeStamp(): String? {
+    return try {
+        val dateFormat =
+            SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        dateFormat.format(Date())
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun globalAlert(
+    context: Activity,
+    message: String,
+    yesText:String,
+    noText:String,
+    listener: ((Boolean) -> Unit?)? = null
+
+) {
+
+    val builder = AlertDialog.Builder(context)
+        .create()
+
+    val binding =
+        GlobalAlertBinding.inflate(LayoutInflater.from(context), null, false)
+    binding.btnYes.text = yesText
+    binding.tvMessage.text = message
+    binding.btnCancel.text = noText
+    binding.btnYes.setOnClickListener {
+        listener?.let {
+            builder.dismiss()
+            it.invoke(true)
+        }
+    }
+    binding.btnCancel.setOnClickListener {
+        builder.dismiss()
+    }
+    builder.setView(binding.root)
+    builder.show()
 }

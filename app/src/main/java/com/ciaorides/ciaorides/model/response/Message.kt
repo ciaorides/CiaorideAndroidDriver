@@ -6,5 +6,5 @@ import java.util.*
 data class Message(
     val text: String? = "",
     val userId: String? = "",
-    val timeStamp: Date? = null
+    val timeStamp: String? = ""
 )

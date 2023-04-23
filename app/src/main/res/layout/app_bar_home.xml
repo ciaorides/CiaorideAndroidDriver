@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:context=".view.activities.HomeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -27,10 +28,10 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvHeader"
                 style="@style/HeaderTextStyle"
-                android:includeFontPadding="false"
                 android:layout_centerInParent="true"
-                android:text="@string/home"
                 android:fontFamily="@font/inter_bold"
+                android:includeFontPadding="false"
+                android:text="@string/home"
                 android:textColor="@color/black" />
 
             <RelativeLayout
@@ -52,10 +53,9 @@
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_red_badge"
-                    android:layout_marginEnd="@dimen/_2sdp"
                     android:layout_alignParentBottom="true"
-                    />
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:src="@drawable/ic_red_badge" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -71,7 +71,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_home" />
+    <include
+        android:id="@+id/layoutHome"
+        layout="@layout/fragment_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

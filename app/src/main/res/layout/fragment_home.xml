@@ -13,13 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            tools:context=".view.activities.ui.MapsFragment"
+        <FrameLayout
+            android:id="@+id/mapFrame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
+            <fragment
+                android:id="@+id/googleMap"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".view.activities.ui.MapsFragment" />
+        </FrameLayout>
+
+        <include
+            android:id="@+id/progressLayout"
+            layout="@layout/layout_progress" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,9 +36,11 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/llPrevRidesLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:visibility="gone"
                 android:background="@drawable/blue_button_bgr"
                 android:padding="@dimen/_5sdp">
 
@@ -47,33 +58,22 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
-                    <LinearLayout
+
+                    <TextView
+                        android:id="@+id/tvPreviousRides"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_regular"
-                            android:text="$"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:id="@+id/tvPreviousRides"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
-                            android:text="0"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/_15ssp" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15ssp" />
 
                     <TextView
                         android:id="@+id/tvTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_regular"
-                        android:text="3:45Am - 0.5Km"
+                        tools:text="3:45Am - 0.5Km"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10ssp" />
 
@@ -85,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:background="@drawable/gray_bg"
                 android:orientation="vertical"
                 android:padding="@dimen/_5sdp">
@@ -92,11 +93,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -123,6 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -134,27 +138,15 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10ssp" />
 
-                        <LinearLayout
+
+                        <TextView
+                            android:id="@+id/tvTotalEarnings"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_regular"
-                                android:text="$"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_10ssp" />
-
-                            <TextView
-                                android:id="@+id/tvTotalEarnings"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_bold"
-                                android:text="0"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_15ssp" />
-                        </LinearLayout>
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_bold"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_15ssp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -206,24 +198,20 @@
     </RelativeLayout>
 
 
-    <include
-        android:id="@+id/vehiclesSheet"
-        layout="@layout/bottom_sheet_vehicle_info"
-        android:visibility="gone" />
 
     <include
         android:id="@+id/searchingSheet"
-        layout="@layout/bottom_sheet_searching"
-        android:visibility="gone" />
+        layout="@layout/bottom_sheet_searching" />
+
+    <include
+        android:id="@+id/vehiclesSheet"
+        layout="@layout/bottom_sheet_vehicle_info"
+        />
 
     <include
         android:id="@+id/localRideSheet"
         layout="@layout/bottom_sheet_local_ride"
         android:visibility="gone" />
-
-    <include
-        android:id="@+id/progressLayout"
-        layout="@layout/layout_progress" />
 
     <include
         android:id="@+id/layoutOtp"
