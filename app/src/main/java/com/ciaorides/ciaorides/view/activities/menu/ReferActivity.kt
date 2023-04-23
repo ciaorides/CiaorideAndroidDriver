@@ -5,7 +5,9 @@ import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityInboxBinding
 import com.ciaorides.ciaorides.databinding.ActivityReferBinding
 import com.ciaorides.ciaorides.view.activities.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReferActivity : BaseActivity<ActivityReferBinding>() {
     override fun getViewBinding(): ActivityReferBinding =
         ActivityReferBinding.inflate(layoutInflater)

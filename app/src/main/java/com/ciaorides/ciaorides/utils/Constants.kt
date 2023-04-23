@@ -35,7 +35,7 @@ import java.util.*
 
 object Constants {
     const val FCM_TOKEN = "fcm_token"
-    const val TEMP_USER_ID = "2209"
+    const val TEMP_USER_ID = "2250"
     const val REQUEST_TYPE = "request_type"
     const val RIDE_TYPE = "ride_type"
     const val SOURCE = "source"
@@ -97,7 +97,7 @@ object Constants {
 
 
     const val MENU_MY_RIDES = "My Rides"
-    const val MENU_MY_EARNINGS = "My Wallet"
+    const val MENU_MY_EARNINGS = "My Earnings"
     const val MENU_MY_VEHICLES = "My Vehicles"
     const val MENU_MY_FAVOURITES = "My Favourites"
     const val MENU_BANK_DETAILS = "Bank Details"

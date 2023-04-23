@@ -78,7 +78,7 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            if (data.response.isEmpty()) {
+                            if (data.response.isNullOrEmpty()) {
                                 binding.rvFev.visibility = View.GONE
                                 binding.noResultsFound.visibility = View.VISIBLE
                             } else {

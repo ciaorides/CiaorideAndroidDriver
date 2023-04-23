@@ -5,7 +5,9 @@ import android.view.View
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivitySettingsBinding
 import com.ciaorides.ciaorides.view.activities.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsActivity : BaseActivity<ActivitySettingsBinding>() {
     override fun getViewBinding(): ActivitySettingsBinding =
         ActivitySettingsBinding.inflate(layoutInflater)

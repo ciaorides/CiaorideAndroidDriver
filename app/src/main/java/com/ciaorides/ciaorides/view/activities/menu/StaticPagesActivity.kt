@@ -6,7 +6,9 @@ import android.webkit.*
 import com.ciaorides.ciaorides.databinding.ActivityStaticPagesBinding
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.view.activities.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StaticPagesActivity : BaseActivity<ActivityStaticPagesBinding>() {
     override fun getViewBinding(): ActivityStaticPagesBinding =
         ActivityStaticPagesBinding.inflate(layoutInflater)

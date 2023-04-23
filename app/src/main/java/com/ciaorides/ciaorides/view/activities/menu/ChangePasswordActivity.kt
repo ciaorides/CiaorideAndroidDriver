@@ -12,7 +12,11 @@ import com.ciaorides.ciaorides.utils.Constants.TEMP_USER_ID
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
     override fun getViewBinding(): ActivityChangePasswordBinding =
         ActivityChangePasswordBinding.inflate(layoutInflater)
@@ -59,6 +63,10 @@ class ChangePasswordActivity : BaseActivity<ActivityChangePasswordBinding>() {
                     dataHandler.data?.let { data ->
                         if (data.status) {
                             Toast.makeText(applicationContext, data.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }else
+                        {
+                            Toast.makeText(applicationContext, data.message, Toast.LENGTH_LONG)
                                 .show()
                         }
                     }

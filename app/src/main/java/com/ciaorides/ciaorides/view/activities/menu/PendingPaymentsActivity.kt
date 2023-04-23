@@ -4,7 +4,9 @@ import android.view.View
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityPendingPaymentsBinding
 import com.ciaorides.ciaorides.view.activities.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PendingPaymentsActivity : BaseActivity<ActivityPendingPaymentsBinding>() {
     override fun getViewBinding(): ActivityPendingPaymentsBinding =
         ActivityPendingPaymentsBinding.inflate(layoutInflater)

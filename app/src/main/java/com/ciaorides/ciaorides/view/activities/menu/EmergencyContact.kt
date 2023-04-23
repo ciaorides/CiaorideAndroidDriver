@@ -12,8 +12,10 @@ import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.adapter.EmergencyContactAdapter
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
     override fun getViewBinding(): ActivityEmergencyContactBinding =
         ActivityEmergencyContactBinding.inflate(layoutInflater)

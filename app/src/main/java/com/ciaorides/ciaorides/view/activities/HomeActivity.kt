@@ -117,6 +117,9 @@ class HomeActivity : AppCompatActivity() {
                 Constants.MENU_PAYMENTS -> {
 
                 }
+                Constants.MENU_SETTINGS -> {
+                    startActivity(Intent(this,SettingsActivity::class.java))
+                }
                 Constants.MENU_ABOUT_US -> {
                     val intent = Intent(this, StaticPagesActivity::class.java)
                     intent.putExtra(Constants.DATA_VALUE, Constants.ABOUT)
