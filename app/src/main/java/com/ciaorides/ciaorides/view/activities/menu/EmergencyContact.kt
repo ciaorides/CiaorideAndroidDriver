@@ -27,6 +27,7 @@ class EmergencyContact : BaseActivity<ActivityEmergencyContactBinding>() {
     private val viewModel: MenuViewModel by viewModels()
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.emergency_contact)
         binding.toolbar.profileView.visibility = View.GONE
         binding.toolbar.ivMenu.setOnClickListener {

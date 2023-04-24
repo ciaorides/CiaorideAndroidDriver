@@ -31,6 +31,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
+import com.ciaorides.ciaorides.databinding.ActivityImageUploadBinding
+import com.ciaorides.ciaorides.databinding.ActivityLoginBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
@@ -38,6 +40,7 @@ import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
+import com.ciaorides.ciaorides.model.response.UserSingleton
 import com.ciaorides.ciaorides.utils.*
 import com.ciaorides.ciaorides.view.activities.chat.ChatViewActivity
 import com.ciaorides.ciaorides.view.activities.menu.*
@@ -64,11 +67,11 @@ import org.w3c.dom.Text
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     @Inject
     lateinit var vehiclesAdapter: VehiclesAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityHomeBinding
+
     private var profileData: UserDetailsResponse.Response? = null
     var googleMap: GoogleMap? = null
     private val viewModel: HomeViewModel by viewModels()
@@ -87,14 +90,9 @@ class HomeActivity : AppCompatActivity() {
     lateinit var homeBinding: BottomSheetSearchingBinding
     private var onlineSheetBehavior: BottomSheetBehavior<*>? = null
     private var vehicleSheetBehavior: BottomSheetBehavior<*>? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+    override fun init() {
         homeBinding = binding.appBarHome.layoutHome.searchingSheet
-        setContentView(binding.root)
         context = this@HomeActivity
-
         setSupportActionBar(binding.appBarHome.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -121,6 +119,9 @@ class HomeActivity : AppCompatActivity() {
         }
         initData()
     }
+
+    override fun getViewBinding(): ActivityHomeBinding =
+        ActivityHomeBinding.inflate(layoutInflater)
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -170,7 +171,7 @@ class HomeActivity : AppCompatActivity() {
 
                 }
                 Constants.MENU_SETTINGS -> {
-                    startActivity(Intent(this,SettingsActivity::class.java))
+                    startActivity(Intent(this, SettingsActivity::class.java))
                 }
                 Constants.MENU_ABOUT_US -> {
                     val intent = Intent(this, StaticPagesActivity::class.java)
@@ -1058,16 +1059,17 @@ class HomeActivity : AppCompatActivity() {
                         profileData = data.response
                         if (data.status) {
                             var alertValue = ""
-                            if(data.response.driver_license_verified != Constants.YES){
-                                alertValue = getString(R.string.driving_licence)+", "
+                            if (data.response.driver_license_verified != Constants.YES) {
+                                alertValue = getString(R.string.driving_licence) + ", "
                             }
-                            if(data.response.pan_card_verified != Constants.YES){
-                                alertValue = alertValue + " "+getString(R.string.pan_card)+", "
+                            if (data.response.pan_card_verified != Constants.YES) {
+                                alertValue = alertValue + " " + getString(R.string.pan_card) + ", "
                             }
-                            if(data.response.aadhar_card_verified != Constants.YES){
-                                alertValue = alertValue + " "+getString(R.string.adhar_card)+", "
+                            if (data.response.aadhar_card_verified != Constants.YES) {
+                                alertValue =
+                                    alertValue + " " + getString(R.string.adhar_card) + ", "
                             }
-                            if(!TextUtils.isEmpty(alertValue)){
+                            if (!TextUtils.isEmpty(alertValue)) {
                                 globalAlert(
                                     this@HomeActivity,
                                     alertValue + "is(are) not updated/verified",
@@ -1075,13 +1077,12 @@ class HomeActivity : AppCompatActivity() {
                                     isCancel = false
 
                                 ) {
-                                    if(it){
+                                    if (it) {
                                         val intent = Intent(this, EditProfileActivity::class.java)
-                                        intent.putExtra(Constants.DATA_VALUE, profileData)
                                         startActivity(intent)
                                     }
                                 }
-                            }else{
+                            } else {
                                 binding.appBarHome.layoutHome.btnStart.visible(true)
                                 viewModel.getHomePageRidesData(GlobalUserIdRequest(driver_id = driverId))
                                 viewModel.checkInStatus(
@@ -1089,6 +1090,13 @@ class HomeActivity : AppCompatActivity() {
                                         driver_id = driverId
                                     )
                                 )
+
+                                Constants.saveValue(
+                                    this@HomeActivity,
+                                    Constants.BADGE,
+                                    profileData?.badge_type!!
+                                )
+                                updateToolBar(binding.appBarHome.ivBadge)
                             }
                         }
                     }

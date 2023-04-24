@@ -69,6 +69,7 @@ data class UserDetailsResponse(
         var token: String,
         val twitter: String,
         val user_type: String,
-        val userid: String
+        val userid: String,
+        val badge_type:String,
     ) : Parcelable
 }

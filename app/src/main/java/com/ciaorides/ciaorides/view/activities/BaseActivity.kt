@@ -5,11 +5,17 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
+import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.model.response.UserResponse
+import com.ciaorides.ciaorides.model.response.UserSingleton
 import com.ciaorides.ciaorides.utils.Constants
 
 abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
@@ -20,6 +26,22 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
 
     val CAMERA_PERMISSION_CODE = 100
     val STORAGE_PERMISSION_CODE = 101
+    protected fun updateToolBar(ivUserBadge: ImageView) {
+        when (Constants.getValue(this@BaseActivity, Constants.BADGE)) {
+            "red" -> {
+                ivUserBadge.setImageResource(R.drawable.ic_red_badge)
+            }
+            "orange" -> {
+                ivUserBadge.setImageResource(R.drawable.ic_orange_bagde)
+            }
+            "green" -> {
+                ivUserBadge.setImageResource(R.drawable.ic_green_badge)
+            }
+            else -> {
+                ivUserBadge.isVisible = false
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

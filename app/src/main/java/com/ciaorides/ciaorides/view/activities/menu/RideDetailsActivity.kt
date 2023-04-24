@@ -17,6 +17,7 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
     lateinit var ridesModel : MyRidesResponse.Response.RidesTaken
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.ride_details)
         binding.toolbar.profileView.visibility = View.GONE
         binding.toolbar.ivMenu.setOnClickListener {

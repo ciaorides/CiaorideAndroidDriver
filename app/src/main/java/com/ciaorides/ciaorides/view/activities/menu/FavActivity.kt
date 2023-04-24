@@ -26,6 +26,7 @@ class FavActivity : BaseActivity<ActivityFavBinding>() {
 
     private val viewModel: MenuViewModel by viewModels()
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         handleFevs()
         binding.toolbar.tvHeader.text = getString(R.string.my_favourites)
         binding.toolbar.ivMenu.setOnClickListener {

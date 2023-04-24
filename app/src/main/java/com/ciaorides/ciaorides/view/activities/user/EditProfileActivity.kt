@@ -20,6 +20,7 @@ import com.ciaorides.ciaorides.databinding.ActivityEditProfileBinding
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.UpdateProfileRequest
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
+import com.ciaorides.ciaorides.model.response.UserSingleton
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.utils.showDateAlert
@@ -44,6 +45,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         ActivityEditProfileBinding.inflate(layoutInflater)
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.ivProfileImage.visibility = View.GONE
         binding.toolbar.ivBadge.visibility = View.GONE
         binding.toolbar.ivEdit.visibility = View.VISIBLE
@@ -62,65 +64,19 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                 )
             }
         }
-        userData =
-            intent.getParcelableExtra(Constants.DATA_VALUE) as? UserDetailsResponse.Response
+
         token =
             applicationContext.getSharedPreferences(Constants.MAIN_PREF, MODE_PRIVATE)
                 .getString(Constants.FCM_TOKEN, "").toString()
         if (!TextUtils.isEmpty(Constants.getValue(this@EditProfileActivity, Constants.USER_ID))) {
+            binding.progressLayout.root.visible(true)
             viewModel.getUserDetails(
                 GlobalUserIdRequest(
                     user_id = Constants.getValue(this@EditProfileActivity, Constants.USER_ID)
                 )
             )
         }
-        userData?.let { data ->
-            with(binding.personalInfo) {
-                edtName.setText(data.first_name)
-                edtEmail.setText(data.email_id)
-                edtMobile.setText(data.mobile)
-                etBio.setText(data.bio)
-                setGenderData(data.gender)
-                edtDOB.setText(data.dob)
-            }
-            with(binding.addressInfo) {
-                edtAddress1.setText(data.address1)
-                edtAddress2.setText(data.address2)
-                edtPincode.setText(data.postcode)
-            }
-            with(binding.socialMedia) {
-                edtFacebook.setText(data.facebook)
-                edtInstagram.setText(data.instagram)
-                edtLinkedin.setText(data.linkedin)
-            }
-            with(binding.idVerification) {
-                if (data.driver_license_front.length > 10) {
-                    btnUploadDL.text = "Verified"
-                    btnUploadDL.background.setTint(resources.getColor(R.color.green))
-                } else {
-                    btnUploadDL.text = resources.getString(R.string.upload_image)
-                    btnUploadDL.background.setTint(resources.getColor(R.color.appBlue))
-                }
-                if (data.pan_card_front.length > 10) {
-                    btnUploadPAN.text = "Verified"
-                    btnUploadPAN.background.setTint(resources.getColor(R.color.green))
-                } else {
-                    btnUploadPAN.text = resources.getString(R.string.upload_image)
-                    btnUploadPAN.background.setTint(resources.getColor(R.color.appBlue))
-                }
-                if (data.aadhar_card_front.length > 10) {
-                    btnUploadAdhar.text = "Verified"
-                    btnUploadAdhar.background.setTint(resources.getColor(R.color.green))
-                } else {
-                    btnUploadAdhar.text = resources.getString(R.string.upload_image)
-                    btnUploadAdhar.background.setTint(resources.getColor(R.color.appBlue))
-                }
-                btnUploadPassport.text = resources.getString(R.string.upload_image)
-                btnUploadPassport.background.setTint(resources.getColor(R.color.appBlue))
 
-            }
-
-        }
         permission = this
         handleUserResponse()
 
@@ -228,6 +184,60 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         }
     }
 
+    private fun updateProfileData(){
+        userData?.let { data ->
+            with(binding.personalInfo) {
+                edtName.setText(data.first_name)
+                edtEmail.setText(data.email_id)
+                edtMobile.setText(data.mobile)
+                etBio.setText(data.bio)
+                setGenderData(data.gender)
+                edtDOB.text = Constants.getFormattedDob(
+                    Constants.YYYY_MM_DD,
+                    Constants.DD_MMM_YYYY,
+                    data.dob,
+                )
+            }
+            with(binding.addressInfo) {
+                edtAddress1.setText(data.address1)
+                edtAddress2.setText(data.address2)
+                edtPincode.setText(data.postcode)
+            }
+            with(binding.socialMedia) {
+                edtFacebook.setText(data.facebook)
+                edtInstagram.setText(data.instagram)
+                edtLinkedin.setText(data.linkedin)
+            }
+            with(binding.idVerification) {
+                if (data.driver_license_verified == Constants.YES) {
+                    btnUploadDL.text = "Verified"
+                    btnUploadDL.background.setTint(resources.getColor(R.color.green))
+                } else {
+                    btnUploadDL.text = resources.getString(R.string.upload_image)
+                    btnUploadDL.background.setTint(resources.getColor(R.color.appBlue))
+                }
+                if (data.pan_card_verified == Constants.YES) {
+                    btnUploadPAN.text = "Verified"
+                    btnUploadPAN.background.setTint(resources.getColor(R.color.green))
+                } else {
+                    btnUploadPAN.text = resources.getString(R.string.upload_image)
+                    btnUploadPAN.background.setTint(resources.getColor(R.color.appBlue))
+                }
+                if (data.aadhar_card_verified == Constants.YES) {
+                    btnUploadAdhar.text = "Verified"
+                    btnUploadAdhar.background.setTint(resources.getColor(R.color.green))
+                } else {
+                    btnUploadAdhar.text = resources.getString(R.string.upload_image)
+                    btnUploadAdhar.background.setTint(resources.getColor(R.color.appBlue))
+                }
+                btnUploadPassport.text = resources.getString(R.string.upload_image)
+                btnUploadPassport.background.setTint(resources.getColor(R.color.appBlue))
+
+            }
+
+        }
+    }
+
     private fun capturePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -329,7 +339,9 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                             Toast.makeText(applicationContext, data.message, Toast.LENGTH_SHORT)
                                 .show()
                             userData = data.response
-                            userData?.let { data ->
+                            UserSingleton.userBadge = userData?.badge_type!!
+                            updateProfileData()
+                            /*userData?.let { data ->
                                 with(binding.personalInfo) {
                                     edtName.setText(data.first_name)
                                     edtEmail.setText(data.email_id)
@@ -379,7 +391,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                                     }
                                 }
 
-                            }
+                            }*/
                         } else Toast.makeText(
                             applicationContext,
                             data.message,
@@ -409,9 +421,6 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
     }
 
 
-    fun uploadImage() {
-
-    }
 }
 
 

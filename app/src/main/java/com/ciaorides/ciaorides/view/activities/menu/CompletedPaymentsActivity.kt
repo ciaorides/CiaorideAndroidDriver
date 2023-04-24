@@ -10,6 +10,7 @@ class CompletedPaymentsActivity : BaseActivity<ActivityCompletedPaymentsBinding>
         ActivityCompletedPaymentsBinding.inflate(layoutInflater)
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.completed_payments)
         binding.toolbar.profileView.visibility = View.GONE
 

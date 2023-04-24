@@ -13,6 +13,7 @@ class InboxActivity : BaseActivity<ActivityInboxBinding>() {
         ActivityInboxBinding.inflate(layoutInflater)
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.inbox)
         binding.toolbar.profileView.visibility = View.GONE
 

@@ -35,7 +35,7 @@ import java.util.*
 
 
 object Constants {
-    const val YES: String = "Yes"
+    const val YES: String = "yes"
     const val FCM_TOKEN = "fcm_token"
     const val REQUEST_TYPE = "request_type"
     const val RIDE_TYPE = "ride_type"
@@ -90,6 +90,7 @@ object Constants {
     const val DATA_VALUE = "DATA_VALUE"
     const val IMG_TYPE = "IMG_TYPE"
     const val USER_ID = "user_id"
+    const val BADGE = "badge"
     const val USER_NAME = "user_name"
     const val MOBILE_NUMBER = "mobile_number"
     const val EMAIL_ID = "email_id"
