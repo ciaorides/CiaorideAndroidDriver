@@ -25,6 +25,10 @@ class NetworkRepository @Inject constructor(
         return usersDataApi.getUsersDetails()
     }
 
+    suspend fun updateUserData(request: UpdateProfileRequest): Response<UserDetailsResponse> {
+        return usersDataApi.updateProfile(request)
+    }
+
     suspend fun doLogin(loginRequest: LoginRequest): Response<UserResponse> {
         return usersDataApi.doLogin(loginRequest)
     }

@@ -36,29 +36,19 @@
                 android:layout_gravity="center" />
         </androidx.cardview.widget.CardView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/black" />
-
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
-            android:timePickerMode="spinner" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnVerify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_30sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:backgroundTint="@color/appBlue"
             android:fontFamily="@font/inter_medium"
             android:includeFontPadding="false"
-            android:text="@string/schedule"
+            android:text="@string/submit"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent" />

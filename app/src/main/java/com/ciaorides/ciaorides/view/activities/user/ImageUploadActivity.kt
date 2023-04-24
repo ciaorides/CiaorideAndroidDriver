@@ -118,6 +118,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                         }
                     }
 
+
                     val stringDataRequestBody: RequestBody =
                         RequestBody.create("text/plain".toMediaTypeOrNull(), "1")
                     viewModel.imageUpload(descriptionList, stringDataRequestBody)
@@ -164,6 +165,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                         imgValue = "10"
                     }
                 }
+
 
                 val stringDataRequestBody: RequestBody =
                     RequestBody.create("text/plain".toMediaTypeOrNull(), "1")

@@ -1055,6 +1055,7 @@ class HomeActivity : AppCompatActivity() {
             when (dataHandler) {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
+                        profileData = data.response
                         if (data.status) {
                             var alertValue = ""
                             if(data.response.driver_license_verified != Constants.YES){
@@ -1075,8 +1076,9 @@ class HomeActivity : AppCompatActivity() {
 
                                 ) {
                                     if(it){
-                                        Toast.makeText(applicationContext,"Navigate to profile update",Toast.LENGTH_SHORT).show()
-                                      //TODO navigate to profile activity
+                                        val intent = Intent(this, EditProfileActivity::class.java)
+                                        intent.putExtra(Constants.DATA_VALUE, profileData)
+                                        startActivity(intent)
                                     }
                                 }
                             }else{
