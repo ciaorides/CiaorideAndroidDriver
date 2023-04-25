@@ -215,4 +215,10 @@
     <string name="save_details">Save Details</string>
     <string name="registration_number">Registration Number</string>
     <string name="update">Update</string>
+    <string name="model_name">Model Name</string>
+    <string name="brand_name">Brand Name</string>
+    <string name="no_rides_found">No Rides found</string>
+    <string name="no_ernings_found">No Ernings found</string>
+    <string name="waiting_for_admin_approval">Waiting for admin approval</string>
+    <string name="complete_vehicle_steps">Please submit complete vehicle details.</string>
 </resources>

@@ -36,6 +36,7 @@ data class MyVehicleResponse(
         val vehicle_step1: String,
         val vehicle_step2: String,
         val vehicle_step3: String,
+        val vehicle_verified:String,
         val year: String
     ) : Parcelable {
         @Parcelize

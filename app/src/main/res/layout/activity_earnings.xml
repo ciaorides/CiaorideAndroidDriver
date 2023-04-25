@@ -15,6 +15,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:visibility="gone"
         android:layout_above="@+id/btnSupport">
 
         <LinearLayout
@@ -42,7 +44,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="@string/this_week"></TextView>
+                        android:text="@string/this_week" />
 
                     <ImageView
                         android:layout_width="@dimen/_12sdp"
@@ -54,7 +56,7 @@
                         android:rotation="180"
                         android:src="@drawable/ic_drop_down"
                         android:tint="@color/appBlue"
-                        tools:ignore="UseAppTint"></ImageView>
+                        tools:ignore="UseAppTint" />
 
                 </LinearLayout>
 
@@ -89,7 +91,7 @@
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="Online"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     android:id="@+id/textViewOnlineTime"
@@ -101,7 +103,7 @@
                     android:layout_marginRight="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="18 hr 0 min"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp" />
 
             </RelativeLayout>
 
@@ -122,7 +124,7 @@
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="@string/total_trips"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp" />
 
                 <TextView
                     style="@style/GlobalTextViewStyle"
@@ -133,7 +135,7 @@
                     android:layout_marginRight="@dimen/_16sdp"
                     android:paddingVertical="@dimen/_8sdp"
                     android:text="102"
-                    android:textSize="@dimen/_10sdp"></TextView>
+                    android:textSize="@dimen/_10sdp" />
 
             </RelativeLayout>
 
@@ -143,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:text="@string/receivable_amount"></TextView>
+                android:text="@string/receivable_amount" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,7 +177,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Payment"
-                            android:textSize="@dimen/_12sdp"></TextView>
+                            android:textSize="@dimen/_12sdp" />
 
 
                     </LinearLayout>
@@ -216,7 +218,7 @@
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:text="Payment scheduled on Aug 10"
                     android:textColor="@color/green"
-                    android:textSize="@dimen/_12sdp"></TextView>
+                    android:textSize="@dimen/_12sdp" />
 
                 <TextView
                     style="@style/GlobalTextViewStyle"
@@ -344,6 +346,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/_30sdp"
+        android:visibility="gone"
         android:layout_marginEnd="@dimen/_30sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         android:fontFamily="@font/inter_medium"
@@ -355,5 +358,19 @@
     <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_progress" />
+
+    <TextView
+        android:id="@+id/noResultsFound"
+        style="@style/GlobalTextViewBoldStyle"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
+        android:text="@string/no_ernings_found"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </RelativeLayout>

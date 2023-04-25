@@ -29,12 +29,12 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
         }
-        getMyEarnings()
         handleMyEarnings()
+        getMyEarnings()
     }
 
     private fun getMyEarnings() {
-        binding.progressLayout.root.visibility = View.VISIBLE
+       // binding.progressLayout.root.visibility = View.VISIBLE
         viewModel.getEmergencyContactList(
             GlobalUserIdRequest(
                 user_id = Constants.getValue(this@EarningsActivity, Constants.USER_ID)
@@ -65,6 +65,7 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
                     }
                 }
                 is DataHandler.ERROR -> {
+                    binding.progressLayout.root.visibility = View.GONE
                     Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT)
                         .show()
                 }

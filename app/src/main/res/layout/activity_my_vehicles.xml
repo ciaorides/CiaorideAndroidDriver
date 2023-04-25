@@ -11,8 +11,6 @@
         layout="@layout/custom_tool_bar" />
 
 
-
-
     <include
         android:id="@+id/progressLayout"
         layout="@layout/layout_progress" />

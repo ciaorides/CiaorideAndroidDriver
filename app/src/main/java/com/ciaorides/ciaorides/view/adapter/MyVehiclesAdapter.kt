@@ -1,14 +1,18 @@
 package com.ciaorides.ciaorides.view.adapter
 
 import android.opengl.Visibility
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ciaorides.ciaorides.BuildConfig
+import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemMyVehicleBinding
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
+import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.visible
 import javax.inject.Inject
 
@@ -46,17 +50,32 @@ class MyVehiclesAdapter @Inject constructor() :
         val vehicle = differ.currentList[position]
         with(holder.binding) {
 
-            tvVehicleName.text = vehicle.vehicle_type
+            if (vehicle.vehicle_makes.isNotEmpty()) {
+                tvVehicleName.text = vehicle.vehicle_makes[0].title
+            }
             tvVehicleNumber.text = vehicle.number_plate
             tvVehicleType.text = vehicle.color
             if (vehicle.vehicle_step1 == "yes" && vehicle.vehicle_step2 == "yes" && vehicle.vehicle_step3 == "yes") {
-                btnEdit.visibility = View.GONE
-            } else btnEdit.visibility = View.VISIBLE
+                btnEdit.visibility = View.INVISIBLE
+                tvWaitingMsg.text = tvWaitingMsg.context.getString(R.string.complete_vehicle_steps)
+            } else {
+                btnEdit.visibility = View.VISIBLE
+                tvWaitingMsg.text = tvWaitingMsg.context.getString(R.string.waiting_for_admin_approval)
+            }
+
             btnDelete.setOnClickListener {
                 setDeleteClickListener?.invoke(vehicle)
             }
             btnEdit.setOnClickListener {
                 setClickListener?.invoke(vehicle)
+            }
+
+            if (!TextUtils.isEmpty(vehicle.vehicle_permit_image)) {
+                Constants.showGlide(
+                    vehicleImage.context,
+                    Constants.getImageUrl(vehicle.vehicle_permit_image),
+                    vehicleImage
+                )
             }
         }
     }
