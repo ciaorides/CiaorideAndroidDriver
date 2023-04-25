@@ -29,6 +29,7 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
     lateinit var bankDetailsAdapter: BankDetailsAdapter
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.bank_details)
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()

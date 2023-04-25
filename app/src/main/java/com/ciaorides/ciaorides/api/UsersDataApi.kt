@@ -139,5 +139,7 @@ interface UsersDataApi {
  @POST("menuitems/my_earnings")
     suspend fun getMyEarnings(@Body request: GlobalUserIdRequest): Response<EarningsResponse>
 
+    @POST("ws/update_profile")
+    suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<UserDetailsResponse>
 
 }

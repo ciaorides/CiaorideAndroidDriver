@@ -49,7 +49,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
     private var imgValue: String? = null
     val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
     override fun init() {
-
+        updateToolBar(binding.toolbar.ivBadge)
         setInterfaceInstance(this)
         binding = ActivityImageUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -74,8 +74,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
             descriptionList.removeAt(1)
         }
         binding.btnSave.setOnClickListener {
-
-
+            binding.progressLayout.root.visibility = View.VISIBLE
             if (imgType == "Driving Licence") {
                 if (img1Status == true && img2Status == true) {
 
@@ -117,6 +116,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                             imgValue = "10"
                         }
                     }
+
 
                     val stringDataRequestBody: RequestBody =
                         RequestBody.create("text/plain".toMediaTypeOrNull(), "1")
@@ -164,6 +164,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                         imgValue = "10"
                     }
                 }
+
 
                 val stringDataRequestBody: RequestBody =
                     RequestBody.create("text/plain".toMediaTypeOrNull(), "1")
@@ -425,6 +426,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
         intent.putExtra("result", arrayData.getJSONObject(0).getString("full_path"))
         intent.putExtra("type", imgType)
         setResult(Activity.RESULT_OK, intent)
+        binding.progressLayout.root.visibility = View.GONE
         finish()
     }
 

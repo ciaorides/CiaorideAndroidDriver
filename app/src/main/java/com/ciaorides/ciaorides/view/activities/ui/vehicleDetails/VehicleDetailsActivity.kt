@@ -43,6 +43,7 @@ class VehicleDetailsActivity : BaseActivity<ActivityVehicleDetailsBinding>(),
     private var addVehicleStep3Fragment: AddVehiclesStep3Fragment? = null
 
     override fun init() {
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.vehicle_details)
         binding.toolbar.profileView.visibility = View.GONE
         binding.toolbar.ivMenu.setOnClickListener {

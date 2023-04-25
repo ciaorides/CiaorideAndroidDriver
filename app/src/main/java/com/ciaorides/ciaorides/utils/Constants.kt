@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -20,10 +19,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.*
-import com.ciaorides.ciaorides.model.response.RecentSearchesResponse
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -32,18 +29,23 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 object Constants {
-    const val YES: String = "Yes"
+    const val YES: String = "yes"
     const val FCM_TOKEN = "fcm_token"
     const val REQUEST_TYPE = "request_type"
     const val RIDE_TYPE = "ride_type"
     const val SOURCE = "source"
     const val IS_RIDE_OFFER = "is_ride_offer"
     const val DESTINATION = "destination"
+    const val DD_MM_YYYY = "dd-MM-yyyy"
+    const val YYYY_MM_DD = "yyyy-MM-dd"
+    const val DD_MMM_YYYY = "dd MMM yyyy"
+
 
     const val ONLINE = "online"
     const val OFFLINE = "offline"
@@ -88,6 +90,7 @@ object Constants {
     const val DATA_VALUE = "DATA_VALUE"
     const val IMG_TYPE = "IMG_TYPE"
     const val USER_ID = "user_id"
+    const val BADGE = "badge"
     const val USER_NAME = "user_name"
     const val MOBILE_NUMBER = "mobile_number"
     const val EMAIL_ID = "email_id"
@@ -140,6 +143,7 @@ object Constants {
         descriptionList.add(imagePartFile)
         return descriptionList
     }
+
     fun showGlide(context: Context, url: String, imageView: ImageView, progress: View? = null) {
         Glide
             .with(context)
@@ -322,29 +326,72 @@ object Constants {
 
     }
 
-    fun showScheduleAlert(
-        context: Activity,
-        okCallBack: ((Boolean) -> Unit?)? = null
-    ) {
-
-        var selectedDate = ""
-        val builder = AlertDialog.Builder(context)
-            .create()
-        val scheduleBinding =
-            AlertScheduleBinding.inflate(LayoutInflater.from(context), null, false)
-        scheduleBinding.calendarView.minDate = System.currentTimeMillis()
-        builder.setView(scheduleBinding.root)
-        scheduleBinding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val msg = "Selected date is " + dayOfMonth + "/" + (month + 1) + "/" + year
+    fun getFormattedDob(
+        inputFormat: String?,
+        outputFormat: String?,
+        inputDate: String?
+    ): String {
+        var parsed: Date? = null
+        var outputDate = ""
+        val formatFrom = SimpleDateFormat(inputFormat, Locale.getDefault())
+        val formatTo = SimpleDateFormat(outputFormat, Locale.getDefault())
+        try {
+            parsed = formatFrom.parse(inputDate)
+            outputDate = formatTo.format(parsed)
+        } catch (e: ParseException) {
+            outputDate = ""
         }
-        scheduleBinding.btnVerify.setOnClickListener {
-            okCallBack?.invoke(true)
-            builder.dismiss()
-        }
-
-        builder.setCanceledOnTouchOutside(false)
-        builder.show()
+        return outputDate
     }
+
+
+}
+
+private fun getDate(dayOfMonth: Int, month: Int, year: Int): String {
+    var selectedDate = "" + year
+    selectedDate += if (month < 10) {
+        "-0" + (month + 1)
+    } else {
+        "" + (month + 1)
+    }
+
+    selectedDate += if (dayOfMonth < 10) {
+        "-0$dayOfMonth"
+    } else {
+        "-$dayOfMonth"
+    }
+    return selectedDate
+}
+
+fun showDateAlert(
+    context: Activity,
+    title: String,
+    minDate: String = "",
+    maxDate: String = "",
+    okCallBack: ((String) -> Unit?)
+) {
+    val cal = Calendar.getInstance().time
+    var selectedDate = ""
+
+    val builder = AlertDialog.Builder(context)
+        .create()
+    val binding =
+        AlertScheduleBinding.inflate(LayoutInflater.from(context), null, false)
+
+    binding.calendarView.maxDate = System.currentTimeMillis()
+    binding.tvWelcome.text = title
+    builder.setView(binding.root)
+    binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        selectedDate = getDate(dayOfMonth, month, year)
+    }
+    binding.btnVerify.setOnClickListener {
+        if (!TextUtils.isEmpty(selectedDate) /*&& add age validation*/) {
+            builder.dismiss()
+            okCallBack.invoke(selectedDate)
+        }
+    }
+    builder.setCanceledOnTouchOutside(false)
+    builder.show()
 }
 
 fun decodePolyline(encoded: String): List<LatLng> {
@@ -448,7 +495,7 @@ fun globalAlert(
     context: Activity,
     message: String,
     yesText: String,
-    noText: String?="",
+    noText: String? = "",
     isCancel: Boolean = true,
     listener: ((Boolean) -> Unit?)? = null
 

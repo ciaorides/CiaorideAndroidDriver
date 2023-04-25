@@ -29,7 +29,7 @@ class RidesActivity : BaseActivity<ActivityRidesBinding>() {
     private val viewModel: MenuViewModel by viewModels()
 
     override fun init() {
-
+        updateToolBar(binding.toolbar.ivBadge)
         binding.toolbar.tvHeader.text = getString(R.string.my_rides)
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
