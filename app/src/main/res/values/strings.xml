@@ -220,5 +220,5 @@
     <string name="no_rides_found">No Rides found</string>
     <string name="no_ernings_found">No Ernings found</string>
     <string name="waiting_for_admin_approval">Waiting for admin approval</string>
-    <string name="complete_vehicle_steps">Please submit complete vehicle details.</string>
+    <string name="complete_vehicle_steps">Please complete vehicle registration.</string>
 </resources>
