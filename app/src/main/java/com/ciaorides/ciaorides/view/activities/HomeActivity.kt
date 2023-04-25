@@ -45,9 +45,11 @@ import com.ciaorides.ciaorides.model.response.UserSingleton
 import com.ciaorides.ciaorides.utils.*
 import com.ciaorides.ciaorides.view.activities.chat.ChatViewActivity
 import com.ciaorides.ciaorides.view.activities.menu.*
+import com.ciaorides.ciaorides.view.activities.ui.vehicleDetails.VehicleDetailsActivity
 import com.ciaorides.ciaorides.view.activities.user.EditProfileActivity
 import com.ciaorides.ciaorides.view.adapter.MenuListAdapter
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
+import com.ciaorides.ciaorides.view.fragments.AddVehiclesStep1Fragment
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -307,7 +309,41 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     if (dataHandler.data?.response != null) {
                         dataHandler.data.let { data ->
                             if (data.status) {
-                                updateVehicles(data)
+                                val verifiedVehicleList = ArrayList<MyVehicleResponse.Response>()
+                                for (vehicle in data.response) {
+                                    if (vehicle.vehicle_step1 == Constants.YES && vehicle.vehicle_step2 == Constants.YES && vehicle.vehicle_step3 == Constants.YES && vehicle.vehicle_verified == Constants.YES) {
+                                        verifiedVehicleList.add(vehicle)
+                                    }
+                                }
+                                if (verifiedVehicleList.isNotEmpty()) {
+                                    updateVehicles(data)
+                                } else if (data.response.isNotEmpty()) {
+                                    globalAlert(
+                                        this@HomeActivity,
+                                        "You vehicle(s) not verified or updated. Please update",
+                                        "Update",
+                                        "Dismiss"
+                                    ) {
+                                        if (it) {
+                                            val intent =
+                                                Intent(this, MyVehiclesActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                } else {
+                                    globalAlert(
+                                        this@HomeActivity,
+                                        "Vehicles not added. Please add",
+                                        "Add",
+                                        "Dismiss"
+                                    ) {
+                                        if (it) {
+                                            val intent =
+                                                Intent(this, VehicleDetailsActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                }
                             }
                         }
                     } else {
@@ -1087,7 +1123,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             }
 
                             var alertValue = ""
-                            if (data.response.driver_license_verified != Constants.YES) {
+                            /*if (data.response.driver_license_verified != Constants.YES) {
                                 alertValue = getString(R.string.driving_licence) + ", "
                             }
                             if (data.response.pan_card_verified != Constants.YES) {
@@ -1096,7 +1132,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             if (data.response.aadhar_card_verified != Constants.YES) {
                                 alertValue =
                                     alertValue + " " + getString(R.string.adhar_card) + ", "
-                            }
+                            }*/
                             if (!TextUtils.isEmpty(alertValue)) {
                                 globalAlert(
                                     this@HomeActivity,

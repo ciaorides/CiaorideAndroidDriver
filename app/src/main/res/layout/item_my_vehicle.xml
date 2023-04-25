@@ -28,11 +28,11 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profileImage"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/vehicleImage"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_50sdp"
-                        android:src="@drawable/ic_user"
+                        android:src="@drawable/place_holder"
                         app:civ_border_color="@color/grayLight"
                         app:civ_border_width="2dp" />
 
@@ -111,7 +111,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_weight="1"
                     android:backgroundTint="@color/appBlue"
                     android:fontFamily="@font/inter_medium"
@@ -126,7 +125,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter_medium"
                     android:text="@string/delete"
@@ -138,6 +136,17 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvWaitingMsg"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_10sdp"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/_10ssp"
+                android:text="@string/waiting_for_admin_approval" />
 
         </LinearLayout>
 

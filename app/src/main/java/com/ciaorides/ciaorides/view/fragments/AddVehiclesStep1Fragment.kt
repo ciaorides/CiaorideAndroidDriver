@@ -44,7 +44,7 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
         handleVehicleModelResponse()
         handleVehicleBrandResponse()
 
-        binding.llVehicleName.setOnClickListener {
+        binding.tVBrand.setOnClickListener {
             if (vehicleType == null || vehicleType?.isEmpty() == true) {
                 Toast.makeText(requireActivity(), "Please select vehicle type", Toast.LENGTH_SHORT)
                     .show()
@@ -56,11 +56,11 @@ class AddVehiclesStep1Fragment : Fragment(R.layout.add_vehicles_fragment) {
                 )
             }
         }
-        binding.llVehicleType.setOnClickListener {
+        binding.tVVehicleType.setOnClickListener {
             openDialogForVehicleType()
         }
 
-        binding.llVehicleModelName.setOnClickListener {
+        binding.tVModelName.setOnClickListener {
             if (brandId == null || brandId?.isEmpty() == true) {
                 Toast.makeText(requireActivity(), "Please select Brand", Toast.LENGTH_SHORT)
                     .show()

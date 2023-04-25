@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.*
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -347,6 +348,11 @@ object Constants {
         return outputDate
     }
 
+    fun getImageUrl(url: String): String =
+        BuildConfig.IMAGE_BASE_URL + url.replace(
+            "/storage/VehiclePermit//var/www/public_html/new/",
+            ""
+        )
 
 }
 
