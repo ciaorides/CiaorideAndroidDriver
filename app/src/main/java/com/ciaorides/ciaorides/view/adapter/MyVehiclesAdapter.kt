@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -57,10 +58,15 @@ class MyVehiclesAdapter @Inject constructor() :
             tvVehicleType.text = vehicle.color
             if (vehicle.vehicle_step1 == "yes" && vehicle.vehicle_step2 == "yes" && vehicle.vehicle_step3 == "yes") {
                 btnEdit.visibility = View.INVISIBLE
-                tvWaitingMsg.text = tvWaitingMsg.context.getString(R.string.complete_vehicle_steps)
+                if (vehicle.vehicle_verified == Constants.YES) {
+                    tvWaitingMsg.isVisible = false
+                } else {
+                    tvWaitingMsg.text =
+                        tvWaitingMsg.context.getString(R.string.waiting_for_admin_approval)
+                }
             } else {
                 btnEdit.visibility = View.VISIBLE
-                tvWaitingMsg.text = tvWaitingMsg.context.getString(R.string.waiting_for_admin_approval)
+                tvWaitingMsg.text = tvWaitingMsg.context.getString(R.string.complete_vehicle_steps)
             }
 
             btnDelete.setOnClickListener {
