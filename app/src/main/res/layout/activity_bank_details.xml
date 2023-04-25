@@ -40,7 +40,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:paddingTop="@dimen/_5sdp"
-        android:layout_above="@+id/addVehicle"
+        android:layout_above="@+id/addBank"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/noResultsFound"
+        style="@style/GlobalTextViewBoldStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/no_results_found"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="visible"
+        />
 
 </RelativeLayout>
