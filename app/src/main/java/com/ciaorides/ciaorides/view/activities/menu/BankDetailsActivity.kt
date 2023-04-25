@@ -103,11 +103,19 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            bankDetailsAdapter.differ.submitList(data.response)
-                            binding.rvBank.apply {
-                                adapter = bankDetailsAdapter
-                                layoutManager = LinearLayoutManager(this@BankDetailsActivity)
-                                visibility = View.VISIBLE
+                            if (data.response.isEmpty()) {
+                                binding.rvBank.visibility = View.GONE
+                                binding.noResultsFound.visibility = View.VISIBLE
+                            } else {
+                                binding.rvBank.visibility = View.VISIBLE
+                                binding.noResultsFound.visibility = View.GONE
+
+                                binding.rvBank.apply {
+                                    adapter = bankDetailsAdapter
+                                    layoutManager = LinearLayoutManager(this@BankDetailsActivity)
+                                    visibility = View.VISIBLE
+                                }
+                                bankDetailsAdapter.differ.submitList(data.response)
                             }
                         }
                     }

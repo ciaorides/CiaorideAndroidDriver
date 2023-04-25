@@ -84,7 +84,14 @@ class RidesActivity : BaseActivity<ActivityRidesBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            myRidesAdapter.differ.submitList(data.response.rides_taken)
+                            if (data.response.rides_taken.isEmpty()) {
+                                binding.rvRides.visibility = View.GONE
+                                binding.noResultsFound.visibility = View.VISIBLE
+                            } else {
+                                binding.rvRides.visibility = View.VISIBLE
+                                binding.noResultsFound.visibility = View.GONE
+                                myRidesAdapter.differ.submitList(data.response.rides_taken)
+                            }
                         }
                     }
                 }
