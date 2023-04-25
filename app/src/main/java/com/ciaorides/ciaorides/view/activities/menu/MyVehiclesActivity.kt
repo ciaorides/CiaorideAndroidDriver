@@ -123,11 +123,18 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
+                            if (data.response.isNullOrEmpty()) {
+                                binding.rvVehicles.visibility = View.GONE
+                                binding.noResultsFound.visibility = View.VISIBLE
+                            }else{
+                                binding.rvVehicles.visibility = View.VISIBLE
+                                binding.noResultsFound.visibility = View.GONE
                             myVehiclesAdapter.differ.submitList(data.response)
                             binding.rvVehicles.apply {
                                 adapter = myVehiclesAdapter
                                 layoutManager = LinearLayoutManager(this@MyVehiclesActivity)
                                 visibility = View.VISIBLE
+                            }
                             }
                         }
                     }
