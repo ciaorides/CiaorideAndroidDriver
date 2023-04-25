@@ -178,7 +178,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     startActivity(intent)
                 }
                 Constants.MENU_INBOX -> {
-
+                    val intent = Intent(this, InboxActivity::class.java)
+                    startActivity(intent)
                 }
                 Constants.MENU_REFER_FRIEND -> {
 

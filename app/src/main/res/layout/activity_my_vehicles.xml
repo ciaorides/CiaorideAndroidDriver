@@ -33,6 +33,19 @@
         android:textAllCaps="false"
         app:cornerRadius="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent" />
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/noResultsFound"
+        style="@style/GlobalTextViewBoldStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/no_results_found"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="visible"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvVehicles"

@@ -51,7 +51,7 @@ android:visibility="gone"
         <ImageView
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
-            android:background="@drawable/ic_emergency"></ImageView>
+            android:background="@drawable/ic_emergency"/>
 
         <TextView
             style="@style/GlobalTextViewStyle"
@@ -64,6 +64,7 @@ android:visibility="gone"
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:visibility="gone"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:background="@color/blue_light_gray" />
