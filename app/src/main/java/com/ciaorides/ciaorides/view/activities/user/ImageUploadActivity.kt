@@ -49,7 +49,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
     private var imgValue: String? = null
     val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         setInterfaceInstance(this)
         binding = ActivityImageUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -187,6 +187,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
     private fun checkPermission(permissions: Array<String>, requestCode: Int) {
 
         if (checkPermissionState(permissions)) {
+
             Constants.showDialog(this) {
                 if (it == 1) {
                     capturePhoto()

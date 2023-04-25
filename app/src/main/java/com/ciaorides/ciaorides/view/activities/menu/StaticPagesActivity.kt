@@ -14,7 +14,7 @@ class StaticPagesActivity : BaseActivity<ActivityStaticPagesBinding>() {
         ActivityStaticPagesBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.progressLayout.root.visibility = View.VISIBLE
         binding.webView.webViewClient = WebViewClient()
         binding.webView.settings.javaScriptEnabled = true

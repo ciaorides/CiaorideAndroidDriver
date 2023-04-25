@@ -56,6 +56,12 @@ class ManageVehicleImagesViewModel @Inject constructor(private val networkReposi
             // _imageUploadResponse.postValue(handleResponse(response))
         }
     }
+    fun profileImageUpload(request: ArrayList<MultipartBody.Part>, value: RequestBody) {
+        viewModelScope.launch {
+            val response = networkRepository.profileImageUpload(request, value)
+            // _imageUploadResponse.postValue(handleResponse(response))
+        }
+    }
     fun getVehicleBrands(request: BrandsRequest) {
         viewModelScope.launch {
             val response = networkRepository.getVehicleBrands(request)

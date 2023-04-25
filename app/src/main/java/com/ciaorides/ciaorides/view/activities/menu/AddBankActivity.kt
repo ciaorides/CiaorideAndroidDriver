@@ -23,7 +23,7 @@ class AddBankActivity :  BaseActivity<ActivityAddBankBinding>() {
         ActivityAddBankBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.toolbar.tvHeader.text = getString(R.string.add_a_bank)
         binding.toolbar.profileView.visibility = View.GONE
         binding.toolbar.ivMenu.setOnClickListener {

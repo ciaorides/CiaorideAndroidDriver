@@ -26,7 +26,7 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
 
     val CAMERA_PERMISSION_CODE = 100
     val STORAGE_PERMISSION_CODE = 101
-    protected fun updateToolBar(ivUserBadge: ImageView) {
+    protected fun updateToolBar(ivUserBadge: ImageView, ivUserImage: ImageView) {
         when (Constants.getValue(this@BaseActivity, Constants.BADGE)) {
             "red" -> {
                 ivUserBadge.setImageResource(R.drawable.ic_red_badge)
@@ -41,6 +41,10 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
                 ivUserBadge.isVisible = false
             }
         }
+
+        Constants.showGlide(
+            ivUserImage.context,
+            Constants.getValue(this@BaseActivity, Constants.USER_IMAGE), ivUserImage)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -29,7 +29,7 @@ class MyVehiclesActivity : BaseActivity<ActivityMyVehiclesBinding>() {
     lateinit var myVehiclesAdapter: MyVehiclesAdapter
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.toolbar.tvHeader.text = getString(R.string.my_vehicles)
         binding.addVehicle.setOnClickListener {
             val intent = Intent(this, VehicleDetailsActivity::class.java)

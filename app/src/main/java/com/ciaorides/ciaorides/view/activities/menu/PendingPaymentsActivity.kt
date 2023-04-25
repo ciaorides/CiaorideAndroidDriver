@@ -12,7 +12,7 @@ class PendingPaymentsActivity : BaseActivity<ActivityPendingPaymentsBinding>() {
         ActivityPendingPaymentsBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.toolbar.tvHeader.text = getString(R.string.pending_payments)
         binding.toolbar.profileView.visibility = View.GONE
 

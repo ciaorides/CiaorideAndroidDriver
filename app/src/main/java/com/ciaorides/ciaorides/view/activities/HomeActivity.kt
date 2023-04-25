@@ -1096,7 +1096,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     Constants.BADGE,
                                     profileData?.badge_type!!
                                 )
-                                updateToolBar(binding.appBarHome.ivBadge)
+                                updateToolBar(binding.appBarHome.ivBadge,binding.appBarHome.ivProfileImage)
                             }
                         }
                     }

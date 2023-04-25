@@ -31,7 +31,7 @@
                 android:layout_marginEnd="@dimen/_5sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivProfileImage"
+                    android:id="@+id/ivEditProfileImage"
                     android:layout_width="@dimen/_70sdp"
                     android:layout_height="@dimen/_70sdp"
                     android:layout_marginStart="@dimen/_3sdp"
@@ -51,6 +51,8 @@
                     android:background="@drawable/circle_blue"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_menu_camera" />
+
+
             </RelativeLayout>
 
             <LinearLayout
@@ -62,20 +64,19 @@
 
                 <include
                     android:id="@+id/personalInfo"
-                    layout="@layout/layout_personal_info"
-                    />
+                    layout="@layout/layout_personal_info" />
+
                 <include
                     android:id="@+id/addressInfo"
-                    layout="@layout/layout_address_info"
-                    />
+                    layout="@layout/layout_address_info" />
+
                 <include
                     android:id="@+id/idVerification"
-                    layout="@layout/layout_id_verification_info"
-                    />
+                    layout="@layout/layout_id_verification_info" />
+
                 <include
                     android:id="@+id/socialMedia"
-                    layout="@layout/layout_social_media_info"
-                    />
+                    layout="@layout/layout_social_media_info" />
 
 
                 <com.google.android.material.button.MaterialButton
@@ -116,7 +117,6 @@
 
     <include
         android:id="@+id/progressLayout"
-        layout="@layout/layout_progress"
-        />
+        layout="@layout/layout_progress" />
 </RelativeLayout>
 

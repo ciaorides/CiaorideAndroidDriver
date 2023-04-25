@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.Log
 import com.ciaorides.ciaorides.api.UsersDataApi
 import com.ciaorides.ciaorides.model.AddVehicleImageUpload
+import com.ciaorides.ciaorides.model.EditImageUpload
 import com.ciaorides.ciaorides.model.ImageUpload
 import com.ciaorides.ciaorides.model.UserDetailsItem
 import com.ciaorides.ciaorides.model.request.*
 import com.ciaorides.ciaorides.model.request.RecentFevRequest
 import com.ciaorides.ciaorides.model.response.*
+import com.ciaorides.ciaorides.view.activities.user.EditProfileActivity
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -142,14 +144,20 @@ class NetworkRepository @Inject constructor(
     companion object {
         private var imageUpload: ImageUpload? = null
         private var imageUploadVehicle: AddVehicleImageUpload? = null
-        fun setInterfaceInstance(context: Context) {
+        private var profileImageUpload: EditImageUpload? = null
+        fun setInterfaceInstanceProfileImage(context: Context) {
+            profileImageUpload = context as EditImageUpload?
+        }
 
+        fun setInterfaceInstance(context: Context) {
             imageUpload = context as ImageUpload?
         }
+
         fun setInterfaceInstanceAddVehicle(context: Context) {
             imageUploadVehicle = context as AddVehicleImageUpload?
         }
     }
+
     fun vehicleUploadImage(
         request: ArrayList<MultipartBody.Part>,
         value: RequestBody
@@ -162,13 +170,8 @@ class NetworkRepository @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     Log.d("Upload Image", "Upload successful")
-                    //     if (imageUpload == null) return@OnClickListener
                     imageUploadVehicle?.imageUploadResponseHanding(response)
-//                    Gson().fromJson(
-//                        Gson().toJson(response),
-//                        ImageUploadResponse::class.java)
                     Log.d("Upload Image", imageUploadVehicle.toString() + "Upload successful")
-
                 } else {
                     Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
                 }
@@ -179,16 +182,33 @@ class NetworkRepository @Inject constructor(
                 //TODO("Not yet implemented")
             }
         })
-
-        /*  return try {
-              usersDataApi.uploadImage1(request,value)
-          } catch (e: Exception) {
-              e.printStackTrace()
-              null
-          }*/
     }
 
+    fun profileImageUpload(
+        request: ArrayList<MultipartBody.Part>,
+        value: RequestBody
+    ) {
+        val call: Call<JsonObject>? = usersDataApi.uploadImage1(request, value)
+        call?.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(
+                call: Call<JsonObject>,
+                response: Response<JsonObject>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("Upload Image", "Upload successful")
+                    profileImageUpload?.imageUploadResponseHanding(response)
+                    Log.d("Upload Image", profileImageUpload.toString() + "Upload successful")
+                } else {
+                    Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                }
+            }
 
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Log.d("Upload Image", "Upload FAIL")
+                //TODO("Not yet implemented")
+            }
+        })
+    }
 
 
     fun uploadImage(
@@ -254,9 +274,11 @@ class NetworkRepository @Inject constructor(
     suspend fun getRideDetails(request: GlobalUserIdRequest): Response<BookingInfoResponse> {
         return usersDataApi.getRideDetails(request)
     }
+
     suspend fun acceptRideRequest(request: AcceptRideRequest): Response<GlobalResponse> {
         return usersDataApi.acceptRideRequest(request)
     }
+
     suspend fun getHomePageRidesData(request: GlobalUserIdRequest): Response<HomePageRidesResponse> {
         return usersDataApi.getHomePageRidesData(request)
     }
@@ -268,18 +290,18 @@ class NetworkRepository @Inject constructor(
     suspend fun editBankDetails(request: SaveBankDetailsRequest): Response<SaveBankResponse> {
         return usersDataApi.editBankDetails(request)
     }
+
     suspend fun getEmergencyContactList(request: GlobalUserIdRequest): Response<EmergencyContactResponse> {
         return usersDataApi.getEmergencyContactList(request)
     }
+
     suspend fun getMyEarnings(request: GlobalUserIdRequest): Response<EarningsResponse> {
         return usersDataApi.getMyEarnings(request)
     }
+
     suspend fun changePassword(request: ChangePassword): Response<ChangePasswordResponse> {
         return usersDataApi.changePassword(request)
     }
-
-
-
 
 
 }

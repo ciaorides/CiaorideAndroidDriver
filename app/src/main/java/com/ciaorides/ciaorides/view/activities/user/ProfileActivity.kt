@@ -16,7 +16,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>() {
         ActivityProfileBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.toolbar.ivProfileImage.visibility = View.GONE
         binding.toolbar.ivBadge.visibility = View.GONE
         binding.toolbar.ivEdit.visibility = View.VISIBLE

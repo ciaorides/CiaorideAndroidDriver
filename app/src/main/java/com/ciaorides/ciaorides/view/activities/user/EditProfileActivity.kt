@@ -9,14 +9,18 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityEditProfileBinding
+import com.ciaorides.ciaorides.di.NetworkRepository
+import com.ciaorides.ciaorides.model.EditImageUpload
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.UpdateProfileRequest
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
@@ -27,34 +31,52 @@ import com.ciaorides.ciaorides.utils.showDateAlert
 import com.ciaorides.ciaorides.utils.visible
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.ProfileViewModel
+import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONObject
+import retrofit2.Response
 import java.io.File
 
 @AndroidEntryPoint
 class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
-    BaseActivity.PermissionsCallBack {
+    BaseActivity.PermissionsCallBack, EditImageUpload {
     private var finalUrl: Uri? = null
     private var realPath: String? = null
     private var token: String? = null
+    private var userProfileURL: String? = null
     private val PHOTO_CAPTURE = 101
     private var userData: UserDetailsResponse.Response? = null;
 
     private val viewModel: ProfileViewModel by viewModels()
-
+    val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
     override fun getViewBinding(): ActivityEditProfileBinding =
         ActivityEditProfileBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge, binding.toolbar.ivProfileImage)
         binding.toolbar.ivProfileImage.visibility = View.GONE
         binding.toolbar.ivBadge.visibility = View.GONE
         binding.toolbar.ivEdit.visibility = View.VISIBLE
         binding.toolbar.tvHeader.text = getString(R.string.profile)
+
+        if (Constants.getValue(this, Constants.USER_IMAGE).isEmpty() || Constants.getValue(
+                this,
+                Constants.USER_IMAGE
+            ).isNullOrEmpty()
+        ) else
+            Constants.showGlide(
+                binding.ivEditProfileImage.context,
+                Constants.getValue(this, Constants.USER_IMAGE), binding.ivEditProfileImage
+            )
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
         }
+        NetworkRepository.setInterfaceInstanceProfileImage(this)
         binding.personalInfo.edtDOB.setOnClickListener {
-            showDateAlert(this@EditProfileActivity, "Select DOB",) {
+            showDateAlert(this@EditProfileActivity, "Select DOB") {
                 binding.personalInfo.edtDOB.setText(
                     Constants.getFormattedDob(
                         Constants.YYYY_MM_DD,
@@ -135,7 +157,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                     Government_id = userData!!.government_id,
                     token = token.toString(),
                     driver_license_id = userData!!.driver_license_id,
-                    profile_pic = userData!!.profile_pic,
+                    profile_pic = userProfileURL.toString(),
                     driver_license_front = userData!!.driver_license_front,
                     driver_license_back = userData!!.driver_license_back,
                     government_id_front = userData!!.government_id_front,
@@ -156,6 +178,9 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                 ),
                 CAMERA_PERMISSION_CODE
             )
+//            val intent = Intent(this, ImageUploadActivity::class.java)
+//            intent.putExtra(Constants.IMG_TYPE, "Profile Image")
+//            uploadedImgPath.launch(intent)
         }
     }
 
@@ -184,8 +209,12 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         }
     }
 
-    private fun updateProfileData(){
+    private fun updateProfileData() {
         userData?.let { data ->
+//            Constants.showGlide(
+//                binding.ivEditProfileImage.context,
+//                userProfileURL.toString(), binding.ivEditProfileImage
+//            )
             with(binding.personalInfo) {
                 edtName.setText(data.first_name)
                 edtEmail.setText(data.email_id)
@@ -308,7 +337,18 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    binding.ivProfileImage.setImageURI(finalUrl)
+                    binding.ivEditProfileImage.setImageURI(finalUrl)
+                    val file = File(realPath.toString())
+                    var imagePartFile: MultipartBody.Part? = null
+                    val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                    imagePartFile =
+                        MultipartBody.Part.createFormData("image[]", file.name, requestBody)
+                    descriptionList.add(imagePartFile)
+
+                    val stringDataRequestBody: RequestBody =
+                        RequestBody.create("text/plain".toMediaTypeOrNull(), "1")
+                    viewModel.profileImageUpload(descriptionList, stringDataRequestBody)
+
                 }
                 RESULT_CANCELED -> {
                     Toast.makeText(
@@ -329,6 +369,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         capturePhoto()
     }
 
+
     private fun handleUserResponse() {
         viewModel.userDetailsResponse.observe(this) { dataHandler ->
             binding.progressLayout.root.visible(false)
@@ -340,6 +381,11 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                                 .show()
                             userData = data.response
                             UserSingleton.userBadge = userData?.badge_type!!
+//                            Constants.saveValue(
+//                                this,
+//                                Constants.USER_IMAGE,
+//                                userData?.profile_pic!!
+//                            )
                             updateProfileData()
                             /*userData?.let { data ->
                                 with(binding.personalInfo) {
@@ -404,6 +450,30 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                         .show()
                 }
             }
+        }
+    }
+
+    override fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>) {
+
+        //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()?.fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
+        Log.d("Upload Image", imageUploadResponse.message() + "Upload successful")
+        var obj = JSONObject(imageUploadResponse.body().toString())
+        val arrayData = obj.getJSONObject("result_arr").getJSONArray("totalFiles")
+        Log.d("Upload Image", arrayData.getJSONObject(0).getString("full_path"))
+
+        if (arrayData.getJSONObject(0).getString("file_path_url").toString().isNotEmpty()) {
+
+            Constants.showGlide(
+                binding.ivEditProfileImage.context,
+                arrayData.getJSONObject(0).getString("file_path_url"), binding.ivEditProfileImage
+            )
+            userProfileURL = arrayData.getJSONObject(0).getString("file_path_url").toString()
+
+            Constants.saveValue(
+                this,
+                Constants.USER_IMAGE,
+                userProfileURL.toString()
+            )
         }
     }
 

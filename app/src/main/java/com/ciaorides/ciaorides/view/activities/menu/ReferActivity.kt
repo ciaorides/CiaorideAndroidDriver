@@ -13,7 +13,7 @@ class ReferActivity : BaseActivity<ActivityReferBinding>() {
         ActivityReferBinding.inflate(layoutInflater)
 
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         binding.toolbar.tvHeader.text = getString(R.string.refer_friend)
         binding.toolbar.profileView.visibility = View.GONE
         binding.toolbar.ivMenu.setOnClickListener {

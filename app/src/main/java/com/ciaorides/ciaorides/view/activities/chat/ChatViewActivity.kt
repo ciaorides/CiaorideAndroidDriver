@@ -24,9 +24,9 @@ class ChatViewActivity : BaseActivity<ActivityChatViewBinding>() {
     private var bookingId: String = ""
     private var model: FcmBookingModel? = null
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         var driverId = ""
-        updateToolBar(binding.toolbar.ivBadge)
+        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
         model = intent.getSerializableExtra(Constants.DATA_VALUE) as? FcmBookingModel
         model?.let { res ->
             driverId = res.driverInfo.driver_id

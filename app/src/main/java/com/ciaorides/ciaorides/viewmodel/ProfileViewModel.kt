@@ -35,6 +35,13 @@ class ProfileViewModel @Inject constructor(private val networkRepository: Networ
             //val test = Gson().fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
         }
     }
+    fun profileImageUpload(request: ArrayList<MultipartBody.Part>, value: RequestBody) {
+        viewModelScope.launch {
+            val imageUploadResponse = networkRepository.profileImageUpload(request, value)
+            //   Log.d("response", imageUploadResponse?.toString()!!)
+            //val test = Gson().fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
+        }
+    }
     fun updateUserProfile(request: UpdateProfileRequest) {
         viewModelScope.launch {
             val response = networkRepository.updateUserData(request)

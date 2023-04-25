@@ -70,7 +70,7 @@ interface UsersDataApi {
     @POST("menuitems/driver_favourite_location_delete")
     suspend fun deleteFav(@Body request: DeleteFavRequest): Response<GlobalResponse>
 
-    @POST("menuitems/user_profile")
+    @POST("taxi_flow/user_profile")
     suspend fun userDetails(@Body request: GlobalUserIdRequest): Response<UserDetailsResponse>
 
     @POST("menuitems/add_driver_vehicles_step1")
@@ -139,7 +139,7 @@ interface UsersDataApi {
  @POST("menuitems/my_earnings")
     suspend fun getMyEarnings(@Body request: GlobalUserIdRequest): Response<EarningsResponse>
 
-    @POST("ws/update_profile")
+    @POST("taxi_flow/update_profile")
     suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<UserDetailsResponse>
 
 }

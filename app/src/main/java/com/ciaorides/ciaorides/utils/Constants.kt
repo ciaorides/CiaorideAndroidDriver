@@ -91,6 +91,7 @@ object Constants {
     const val IMG_TYPE = "IMG_TYPE"
     const val USER_ID = "user_id"
     const val BADGE = "badge"
+    const val USER_IMAGE = "user_image"
     const val USER_NAME = "user_name"
     const val MOBILE_NUMBER = "mobile_number"
     const val EMAIL_ID = "email_id"
