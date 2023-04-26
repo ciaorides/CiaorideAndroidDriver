@@ -69,7 +69,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         ) else
             Constants.showGlide(
                 binding.ivEditProfileImage.context,
-                Constants.getValue(this, Constants.USER_IMAGE), binding.ivEditProfileImage
+                BuildConfig.IMAGE_BASE_URL+ Constants.getValue(this, Constants.USER_IMAGE), binding.ivEditProfileImage
             )
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
@@ -460,15 +460,14 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         var obj = JSONObject(imageUploadResponse.body().toString())
         val arrayData = obj.getJSONObject("result_arr").getJSONArray("totalFiles")
         Log.d("Upload Image", arrayData.getJSONObject(0).getString("full_path"))
-
-        if (arrayData.getJSONObject(0).getString("file_path_url").toString().isNotEmpty()) {
+        userProfileURL = arrayData.getJSONObject(0).getString("file_path_url").toString()
+        if (userProfileURL.toString().isNotEmpty()) {
 
             Constants.showGlide(
                 binding.ivEditProfileImage.context,
-                arrayData.getJSONObject(0).getString("file_path_url"), binding.ivEditProfileImage
+                BuildConfig.IMAGE_BASE_URL + userProfileURL,
+                binding.ivEditProfileImage
             )
-            userProfileURL = arrayData.getJSONObject(0).getString("file_path_url").toString()
-
             Constants.saveValue(
                 this,
                 Constants.USER_IMAGE,

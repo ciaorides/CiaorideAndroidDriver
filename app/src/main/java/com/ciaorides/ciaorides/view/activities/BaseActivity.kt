@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.model.response.UserResponse
 import com.ciaorides.ciaorides.model.response.UserSingleton
@@ -44,7 +45,11 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
 
         Constants.showGlide(
             ivUserImage.context,
-            Constants.getValue(this@BaseActivity, Constants.USER_IMAGE), ivUserImage)
+            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+                this@BaseActivity,
+                Constants.USER_IMAGE
+            ), ivUserImage
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

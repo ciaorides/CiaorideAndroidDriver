@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/activity_chat_view.xml" value="0.25" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/activity_edit_profile.xml" value="0.13272543059777103" />
+        <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/activity_image_upload.xml" value="0.27291666666666664" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/add_vehicles_fragment.xml" value="0.25" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/add_vehicles_fragment_step_2.xml" value="0.13272543059777103" />
@@ -13,6 +14,7 @@
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/custom_tool_bar.xml" value="0.12552083333333333" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/item_my_vehicle.xml" value="0.25" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/layout_personal_info.xml" value="0.25" />
+        <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/nav_header_home.xml" value="0.25" />
         <entry key="..\:/Work/CIAODriver230423/CiaorideAndroidDriver/app/src/main/res/layout/vehicle_model_layout.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/bg_receive_message.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/bg_rounded_app_blue.xml" value="0.224" />

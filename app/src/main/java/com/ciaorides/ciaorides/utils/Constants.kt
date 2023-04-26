@@ -12,7 +12,9 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -371,15 +373,17 @@ fun showDateAlert(
     maxDate: String = "",
     okCallBack: ((String) -> Unit?)
 ) {
-    val cal = Calendar.getInstance().time
+    val cal = Calendar.getInstance()
     var selectedDate = ""
 
     val builder = AlertDialog.Builder(context)
         .create()
     val binding =
         AlertScheduleBinding.inflate(LayoutInflater.from(context), null, false)
+    val calendar = Calendar.getInstance()
+    calendar.add(Calendar.YEAR, -18)
+    binding.calendarView.maxDate = calendar.getTimeInMillis()
 
-    binding.calendarView.maxDate = System.currentTimeMillis()
     binding.tvWelcome.text = title
     builder.setView(binding.root)
     binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->

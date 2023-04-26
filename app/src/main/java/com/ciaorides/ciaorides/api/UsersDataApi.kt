@@ -70,7 +70,7 @@ interface UsersDataApi {
     @POST("menuitems/driver_favourite_location_delete")
     suspend fun deleteFav(@Body request: DeleteFavRequest): Response<GlobalResponse>
 
-    @POST("taxi_flow/user_profile")
+    @POST("menuitems/user_profile")
     suspend fun userDetails(@Body request: GlobalUserIdRequest): Response<UserDetailsResponse>
 
     @POST("menuitems/add_driver_vehicles_step1")
@@ -105,7 +105,6 @@ interface UsersDataApi {
         @Part("upload_type") description: RequestBody
     ): Call<JsonObject>?
 
-
     @POST("driver1/check_in")
     suspend fun driverCheckIn(@Body request: DriverCheckInRequest): Response<GlobalResponse>
 
@@ -136,10 +135,10 @@ interface UsersDataApi {
     @POST("menuitems/get_emergency_contacts_list")
     suspend fun getEmergencyContactList(@Body request: GlobalUserIdRequest): Response<EmergencyContactResponse>
 
- @POST("menuitems/my_earnings")
+    @POST("menuitems/my_earnings")
     suspend fun getMyEarnings(@Body request: GlobalUserIdRequest): Response<EarningsResponse>
 
-    @POST("taxi_flow/update_profile")
+    @POST("ws/update_profile")
     suspend fun updateProfile(@Body request: UpdateProfileRequest): Response<UserDetailsResponse>
 
 }

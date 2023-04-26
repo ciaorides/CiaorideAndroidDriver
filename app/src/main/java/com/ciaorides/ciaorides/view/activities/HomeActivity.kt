@@ -29,6 +29,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.ActivityImageUploadBinding
@@ -109,6 +110,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         headerBinding.imageView.setOnClickListener {
 
         }*/
+
         setupMenu()
 
         binding.userDetails.tvEditProfile.setOnClickListener {
@@ -118,6 +120,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             startActivity(intent)
         }
         initData()
+        Constants.showGlide(
+            binding.appBarHome.ivProfileImage.context,
+            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+                this,
+                Constants.USER_IMAGE
+            ), binding.appBarHome.ivProfileImage
+        )
+        Constants.showGlide(
+            binding.userDetails.imageView.context,
+            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+                this,
+                Constants.USER_IMAGE
+            ), binding.userDetails.imageView
+        )
     }
 
     override fun getViewBinding(): ActivityHomeBinding =
@@ -1058,6 +1074,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dataHandler.data?.let { data ->
                         profileData = data.response
                         if (data.status) {
+                            binding.userDetails.tvName.setText(data.response.first_name)
+                            binding.userDetails.tvNumber.setText(data.response.mobile)
+
                             var alertValue = ""
                             if (data.response.driver_license_verified != Constants.YES) {
                                 alertValue = getString(R.string.driving_licence) + ", "
@@ -1096,7 +1115,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     Constants.BADGE,
                                     profileData?.badge_type!!
                                 )
-                                updateToolBar(binding.appBarHome.ivBadge,binding.appBarHome.ivProfileImage)
+                                updateToolBar(
+                                    binding.appBarHome.ivBadge,
+                                    binding.appBarHome.ivProfileImage
+                                )
                             }
                         }
                     }
