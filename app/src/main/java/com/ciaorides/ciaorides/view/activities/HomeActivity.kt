@@ -122,14 +122,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         initData()
         Constants.showGlide(
             binding.appBarHome.ivProfileImage.context,
-            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+            Constants.getValue(
                 this,
                 Constants.USER_IMAGE
             ), binding.appBarHome.ivProfileImage
         )
         Constants.showGlide(
             binding.userDetails.imageView.context,
-            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+            Constants.getValue(
                 this,
                 Constants.USER_IMAGE
             ), binding.userDetails.imageView
@@ -1076,6 +1076,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         if (data.status) {
                             binding.userDetails.tvName.setText(data.response.first_name)
                             binding.userDetails.tvNumber.setText(data.response.mobile)
+
+                            if (data.response.profile_pic.isNotEmpty()) {
+                                Constants.saveValue(
+                                    this,
+                                    Constants.USER_IMAGE,
+                                    data.response.profile_pic
+                                )
+                            }
 
                             var alertValue = ""
                             if (data.response.driver_license_verified != Constants.YES) {

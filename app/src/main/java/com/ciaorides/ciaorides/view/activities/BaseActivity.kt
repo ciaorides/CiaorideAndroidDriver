@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageView
@@ -43,13 +44,21 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
             }
         }
 
-        Constants.showGlide(
-            ivUserImage.context,
-            BuildConfig.IMAGE_BASE_URL + Constants.getValue(
+        if (Constants.getValue(
                 this@BaseActivity,
                 Constants.USER_IMAGE
-            ), ivUserImage
-        )
+            ).isNotEmpty()
+        ) {
+            Toast.makeText(this, "Valid", Toast.LENGTH_SHORT)
+                .show()
+            Constants.showGlide(
+                ivUserImage.context,
+                Constants.getValue(
+                    this@BaseActivity,
+                    Constants.USER_IMAGE
+                ), ivUserImage
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

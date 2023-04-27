@@ -21,7 +21,7 @@ data class UpdateProfileRequest(
     val alternate_number: String,
     val aadhar_card_id: String,
     val pan_card_id: String,
-    val Government_id: String,
+    val government_id: String,
     val token: String,
     val driver_license_id: String,
     val profile_pic: String,

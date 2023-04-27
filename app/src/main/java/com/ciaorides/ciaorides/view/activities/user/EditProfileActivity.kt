@@ -69,7 +69,8 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         ) else
             Constants.showGlide(
                 binding.ivEditProfileImage.context,
-                BuildConfig.IMAGE_BASE_URL+ Constants.getValue(this, Constants.USER_IMAGE), binding.ivEditProfileImage
+                 Constants.getValue(this, Constants.USER_IMAGE),
+                binding.ivEditProfileImage
             )
         binding.toolbar.ivMenu.setOnClickListener {
             onBackPressed()
@@ -154,7 +155,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                     alternate_number = binding.personalInfo.edtMobile.text.toString(),
                     aadhar_card_id = userData!!.aadhar_card_id,
                     pan_card_id = userData!!.pan_card_id,
-                    Government_id = userData!!.government_id,
+                    government_id = userData!!.government_id,
                     token = token.toString(),
                     driver_license_id = userData!!.driver_license_id,
                     profile_pic = userProfileURL.toString(),
@@ -346,7 +347,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                     descriptionList.add(imagePartFile)
 
                     val stringDataRequestBody: RequestBody =
-                        RequestBody.create("text/plain".toMediaTypeOrNull(), "1")
+                        RequestBody.create("text/plain".toMediaTypeOrNull(), "4")
                     viewModel.profileImageUpload(descriptionList, stringDataRequestBody)
 
                 }
@@ -381,11 +382,11 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                                 .show()
                             userData = data.response
                             UserSingleton.userBadge = userData?.badge_type!!
-//                            Constants.saveValue(
-//                                this,
-//                                Constants.USER_IMAGE,
-//                                userData?.profile_pic!!
-//                            )
+                            Constants.saveValue(
+                                this,
+                                Constants.USER_IMAGE,
+                                userData?.profile_pic!!
+                            )
                             updateProfileData()
                             /*userData?.let { data ->
                                 with(binding.personalInfo) {
@@ -468,11 +469,11 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
                 BuildConfig.IMAGE_BASE_URL + userProfileURL,
                 binding.ivEditProfileImage
             )
-            Constants.saveValue(
-                this,
-                Constants.USER_IMAGE,
-                userProfileURL.toString()
-            )
+//            Constants.saveValue(
+//                this,
+//                Constants.USER_IMAGE,
+//                userProfileURL.toString()
+//            )
         }
     }
 
