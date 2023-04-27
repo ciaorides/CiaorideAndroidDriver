@@ -49,8 +49,6 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
                 Constants.USER_IMAGE
             ).isNotEmpty()
         ) {
-            Toast.makeText(this, "Valid", Toast.LENGTH_SHORT)
-                .show()
             Constants.showGlide(
                 ivUserImage.context,
                 Constants.getValue(
