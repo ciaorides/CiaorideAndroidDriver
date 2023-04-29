@@ -349,10 +349,7 @@ object Constants {
     }
 
     fun getImageUrl(url: String): String =
-        BuildConfig.IMAGE_BASE_URL + url.replace(
-            "/storage/VehiclePermit//var/www/public_html/new/",
-            ""
-        )
+        BuildConfig.IMAGE_BASE_URL + url
 
 }
 

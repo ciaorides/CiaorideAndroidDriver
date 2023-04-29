@@ -39,7 +39,6 @@
             android:fontFamily="@font/inter_regular"
             android:hint="@string/phone_number"
             android:maxLength="10"
-            android:text="9392676403"
             android:background="@android:color/transparent"
             android:includeFontPadding="false"
             android:inputType="number"

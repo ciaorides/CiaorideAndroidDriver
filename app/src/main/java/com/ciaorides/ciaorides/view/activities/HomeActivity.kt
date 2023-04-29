@@ -1176,5 +1176,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateToolBar(
+            binding.appBarHome.ivBadge,
+            binding.appBarHome.ivProfileImage
+        )
+    }
+
 
 }

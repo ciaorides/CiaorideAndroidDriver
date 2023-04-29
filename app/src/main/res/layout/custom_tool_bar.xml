@@ -2,6 +2,7 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:theme="@style/Theme.CIAORides.AppBarOverlay">
 
@@ -41,12 +42,18 @@
             android:layout_marginBottom="@dimen/_3sdp"
             android:src="@drawable/ic_edit" />
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_36sdp"
+            android:layout_height="@dimen/_36sdp"
+            app:cardCornerRadius="@dimen/_18ssp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            >
+
         <RelativeLayout
             android:id="@+id/profileView"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/_5sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -55,6 +62,7 @@
                 android:layout_height="@dimen/_35sdp"
                 android:layout_marginStart="@dimen/_3sdp"
                 android:layout_marginTop="@dimen/_3sdp"
+                android:scaleType="fitXY"
                 android:layout_marginEnd="@dimen/_3sdp"
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:src="@drawable/ic_user" />
@@ -69,6 +77,7 @@
                 android:layout_alignParentBottom="true"
                 />
         </RelativeLayout>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
 
