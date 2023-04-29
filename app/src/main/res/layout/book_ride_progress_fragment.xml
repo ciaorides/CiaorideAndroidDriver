@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/bottomSheetLayout"
+    android:background="@drawable/bottom_sheet_bg"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:padding="@dimen/_10sdp">
+
+    <LinearLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:indeterminateTint="@color/tabIndicator"
+            android:max="10"
+            android:minWidth="200dp"
+            android:minHeight="50dp"
+            android:progress="0"
+            android:theme="@style/ProgressBarStyle" />
+
+        <TextView
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/please_wait_we_are_in_the_process_of_finding_a_best_rider_for_you"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/progree_ing" />
+
+
+        <Button
+            android:id="@+id/btnSkip"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:focusable="false"
+            android:fontFamily="@font/inter_bold"
+            android:text="@string/cancel_ride"
+            android:textAllCaps="false"
+            android:textColor="@color/appBlue"
+            app:cornerRadius="@dimen/_5sdp"
+            app:strokeColor="@color/appBlue" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

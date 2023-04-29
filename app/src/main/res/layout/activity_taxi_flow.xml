@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayLight"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <include
+        android:id="@+id/layoutSearch"
+        layout="@layout/activity_search" />
+
+    <include
+        android:id="@+id/fevSheet"
+        layout="@layout/fragment_search_history_list_dialog" />
+
+    <include
+        android:id="@+id/vehiclesSheet"
+        layout="@layout/bottom_sheet_vehicle_info" />
+
+    <include
+        android:id="@+id/bookRideProgressSheet"
+        layout="@layout/book_ride_progress_fragment" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

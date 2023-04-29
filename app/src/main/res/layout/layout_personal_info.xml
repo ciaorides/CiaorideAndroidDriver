@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grayLight"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:text="@string/add_bio" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etBio"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:gravity="top|start"
+        android:padding="@dimen/_6sdp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/name" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtName"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:padding="@dimen/_10sdp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/date_of_birth" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/edtDOB"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:padding="@dimen/_10sdp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/gender" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            style="@style/GlobalTextViewStyle"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:checked="true"
+            android:text="@string/male" />
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            style="@style/GlobalTextViewStyle"
+            android:includeFontPadding="false"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="@string/female" />
+
+        <RadioButton
+            android:id="@+id/rbOther"
+            style="@style/GlobalTextViewStyle"
+            android:includeFontPadding="false"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="@string/other" />
+
+    </RadioGroup>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/email_id" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtEmail"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/_10sdp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/srt_mobile" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edtMobile"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:inputType="number"
+        android:padding="@dimen/_10sdp" />
+
+</LinearLayout>

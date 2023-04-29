@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardSelected"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardElevation="@dimen/_5sdp"
+    app:cardMaxElevation="@dimen/_5sdp"
+    app:cardPreventCornerOverlap="true"
+    app:strokeColor="@color/grayLight"
+    app:strokeWidth="@dimen/_1sdp">
+
+    <RelativeLayout
+        android:id="@+id/rvCarsMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grayLight"
+        android:padding="@dimen/_5sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_user"
+            app:civ_border_color="@color/grayLight"
+            app:civ_border_width="2dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/ic_info" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_toLeftOf="@+id/ivInfo"
+            android:padding="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="@dimen/_3sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@color/green"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/payment"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_7ssp" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toLeftOf="@+id/cardTime"
+            android:layout_toRightOf="@+id/profileImage"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="karthik" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:src="@drawable/ic_rating" />
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="4.3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVehicleNumber"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="Ap2052845" />
+
+                <TextView
+                    android:id="@+id/tvVehicleType"
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    tools:text="Honda City" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

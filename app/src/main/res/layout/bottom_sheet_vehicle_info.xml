@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheetLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_bg"
+    android:orientation="vertical"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardCars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_5sdp"
+        app:cardMaxElevation="@dimen/_5sdp"
+        app:cardPreventCornerOverlap="true"
+        app:strokeColor="@color/appBlue"
+        app:strokeWidth="@dimen/_1sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rvCarsMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivCar"
+                    android:layout_width="@dimen/_70sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/car_img" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivDrop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/ic_drop_down" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/ivDrop"
+                    android:layout_toEndOf="@+id/ivCar"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/GlobalTextViewBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/a_car"
+                        android:textColor="@color/appTextGray"
+                        android:textSize="@dimen/_12ssp" />
+
+                    <TextView
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/book_a_mini_suv_amp_more"
+                        android:textColor="@color/appTextGray"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:background="@color/editBgColor" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardAuto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_5sdp"
+        app:cardMaxElevation="@dimen/_5sdp"
+        app:cardPreventCornerOverlap="true"
+        app:strokeColor="@color/grayLight"
+        app:strokeWidth="@dimen/_1sdp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grayLight"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivAuto"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bike" />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivAuto"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/GlobalTextViewBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/an_auto"
+                    android:textColor="@color/appTextGray"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/book_an_auto_nearby"
+                    android:textColor="@color/appTextGray"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardBike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        app:cardBackgroundColor="@color/grayLight"
+        app:cardCornerRadius="@dimen/_5sdp"
+        app:cardElevation="@dimen/_5sdp"
+        app:cardMaxElevation="@dimen/_5sdp"
+        app:cardPreventCornerOverlap="true"
+        app:strokeColor="@color/grayLight"
+        app:strokeWidth="@dimen/_1sdp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grayLight"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBike"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bike" />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ivBike"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/GlobalTextViewBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/a_bike"
+                    android:textColor="@color/appTextGray"
+                    android:textSize="@dimen/_12ssp" />
+
+                <TextView
+                    style="@style/GlobalTextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/book_a_bike_nearby"
+                    android:textColor="@color/appTextGray"
+                    android:textSize="@dimen/_10ssp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStartRide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:backgroundTint="@color/appBlue"
+            android:fontFamily="@font/inter_medium"
+            android:includeFontPadding="false"
+            android:text="@string/start"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/_5sdp" />
+
+</LinearLayout>

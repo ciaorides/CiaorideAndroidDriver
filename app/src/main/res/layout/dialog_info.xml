@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/_15sdp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtVehicleTitle"
+        style="@style/HeaderTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mini"
+        android:textAllCaps="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtVehicleDescription"
+        style="@style/GlobalTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:text="Mini"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtVehicleTitle" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/view_Background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/rounded_edittext_gray"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/txtVehicleDescription">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTotalLable"
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:text="@string/total_payable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTotalAmount"
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:text="$0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAmountLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotalLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAmount"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTotalLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTaxLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/tax"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAmountLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTax"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtAmountLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCommisionLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/commision"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTaxLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCommision"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTaxLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCancelChargeLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/cancellation_charges"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCommisionLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtCancelCharge"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCommisionLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPerHeadLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/amount_per_head"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCancelChargeLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPerHead"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCancelChargeLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtBaseFareLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/base_fare"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPerHeadLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtBaseFare"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPerHeadLable"
+            tools:text="$0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPerSeatLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Per seat"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtBaseFareLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtPerSeat"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtBaseFareLable"
+            tools:text="$0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtCarDetails"
+        style="@style/GlobalTextViewBoldStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/car_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_Background" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/rounded_edittext_gray"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCarDetails">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSeatCapacityLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/seat_capacity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtSeatCapacity"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDistanceLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/distance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSeatCapacityLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtDistance"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSeatCapacityLable"
+            tools:text="0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVehicleTypeLable"
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/vehicle_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDistanceLable" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtVehicleType"
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textAllCaps="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDistanceLable"
+            tools:text="Sedan " />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

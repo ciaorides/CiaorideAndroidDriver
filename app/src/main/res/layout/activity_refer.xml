@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBG"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+    <ImageView
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_185sdp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:src="@drawable/ic_refer"></ImageView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/rounded_edittext_white"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:paddingTop="@dimen/_8sdp">
+
+        <TextView
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:text="@string/refer_1" />
+
+        <TextView
+            style="@style/GlobalTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="@string/refer_2"
+            android:textColor="@color/appTextGray"
+            android:textSize="@dimen/_10sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="0.9"
+                android:backgroundTint="@color/appBlue"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/share_your_link"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/_5sdp" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1.1"
+                android:fontFamily="@font/inter_medium"
+                android:text="Invite contacts"
+                android:textAllCaps="false"
+                android:textColor="@color/appBlue"
+                app:cornerRadius="@dimen/_5sdp"
+                app:strokeColor="@color/appBlue" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

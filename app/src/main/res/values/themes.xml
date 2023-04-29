@@ -1,0 +1,91 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.CIAORides" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/appBlue</item>
+        <item name="colorPrimaryVariant">@color/appBlue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="MainViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="GlobalTextViewBoldStyle" parent="MainViewStyle">
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="GlobalTextViewStyle" parent="MainViewStyle">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/inter_regular</item>
+    </style>
+
+    <style name="GlobalRecyclerViewStyle">
+        <item name="android:layout_width">@dimen/dimen_0dp</item>
+        <item name="android:layout_height">@dimen/dimen_0dp</item>
+    </style>
+
+    <style name="DividerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_1dp</item>
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="Theme.CIAORides.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.CIAORides.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.CIAORides.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="HeaderTextStyle" parent="MainViewStyle">
+        <item name="android:textSize">@dimen/_15ssp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+    </style>
+
+    <style name="MyTabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_bg</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.CIAORides">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:padding">100dp</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/popup_background</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">@color/tabIndicator</item>
+    </style>
+
+    <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

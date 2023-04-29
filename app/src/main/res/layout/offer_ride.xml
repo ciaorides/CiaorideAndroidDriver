@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:animateLayoutChanges="true"
+    android:padding="@dimen/_10sdp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="@dimen/_5sdp"
+    app:cardMaxElevation="@dimen/_5sdp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:layout_constraintTop_toBottomOf="@+id/takeRide">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:animateLayoutChanges="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOfferRide"
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="match_parent"
+            android:fontFamily="@font/inter_bold"
+            android:includeFontPadding="false"
+            android:text="@string/offer_a_ride"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/dropDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_drop_down"
+            app:layout_constraintBottom_toBottomOf="@+id/tvOfferRide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvOfferRide" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/etCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/rounded_edittext_gray"
+            android:fontFamily="@font/inter_regular"
+            android:hint="@string/your_location"
+            android:includeFontPadding="false"
+            android:padding="@dimen/_9sdp"
+            android:textColorHint="@color/appTextGray"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/tvOfferRide" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/etDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/rounded_edittext_gray"
+            android:drawableStart="@drawable/ic_search_icon"
+            android:drawablePadding="@dimen/_5sdp"
+            android:fontFamily="@font/inter_regular"
+            android:hint="@string/search_for_destination"
+            android:includeFontPadding="false"
+            android:padding="@dimen/_9sdp"
+            android:textColorHint="@color/appTextGray"
+            android:textSize="@dimen/_10ssp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCurrentLocation" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

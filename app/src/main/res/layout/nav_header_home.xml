@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/appBlue"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:contentDescription="@string/nav_header_desc"
+        app:srcCompat="@drawable/ic_user" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvName"
+        style="@style/GlobalTextViewStyle"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_toEndOf="@+id/imageView"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"
+        tools:text="Srinivas B" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNumber"
+        style="@style/GlobalTextViewStyle"
+        android:layout_below="@+id/tvName"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_toEndOf="@+id/imageView"
+        tools:text="9441500416"
+        android:textColor="@color/appGray"
+        android:textSize="@dimen/_12ssp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEditProfile"
+        style="@style/GlobalTextViewStyle"
+        android:layout_below="@+id/tvNumber"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_toEndOf="@+id/imageView"
+        android:text="@string/edit_profile"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp" />
+</RelativeLayout>

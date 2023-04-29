@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activities.menu.AddBankActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress" />
+
+
+    <RelativeLayout
+        android:id="@+id/rlParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_of_bank"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tVNameOfBank"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:hint="@string/name_of_bank"
+                android:padding="@dimen/_10sdp"
+                android:paddingStart="@dimen/_8sdp"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/your_location"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tVLocation"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:hint="@string/your_location"
+                android:padding="@dimen/_10sdp"
+
+                android:paddingStart="@dimen/_8sdp"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/account_holder_name"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tVAccountHolderName"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:hint="@string/account_holder_name"
+
+                android:inputType="textPersonName"
+                android:padding="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/account_number"
+
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tVAccountNumber"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:hint="@string/account_number"
+
+                android:inputType="number"
+                android:padding="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/ifsc_code"
+                android:textColor="@color/black" />
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tVIFSC"
+                style="@style/GlobalTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/rounded_edittext_gray"
+                android:hint="@string/vehicle_type"
+
+                android:padding="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:textColor="@color/black" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnSaveDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:backgroundTint="@color/appBlue"
+        android:fontFamily="@font/inter_medium"
+        android:includeFontPadding="false"
+        android:text="@string/save_details"
+        android:textAllCaps="false"
+        app:cornerRadius="@dimen/_5sdp"
+        android:padding="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</RelativeLayout>
