@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text1"
+        style="@style/GlobalTextViewBoldStyle"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/_4sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:text="This Week"
+        tools:ignore="MissingConstraints" />
+
+</LinearLayout>

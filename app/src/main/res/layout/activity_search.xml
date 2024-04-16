@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activities.SearchActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+    <RelativeLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@drawable/bg_serach_gradiant"
+        android:padding="@dimen/_10sdp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivInterChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/rounded_edittext_gray"
+            android:padding="@dimen/_7sdp"
+            android:src="@drawable/ic_inter_change" />
+
+        <RelativeLayout
+            android:id="@+id/sourceLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ivInterChange"
+            android:background="@drawable/rounded_edittext_gray">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCurrentLocationFev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ic_fev" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivCurrentLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:src="@drawable/ic_search_icon" />
+
+            <RelativeLayout
+                android:id="@+id/rlCurrentLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_toStartOf="@+id/ivCurrentLocationFev"
+                android:layout_toEndOf="@+id/ivCurrentLoc">
+
+                <fragment
+                    android:id="@+id/actSource"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/destinationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sourceLayout"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toStartOf="@+id/ivInterChange"
+            android:background="@drawable/rounded_edittext_gray">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivDestinationLocationFev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ic_fev" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:src="@drawable/ic_search_icon" />
+
+            <RelativeLayout
+                android:id="@+id/rlDestinationLocation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_toStartOf="@+id/ivDestinationLocationFev"
+                android:layout_toEndOf="@+id/ivSearch">
+
+                <fragment
+                    android:id="@+id/actDestination"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/mapFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.activities.ui.MapsFragment" />
+    </FrameLayout>
+
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress" />
+
+</RelativeLayout>

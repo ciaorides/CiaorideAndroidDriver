@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "653120143148",
+    "firebase_url": "https://ciaorides-9ba01.firebaseio.com",
+    "project_id": "ciaorides-9ba01",
+    "storage_bucket": "ciaorides-9ba01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653120143148:android:319d21a0888c244dc07689",
+        "android_client_info": {
+          "package_name": "com.ciaorides.ciaorides"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653120143148-k9jpas4b5jk1m3494h0lduop5m51o0bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH1e5LA9pGg0NdrNpL3VR0m9UDUyDSeLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653120143148-k9jpas4b5jk1m3494h0lduop5m51o0bh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "653120143148-hpsmpp52o1gf7otmjo82its12rb1skcp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ciaoridespvt"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653120143148:android:a307830be02b1ed1c07689",
+        "android_client_info": {
+          "package_name": "com.ciaorides.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653120143148-k9jpas4b5jk1m3494h0lduop5m51o0bh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH1e5LA9pGg0NdrNpL3VR0m9UDUyDSeLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653120143148-k9jpas4b5jk1m3494h0lduop5m51o0bh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "653120143148-hpsmpp52o1gf7otmjo82its12rb1skcp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ciaoridespvt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

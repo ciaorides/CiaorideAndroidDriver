@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_150sdp">
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="@dimen/_5sdp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:background="@color/appGray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/divider"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:includeFontPadding="false"
+            android:text="@string/have_a"
+            android:textColor="@color/appGray"
+            android:textSize="@dimen/_30ssp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:includeFontPadding="false"
+            android:text="@string/happy_ride"
+            android:textColor="@color/appGray"
+            android:textSize="@dimen/_30ssp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/GlobalTextViewBoldStyle"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:includeFontPadding="false"
+            android:text="@string/with_us"
+            android:textColor="@color/appGray"
+            android:textSize="@dimen/_30ssp" />
+    </LinearLayout>
+
+
+</RelativeLayout>
+

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPageBG"
+    android:orientation="vertical"
+    tools:context=".view.activities.menu.RideDetailsActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tool_bar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_serach_gradiant"
+
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/rounded_edittext_white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_8sdp"
+                        android:layout_height="@dimen/_8sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:background="@drawable/blue_dot"/>
+
+                    <TextView
+                        android:id="@+id/textViewToAddress"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="West maredpally, Secunderabad, Hyderabad"
+                        android:textSize="@dimen/_10sdp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:background="@drawable/rounded_edittext_white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/_12sdp"
+                        android:background="@drawable/location_rides"/>
+
+                    <TextView
+                        android:id="@+id/textViewFromAddress"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_8sdp"
+                        android:text="Inayath, Gachibowli Hyderabad"
+                        android:textSize="@dimen/_10sdp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                android:scaleType="fitXY"
+                android:src="@drawable/static_map"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GlobalTextViewBoldStyle"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_22sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Completed Rides"/>
+
+            <RelativeLayout
+                android:id="@+id/rvCarsMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_user"
+                    app:civ_border_color="@color/grayLight"
+                    app:civ_border_width="2dp" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_5sdp"
+
+                    android:padding="@dimen/_10sdp"
+                    app:cardBackgroundColor="@color/green"
+                    app:cardCornerRadius="@dimen/_3sdp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@color/green"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="@string/received"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_7ssp" />
+
+                        <TextView
+                            android:id="@+id/tvPrice"
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10ssp" />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/cardTime"
+                    android:layout_toRightOf="@+id/profileImage"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="Srikanth"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11ssp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_rating" />
+
+                        <TextView
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:gravity="center"
+                            android:text="4.3"
+                            android:id="@+id/textViewRating"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvVehicleNumber"
+                            style="@style/GlobalTextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/_10sdp"
+                            android:text="West maredpally, Secunderabad, Hyderabad"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11ssp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GlobalTextViewBoldStyle"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:padding="@dimen/_5sdp"
+                android:text="Price BreakUp"/>
+
+            <TableLayout
+                android:padding="@dimen/_5sdp"
+                android:layout_marginBottom="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Ride Fair"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="\u20A8 120.19"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Total Access Fee"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="\u20A8 48.72"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@color/appGray"/>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Coupon Savings"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="- \u20A8 6.48"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Round Off"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="\u20A8 0.57"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewStyle"
+                        android:textSize="@dimen/_11sdp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@color/fullGray"/>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Total Bill"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/_13sdp"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewBoldStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="\u20A8 156.19"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        style="@style/GlobalTextViewBoldStyle"
+                        android:textSize="@dimen/_13sdp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+            </TableLayout>
+
+
+            <Button
+                android:id="@+id/btnSupport"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/support"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/_5sdp"
+                android:textColor="@color/appBlue"
+                app:strokeColor="@color/appBlue" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>
