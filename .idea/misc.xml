@@ -1,0 +1,220 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../.gradle/caches/transforms-3/c46582ba2977bafd4e2c3be0603047e6/transformed/dotsindicator-4.3-debug/res/drawable/dot_background.xml" value="0.224" />
+        <entry key="../../../../.gradle/caches/transforms-3/c46582ba2977bafd4e2c3be0603047e6/transformed/dotsindicator-4.3-debug/res/drawable/spring_dot_background.xml" value="0.224" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/add_vehicles_fragment.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/car_type_layout.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/image_pick_layout.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/vehicle_brand_layout.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/vehicle_item_brand.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/vehicle_item_design.xml" value="0.25" />
+        <entry key="..\:/Work/CIAO/CIAORides_Android_2022/app/src/main/res/layout/vehicle_model_layout.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/activity_edit_profile.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/activity_image_upload.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/add_vehicles_fragment.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/add_vehicles_fragment_step_2.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/add_vehicles_fragment_step_3.xml" value="0.13272543059777103" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/car_type_layout.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/custom_tool_bar.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/layout_address_info.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/layout_id_verification_info.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/layout_personal_info.xml" value="0.25" />
+        <entry key="..\:/Work/Ciao010423/CIAORides_Android_2022/app/src/main/res/layout/vehicle_item_design.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/alert_bg_rounded_app_blue.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/back_select.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/back_tabs.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/bg_receive_message.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/bg_rounded_app_blue.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/bg_send_message.xml" value="0.1695" />
+        <entry key="app/src/main/res/drawable/bg_serach_gradiant.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/blue_button_bgr.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/bottom_sheet_bg.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/circle_bg.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/circle_blue.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/circle_dot_gray.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/circle_green.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/divider_background_corner.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/divider_background_corner_gray.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/emegency_bg.xml" value="0.1695" />
+        <entry key="app/src/main/res/drawable/gender_rounded_bg.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/gender_rounded_bg_selected.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_calandar.xml" value="0.1605" />
+        <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_chat.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_drop_down.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/ic_info.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_loc_small.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_location.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_menu_camera.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_menu_gallery.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_recent_search.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_route_.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/ic_search_icon.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_small_auto.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/ic_small_bike.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/ic_small_car.xml" value="0.1695" />
+        <entry key="app/src/main/res/drawable/ic_transport.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/popup_background.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/profile_bg_circle.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/pv_invisible_image.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/rounded_edittext_gray.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/rounded_edittext_white.xml" value="0.224" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.2685" />
+        <entry key="app/src/main/res/drawable/tab_indicator.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/tags_rounded_corners.xml" value="0.162" />
+        <entry key="app/src/main/res/drawable/toolbar_bg.xml" value="0.1865" />
+        <entry key="app/src/main/res/layout/activity_chat_view.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_fav.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_image_picker.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_image_upload.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_landing.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_main_search.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_my_vehicles.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_otp.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_profile2.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_rides.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_static_pages.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/activity_taxi_flow.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activity_test.xml" value="0.16790123456790124" />
+        <entry key="app/src/main/res/layout/activity_vehicle_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/activty_edit_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/add_vehicles_fragment.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/add_vehicles_fragment_setpe_2.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/add_vehicles_fragment_step_2.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/add_vehicles_fragment_step_3.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/alert_delete_vehicle.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/alert_fev.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/alert_payment_successfull.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/alert_schedule.xml" value="0.28549540347293156" />
+        <entry key="app/src/main/res/layout/alert_success.xml" value="0.2109375" />
+        <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/book_ride_progress_fragment.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/bottom_offer_ride_vehicles.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/bottom_sheet_available_riders.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/bottom_sheet_booked.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/bottom_sheet_sharing.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/bottom_sheet_vehicle_info.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/car_type_layout.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/content_home.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/custom_tab_layout.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/custom_tool_bar.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/dialog_info.xml" value="0.28549540347293156" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_landing.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/fragment_my_rides.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/fragment_promotion.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/fragment_schedules.xml" value="0.2109375" />
+        <entry key="app/src/main/res/layout/fragment_search_history_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_search_history_list_dialog.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/fragment_users_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/fragment_view_profile.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/global_alert.xml" value="0.2388888888888889" />
+        <entry key="app/src/main/res/layout/image_pick_layout.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_bank_details.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_fav.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_message_recieve.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_message_send.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_my_ride.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_my_vehicle.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_ny_vehicle.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_promotionals.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_promotions_bottom.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_recent_search.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/item_riders.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/item_vehicles.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_address_info.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_emergency_contacts.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_exit.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/layout_id_verification_info.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_personal_info.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_progress.xml" value="0.290625" />
+        <entry key="app/src/main/res/layout/layout_schedule_sharing.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_side_menu.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_social_media_info.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/layout_take_ride.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/nav_header_home.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/navigation_drawer_menu.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/offer_ride.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/re.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/layout/sharing_layout.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/support_alert.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/user_info_item.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.2911458333333333" />
+        <entry key="app/src/main/res/menu/home.xml" value="0.2911458333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="NullableNotNullManager">
+    <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
+    <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
+    <option name="myNullables">
+      <value>
+        <list size="15">
+          <item index="0" class="java.lang.String" itemvalue="org.jspecify.annotations.Nullable" />
+          <item index="1" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
+          <item index="3" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
+          <item index="4" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="5" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
+          <item index="6" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
+          <item index="7" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+          <item index="8" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
+          <item index="9" class="java.lang.String" itemvalue="jakarta.annotation.Nullable" />
+          <item index="10" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
+          <item index="11" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="12" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
+          <item index="13" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
+          <item index="14" class="java.lang.String" itemvalue="android.annotation.Nullable" />
+        </list>
+      </value>
+    </option>
+    <option name="myNotNulls">
+      <value>
+        <list size="14">
+          <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
+          <item index="1" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
+          <item index="2" class="java.lang.String" itemvalue="org.jspecify.annotations.NonNull" />
+          <item index="3" class="java.lang.String" itemvalue="jakarta.annotation.Nonnull" />
+          <item index="4" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
+          <item index="5" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
+          <item index="6" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
+          <item index="7" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="8" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
+          <item index="9" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
+          <item index="10" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
+          <item index="11" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
+          <item index="12" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
+          <item index="13" class="java.lang.String" itemvalue="android.annotation.NonNull" />
+        </list>
+      </value>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.320109439124487" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
