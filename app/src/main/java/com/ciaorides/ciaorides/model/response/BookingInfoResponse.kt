@@ -50,7 +50,11 @@ data class BookingInfoResponse(
         val user_details: UserDetails,
         val user_id: String,
         val vehicle_id: String,
-        val vehicle_type: String
+        val vehicle_type: String,
+        val ride_charges: String? = null,
+        val convenience_charges : String? = null,
+        val rider_amount : String? = null,
+
     ) : Parcelable {
         @Parcelize
         data class DriverDetails(

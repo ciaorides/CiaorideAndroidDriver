@@ -32,7 +32,11 @@ data class MyRidesResponse(
             val trip_distance: String? = null,
             val user_id: String? = null,
             val vehicle_id: String? = null,
-            val ride_type: String? = null
+            val ride_type: String? = null,
+            val driver_status: String? =null,
+            val status: String? = null,
+            val outstation_start: String? = null,
+            val booking_id: String? = null
         ) : Parcelable
     }
 }

@@ -153,18 +153,18 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
             Color.parseColor("#0F1899"),
             Color.parseColor("#0070F8")
         )
-        val value = payments.maxByOrNull { it.total_amount.toInt() }
-        binding.barChart.barMaxValue = value!!.total_amount.toInt()
+        val value = payments.maxByOrNull { it.total_amount.toDouble() }
+        binding.barChart.barMaxValue = value!!.total_amount.toDouble().toInt()
         for (i in 0..(payments.size-1)) {
             val barChartModel = BarChartModel()
-            barChartModel.barValue = payments[i].total_amount.toInt()
+            barChartModel.barValue = payments[i].total_amount.toDouble().toInt()
             if (i%2 == 0){
                 barChartModel.barColor = dataColor[0]
             } else {
                 barChartModel.barColor = dataColor[1]
             }
             barChartModel.barTag = payments[i].day
-            if (payments[i].total_amount.toInt() == 0){
+            if (payments[i].total_amount.toDouble().toInt() == 0){
                 if (payments.size == 7) {
                     when (i) {
                         0 -> barChartModel.barText = "S"

@@ -45,6 +45,7 @@ import com.ciaorides.ciaorides.model.request.RejectRideRequest
 import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
+import com.ciaorides.ciaorides.utils.BookType
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.utils.getPrice
@@ -1348,112 +1349,127 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                 btnComplete.visible(false)
                             }
 
-                            com.ciaorides.ciaorides.utils.Constants.APPROVED -> {
-                                Log.d("Driver", "FCM Approved")
-                                ride_status = Constants.APPROVED
-                                updateRideDetails(fcmResponse)
-                                tvCongratsMsg.text = "Enjoy your ride!"
-                                btnAccept.visible(false)
-                                btnReject.visible(false)
-                                btnReached.visible(true)
-                                btnPickup.visible(false)
-                                btnPayment.visible(false)
-                                btnComplete.visible(false)
-                                tvHeader.visible(false)
-                                homeBinding.bottomSheetLayout.visible(false)
-                                bottomSheetLayout.visible(true)
+                            Constants.APPROVED -> {
+                                if(fcmResponse.rideType == BookType.LATER.name){
+                                    updateSearchState(Constants.ONLINE)
+                                    homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                    binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                        View.GONE
+                                } else {
+                                    Log.d("Driver", "FCM Approved")
+                                    ride_status = Constants.APPROVED
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Enjoy your ride!"
+                                    btnAccept.visible(false)
+                                    btnReject.visible(false)
+                                    btnReached.visible(true)
+                                    btnPickup.visible(false)
+                                    btnPayment.visible(false)
+                                    btnComplete.visible(false)
+                                    tvHeader.visible(false)
+                                    homeBinding.bottomSheetLayout.visible(false)
+                                    bottomSheetLayout.visible(true)
 
-                                binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
-                                    fcmResponse.sourceAddress
-                                binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
-                                    fcmResponse.destinationAddress
+                                    binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
+                                        fcmResponse.sourceAddress
+                                    binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
+                                        fcmResponse.destinationAddress
+                                }
                             }
-
+                            // Once the ride is started, the communication is from home screen to driver screen
                             com.ciaorides.ciaorides.utils.Constants.PICKED -> {
-                                Log.d("Driver", "FCM PICKED")
-                                ride_status = Constants.PICKED
-                                updateRideDetails(fcmResponse)
-                                tvCongratsMsg.text = "Enjoy your ride!"
-                                btnAccept.visible(false)
-                                btnReached.visible(false)
-                                btnPickup.visible(true)
-                                btnReject.visible(false)
-                                tvHeader.visible(false)
+                                if(fcmResponse.rideType == BookType.LATER.name){
+                                    homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                    binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                        View.GONE
+                                } else {
+                                    Log.d("Driver", "FCM PICKED")
+                                    ride_status = Constants.PICKED
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Enjoy your ride!"
+                                    btnAccept.visible(false)
+                                    btnReached.visible(false)
+                                    btnPickup.visible(true)
+                                    btnReject.visible(false)
+                                    tvHeader.visible(false)
+                                }
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.REACHED -> {
-                                Log.d("Driver", "FCM REACHED")
-                                ride_status = Constants.REACHED
-                                updateRideDetails(fcmResponse)
-                                tvCongratsMsg.text = "Enjoy your ride!"
-                                binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(true)
-                                binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
-                                    fcmResponse.sourceAddress
-                                binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
-                                    fcmResponse.destinationAddress
-                                tvHeader.visible(false)
+                                    Log.d("Driver", "FCM REACHED")
+                                    ride_status = Constants.REACHED
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Enjoy your ride!"
+                                    binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
+                                        true
+                                    )
+                                    binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
+                                        fcmResponse.sourceAddress
+                                    binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
+                                        fcmResponse.destinationAddress
+                                    tvHeader.visible(false)
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.OTP_VALIDATED -> {
-                                Log.d("Driver", "FCM OTP VALIDATED")
-                                ride_status = Constants.OTP_VALIDATED
-                                isOtpValidated = true
-                                updateRideDetails(fcmResponse)
-                                tvCongratsMsg.text = "Enjoy your ride!"
-                                btnAccept.visible(false)
-                                tvHeader.visible(false)
-                                btnReached.visible(false)
-                                btnPickup.visible(false)
-                                btnReject.visible(false)
-                                binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
-                                    false
-                                )
-                                bottomSheetLayout.visible(true)
-                                btnComplete.visible(true)
+                                    Log.d("Driver", "FCM OTP VALIDATED")
+                                    ride_status = Constants.OTP_VALIDATED
+                                    isOtpValidated = true
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Enjoy your ride!"
+                                    btnAccept.visible(false)
+                                    tvHeader.visible(false)
+                                    btnReached.visible(false)
+                                    btnPickup.visible(false)
+                                    btnReject.visible(false)
+                                    binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
+                                        false
+                                    )
+                                    bottomSheetLayout.visible(true)
+                                    btnComplete.visible(true)
 
-                                tvSource.text =
-                                    fcmResponse.sourceAddress
-                                tvDestination.text =
-                                    fcmResponse.destinationAddress
-                                tvPayment.text =
-                                    fcmResponse.time
+                                    tvSource.text =
+                                        fcmResponse.sourceAddress
+                                    tvDestination.text =
+                                        fcmResponse.destinationAddress
+                                    tvPayment.text =
+                                        fcmResponse.time
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.RIDE_COMPLETED -> {
-                                Log.d("Driver", "FCM RIDE COMPLETED")
-                                ride_status = Constants.RIDE_COMPLETED
-                                updateRideDetails(fcmResponse)
-                                tvCongratsMsg.text = "Payment Complete!!"
-                                btnAccept.visible(false)
-                                tvHeader.visible(false)
-                                btnReached.visible(false)
-                                btnPickup.visible(false)
-                                btnReject.visible(false)
-                                binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
-                                    false
-                                )
-                                bottomSheetLayout.visible(true)
-                                btnComplete.visible(false)
-                                btnPayment.visible(true)
+                                    Log.d("Driver", "FCM RIDE COMPLETED")
+                                    ride_status = Constants.RIDE_COMPLETED
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Payment Complete!!"
+                                    btnAccept.visible(false)
+                                    tvHeader.visible(false)
+                                    btnReached.visible(false)
+                                    btnPickup.visible(false)
+                                    btnReject.visible(false)
+                                    binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
+                                        false
+                                    )
+                                    bottomSheetLayout.visible(true)
+                                    btnComplete.visible(false)
+                                    btnPayment.visible(true)
 
-                                tvSource.text =
-                                    fcmResponse.sourceAddress
-                                tvDestination.text =
-                                    fcmResponse.destinationAddress
-                                tvPayment.text =
-                                    fcmResponse.time
+                                    tvSource.text =
+                                        fcmResponse.sourceAddress
+                                    tvDestination.text =
+                                        fcmResponse.destinationAddress
+                                    tvPayment.text =
+                                        fcmResponse.time
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.PAYMENT_COMPLETED -> {
-                                ride_status = Constants.PAYMENT_COMPLETED
-                                Log.d("Driver", "FCM PAYMENT COMPLETED")
-                              /*FcmBookUtils.updateApprovedStatus(
+                                    ride_status = Constants.PAYMENT_COMPLETED
+                                    Log.d("Driver", "FCM PAYMENT COMPLETED")
+                                    /*FcmBookUtils.updateApprovedStatus(
                                     bookingId,
                                     rider_id,
                                     Constants.REMOVE_RIDE
                                 )*/
-                                // Restart activity
-                                /*if (Build.VERSION.SDK_INT >= 11) {
+                                    // Restart activity
+                                    /*if (Build.VERSION.SDK_INT >= 11) {
                                     recreate()
                                 } else {
                                     val intent = intent
@@ -1464,10 +1480,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     startActivity(intent)
                                     overridePendingTransition(0, 0)
                                 }*/
-                                updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
-                                homeBinding.bottomSheetLayout.visibility = View.VISIBLE
-                                binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
-                                    View.GONE
+                                    updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
+                                    homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                    binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                        View.GONE
                             }
                         }
                     }
@@ -1494,7 +1510,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     data.response.total_bookings
                                 appBarHome.layoutHome.tvTotalEarnings.text =
                                     getPrice(data.response.total_earnings!!)
-                                if (data.response.previous_booking_data!!.isNotEmpty()
+                                if (data.response.previous_booking_data!=null && data.response.previous_booking_data!!.isNotEmpty()
                                 ) {
                                     appBarHome.layoutHome.llPrevRidesLayout.visibility =
                                         View.VISIBLE

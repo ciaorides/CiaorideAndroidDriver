@@ -598,3 +598,8 @@ fun isExternalStorageReadable(): Boolean {
         true
     } else false
 }
+
+enum class BookType {
+    NOW,
+    LATER,
+}

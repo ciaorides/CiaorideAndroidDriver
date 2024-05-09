@@ -80,6 +80,15 @@ class MyRidesAdapter @Inject constructor(private val listener : OnItemClickListe
             cardRootLayout.setOnClickListener {
                 onItemClickListener.onItemClick(position,ride)
             }
+
+            if(ride.ride_type!= null && ride.ride_type == "Taking"){
+                textViewPrice.visibility = View.GONE
+                textViewStatus.visibility = View.VISIBLE
+                textViewStatus.text = ride.status
+            } else {
+                textViewPrice.visibility = View.VISIBLE
+                textViewStatus.visibility = View.GONE
+            }
         }
     }
 

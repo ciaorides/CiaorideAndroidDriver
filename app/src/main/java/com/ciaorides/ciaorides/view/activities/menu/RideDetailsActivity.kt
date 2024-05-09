@@ -9,6 +9,7 @@ import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.BookingInfoResponse
 import com.ciaorides.ciaorides.model.response.MyRidesResponse
 import com.ciaorides.ciaorides.model.response.PaymentsResponse
+import com.ciaorides.ciaorides.utils.BookType
 import com.ciaorides.ciaorides.utils.Constants.KEY_BOOKING_DATA
 import com.ciaorides.ciaorides.utils.Constants.KEY_RIDES_TAKEN
 import com.ciaorides.ciaorides.utils.DataHandler
@@ -40,6 +41,7 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
             ridesModel =
                 intent?.getParcelableExtra<MyRidesResponse.Response.RidesTaken>(KEY_RIDES_TAKEN)!!
             setUpUI()
+            callBookingInfo(ridesModel.booking_id!!)
         } else {
             val bookingData = intent?.getParcelableExtra<PaymentsResponse.BookingData>(KEY_BOOKING_DATA)!!
             callBookingInfo(bookingData.booking_id)
@@ -79,18 +81,19 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
 
     private fun setUpBookingUI() {
         bookingInfoResponse.let {
-            binding.textViewFromAddress.text = it.from_address
-            binding.textViewToAddress.text = it.to_address
-            binding.tvName.text = it.user_details.first_name+" "+it.user_details.last_name
-            binding.tvPrice.text = "Rs ${it.total_amount}"
-            if (!android.text.TextUtils.isEmpty(it.user_details.profile_pic)) {
-                com.ciaorides.ciaorides.utils.Constants.showGlide(
-                    this,
-                    com.ciaorides.ciaorides.BuildConfig.IMAGE_BASE_URL + it.user_details.profile_pic,
-                    binding.profileImage
-                )
-            }
-            binding.tvVehicleNumber.text = "${it.user_details.address1}, ${it.user_details.address2}"
+                binding.textViewFromAddress.text = it.from_address
+                binding.textViewToAddress.text = it.to_address
+                binding.tvName.text = it.user_details.first_name + " " + it.user_details.last_name
+                binding.tvPrice.text = "Rs ${it.total_amount}"
+                if (!android.text.TextUtils.isEmpty(it.user_details.profile_pic)) {
+                    com.ciaorides.ciaorides.utils.Constants.showGlide(
+                        this,
+                        com.ciaorides.ciaorides.BuildConfig.IMAGE_BASE_URL + it.user_details.profile_pic,
+                        binding.profileImage
+                    )
+                }
+                binding.tvVehicleNumber.text =
+                    "${it.user_details.address1}, ${it.user_details.address2}"
         }
     }
 
@@ -102,6 +105,18 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
             binding.tvPrice.text = "₹ ${it.total_amount}"
             binding.tvVehicleNumber.text = it.from_address
             binding.tvName.text = it.first_name + " " + it.last_name
+
+            if(it.ride_type == "Taking"){
+                if (it.status!!.toLowerCase() == "accepted") {
+                    binding.btnRideStatusUpdate.visibility = View.VISIBLE
+                    binding.btnRideStatusUpdate.setText("Started")
+                    // once started, will not be able to change. Rest of the flow is from Driver home activity.
+                } else {
+                    binding.btnRideStatusUpdate.visibility = View.GONE
+                }
+            } else {
+                binding.btnRideStatusUpdate.visibility = View.GONE
+            }
         }
     }
 }

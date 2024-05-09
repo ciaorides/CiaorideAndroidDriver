@@ -45,7 +45,7 @@
                         android:background="@drawable/blue_dot"/>
 
                     <TextView
-                        android:id="@+id/textViewToAddress"
+                        android:id="@+id/textViewFromAddress"
                         style="@style/GlobalTextViewStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                         android:background="@drawable/location_rides"/>
 
                     <TextView
-                        android:id="@+id/textViewFromAddress"
+                        android:id="@+id/textViewToAddress"
                         style="@style/GlobalTextViewStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -379,6 +379,21 @@
 
             </TableLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRideStatusUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:backgroundTint="@color/appBlue"
+                android:textColor="@color/white"
+                android:fontFamily="@font/inter_medium"
+                android:includeFontPadding="false"
+                android:text="@string/start"
+                android:visibility="gone"
+                android:clickable="true"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/_5sdp" />
 
             <Button
                 android:id="@+id/btnSupport"

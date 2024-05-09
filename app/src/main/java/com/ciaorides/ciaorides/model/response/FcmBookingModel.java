@@ -35,6 +35,6 @@ public class FcmBookingModel implements Serializable {
     public String otp;
     public BookingFcmData.BookResp.Response driverInfo;
     public String rideStatus;
-
+    public String rideType;
 
 }

@@ -68,7 +68,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardTime"
-                android:layout_width="@dimen/_48sdp"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
@@ -79,7 +79,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_25sdp"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.3"
+                    android:orientation="horizontal"
                     android:background="@drawable/ic_payments_green_bg">
 
                     <TextView
@@ -91,6 +92,19 @@
                         android:paddingTop="3dp"
                         android:gravity="center"
                         android:text="₹ 150 "
+                        android:visibility="gone"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/textViewStatus"
+                        style="@style/GlobalTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="3dp"
+                        android:gravity="center"
+                        android:text="Completed"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
                 </LinearLayout>
