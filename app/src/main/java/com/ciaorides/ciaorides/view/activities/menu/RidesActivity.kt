@@ -70,7 +70,7 @@ class RidesActivity : BaseActivity<ActivityRidesBinding>() {
     private fun setUpData(position: Int) {
         if (position == 0) {
             if (responseData.status) {
-                if (responseData.response.rides_taken.isEmpty()) {
+                if (responseData.response.rides_taken!!.isEmpty()) {
                     binding.rvRides.visibility = View.GONE
                     binding.noResultsFound.visibility = View.VISIBLE
                 } else {
@@ -88,7 +88,7 @@ class RidesActivity : BaseActivity<ActivityRidesBinding>() {
             }
         } else if (position == 1){
             if (responseData.status) {
-                if (responseData.response.rides_scheduled.isEmpty()) {
+                if (responseData.response.rides_scheduled!!.isEmpty()) {
                     binding.rvRides.visibility = View.GONE
                     binding.noResultsFound.visibility = View.VISIBLE
                 } else {

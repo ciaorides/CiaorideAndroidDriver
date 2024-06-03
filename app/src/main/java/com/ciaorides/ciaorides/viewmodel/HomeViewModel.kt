@@ -295,4 +295,33 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
             DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
         }
     }
+
+
+    private val _endRideResponse =
+        MutableLiveData<DataHandler<BookingInfoResponse>>()
+    val endUpRideResponse: LiveData<DataHandler<BookingInfoResponse>> =
+        _endRideResponse
+    fun endTaxiTrip(request: EndRideRequest) {
+        viewModelScope.launch {
+            try {
+                val response = networkRepository.endRide(request)
+                _endRideResponse.postValue(handleEndTaxiRideResponse(response))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun handleEndTaxiRideResponse(response: Response<BookingInfoResponse>?): DataHandler<BookingInfoResponse> {
+        if (response != null && response.isSuccessful && response.body() != null) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return if (response?.body()?.message != null) {
+            DataHandler.ERROR(message = response.body()?.message!!)
+        } else {
+            DataHandler.ERROR(message = Constants.SOME_THING_WENT_WRONG)
+        }
+    }
 }

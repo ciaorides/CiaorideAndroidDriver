@@ -3,7 +3,6 @@ package com.ciaorides.ciaorides.view.activities
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
-import android.content.ComponentCallbacks2
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -11,11 +10,12 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity.LEFT
@@ -39,12 +39,14 @@ import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.CompleteOfferRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
+import com.ciaorides.ciaorides.model.request.EndRideRequest
 import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.request.PickUpRideRequest
 import com.ciaorides.ciaorides.model.request.RejectRideRequest
 import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.ciaorides.ciaorides.model.response.MyVehicleResponse
 import com.ciaorides.ciaorides.model.response.UserDetailsResponse
+import com.ciaorides.ciaorides.services.LocationService
 import com.ciaorides.ciaorides.utils.BookType
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
@@ -82,15 +84,13 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import org.w3c.dom.Comment
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -104,7 +104,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     var googleMap: GoogleMap? = null
     private val viewModel: HomeViewModel by viewModels()
     lateinit var context: Context
-    private var driverId = ""
 
     var selectedVehicleId = ""
     var currentLatLng: LatLng? = null
@@ -113,7 +112,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private var lastKnownLocation: Location? = null
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private var fcmViewModel: FcmBookingModel? = null
+    companion object {
+        var fcmViewModel: FcmBookingModel? = null
+        var driverId = ""
+    }
     var broadCastReceiver: BroadcastReceiver? = null
     lateinit var homeBinding: BottomSheetSearchingBinding
     private var onlineSheetBehavior: BottomSheetBehavior<*>? = null
@@ -288,6 +290,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         handleBookingClicks()
         getHomePageRidesData()
         handleCompleteTaxiRideCall()
+        handleEndTaxiRideCall()
         binding.appBarHome.layoutHome.progressLayout.root.visibility = View.VISIBLE
         viewModel.getUserDetails(GlobalUserIdRequest(user_id = driverId))
 
@@ -386,6 +389,32 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         }
 
+    }
+
+    private fun handleEndTaxiRideCall() {
+        viewModel.endUpRideResponse.observe(this) { dataHandler ->
+            when (dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status) {
+                            if (data.response.total_amount != null) {
+                                FcmBookUtils.updateAmount(
+                                    bookingId,
+                                    rider_id,
+                                    data.response.total_amount.toString()
+                                )
+                                binding.appBarHome.layoutHome.localRideSheet.tvPayment.text = data.response.total_amount.toString()
+                            }
+                            Toast.makeText(this, data.message.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun makeCheckInCall(state: String) {
@@ -674,6 +703,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) !=
+            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) !=
             PackageManager.PERMISSION_GRANTED
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -691,6 +724,21 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
                 )
             }
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this@HomeActivity,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            ) {
+                ActivityCompat.requestPermissions(
+                    this@HomeActivity,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
+                )
+            } else {
+                ActivityCompat.requestPermissions(
+                    this@HomeActivity,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 1
+                )
+            }
         } else {
             getCurrentLocation()
         }
@@ -704,6 +752,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
              val latitute = location.latitude
              val longitute = location.longitude
               Log.i("test", "Latitute: $latitute ; Longitute: $longitute")
+            val serviceIntent = Intent(applicationContext, LocationService::class.java)
+            startService(serviceIntent)
+            /*if(fcmViewModel!= null && fcmViewModel?.bookingNumber!=null && latitute!=null && longitute!=null){
+                if (fcmViewModel!!.rideStatus == Constants.APPROVED || fcmViewModel!!.rideStatus == Constants.OTP_VALIDATED) {
+                    FcmBookUtils.updateDriverLocation(
+                        fcmViewModel?.bookingNumber.toString(),
+                        driverId,
+                        latitute,
+                        longitute
+                    )
+                }
+            }*/
             currentLatLng = LatLng(
                 latitute,
                 longitute
@@ -956,9 +1016,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         messagesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("Driver", "On Data changed called")
-                Log.d("Driver", "Is fcmViewModel null? ${fcmViewModel == null}")
-                Log.d("Driver", "Is fcmViewModel bookingNumber? ${fcmViewModel?.bookingNumber == bookingId}")
-                Log.d("Driver", "Is fcmViewModel rideStatus? ${fcmViewModel?.rideStatus != ride_status}")
                 Log.d("Driver", "Is fcmViewModel bookingNumber value? ${fcmViewModel?.bookingNumber}")
                 Log.d("Driver", "Is bookingId value? ${bookingId}")
                 Log.d("Driver", "Is rideStatus Value? ${ride_status}")
@@ -967,6 +1024,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 val map = (snapshot.value as? HashMap<*, *>)
                 val model = snapshot.child(driverId).getValue(FcmBookingModel::class.java)
                 Log.d("Driver", "Is New Request? ${model?.bookingNumber != bookingId}")
+                Log.d("Driver", "Is fcmViewModel rideStatus value? ${model?.rideStatus}")
 
                 // For the first time fcm will be null
                 if (fcmViewModel == null){
@@ -974,7 +1032,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
                 // Once the ride data is added, it will not be null
                 // From the second time onwards, for same booking id, unless the status changes, should not load the data again.
-                else if (fcmViewModel != null && fcmViewModel?.bookingNumber == bookingId && fcmViewModel?.rideStatus != ride_status){
+                else if (fcmViewModel != null && fcmViewModel?.bookingNumber == bookingId && model?.rideStatus != fcmViewModel?.rideStatus){
+                    Log.d("Driver", "Update Data called")
                     getRideData(map, snapshot)
                 }
                 // For a new request booking id will be changed.
@@ -1051,6 +1110,25 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             ride_status = Constants.REACHED
         }
         binding.appBarHome.layoutHome.localRideSheet.btnComplete.setOnClickListener {
+            val addresses: List<Address>
+            // call an api
+            val geocoder = Geocoder(this, Locale.getDefault())
+
+            addresses = geocoder.getFromLocation(
+                currentLatLng?.latitude!!,
+                currentLatLng?.longitude!!,
+                1
+            )!! // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+            viewModel.endTaxiTrip(
+                EndRideRequest(
+                    to_address = addresses.get(0).getAddressLine(0),
+                    to_lat = currentLatLng?.latitude.toString(),
+                    to_lng = currentLatLng?.longitude.toString(),
+                    booking_id = bookingId,
+
+                )
+            )
             FcmBookUtils.updateApprovedStatus(
                 fcmViewModel?.bookingNumber.toString(),
                 driverId,
@@ -1065,6 +1143,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 fcmViewModel?.bookingNumber.toString(),
                 driverId,
                 Constants.PAYMENT_COMPLETED
+            )
+
+            FcmBookUtils.removeBooking(
+                driverId = driverId,
+                fcmData = fcmViewModel!!
             )
             ride_status = Constants.PAYMENT_COMPLETED
         }
@@ -1339,7 +1422,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         when (fcmResponse.rideStatus) {
                             com.ciaorides.ciaorides.utils.Constants.PENDING -> {
                                 ride_status = Constants.PENDING
-                                Log.d("Driver", "FCM Pending")
+                                Log.d(" FCMDriver", "FCM Pending")
                                 updateRideDetails(fcmResponse)
                                 btnAccept.visible(true)
                                 btnReject.visible(true)
@@ -1349,6 +1432,28 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                 btnComplete.visible(false)
                             }
 
+                            Constants.STARTED -> {
+                                if(fcmResponse.rideType == BookType.LATER.name){
+                                    Log.d("FCMDriver", "FCM Approved")
+                                    ride_status = Constants.APPROVED
+                                    updateRideDetails(fcmResponse)
+                                    tvCongratsMsg.text = "Enjoy your ride!"
+                                    btnAccept.visible(false)
+                                    btnReject.visible(false)
+                                    btnReached.visible(true)
+                                    btnPickup.visible(false)
+                                    btnPayment.visible(false)
+                                    btnComplete.visible(false)
+                                    tvHeader.visible(false)
+                                    homeBinding.bottomSheetLayout.visible(false)
+                                    bottomSheetLayout.visible(true)
+
+                                    binding.appBarHome.layoutHome.layoutOtp.tvSource.text =
+                                        fcmResponse.sourceAddress
+                                    binding.appBarHome.layoutHome.layoutOtp.tvDestination.text =
+                                        fcmResponse.destinationAddress
+                                }
+                            }
                             Constants.APPROVED -> {
                                 if(fcmResponse.rideType == BookType.LATER.name){
                                     updateSearchState(Constants.ONLINE)
@@ -1356,7 +1461,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
                                         View.GONE
                                 } else {
-                                    Log.d("Driver", "FCM Approved")
+                                    Log.d("FCMDriver", "FCM Approved")
                                     ride_status = Constants.APPROVED
                                     updateRideDetails(fcmResponse)
                                     tvCongratsMsg.text = "Enjoy your ride!"
@@ -1383,7 +1488,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
                                         View.GONE
                                 } else {
-                                    Log.d("Driver", "FCM PICKED")
+                                    Log.d("FCMDriver", "FCM PICKED")
                                     ride_status = Constants.PICKED
                                     updateRideDetails(fcmResponse)
                                     tvCongratsMsg.text = "Enjoy your ride!"
@@ -1396,7 +1501,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.REACHED -> {
-                                    Log.d("Driver", "FCM REACHED")
+                                    Log.d("FCMDriver", "FCM REACHED")
                                     ride_status = Constants.REACHED
                                     updateRideDetails(fcmResponse)
                                     tvCongratsMsg.text = "Enjoy your ride!"
@@ -1411,7 +1516,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.OTP_VALIDATED -> {
-                                    Log.d("Driver", "FCM OTP VALIDATED")
+                                    Log.d("FCMDriver", "FCM OTP VALIDATED")
                                     ride_status = Constants.OTP_VALIDATED
                                     isOtpValidated = true
                                     updateRideDetails(fcmResponse)
@@ -1436,7 +1541,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             }
 
                             com.ciaorides.ciaorides.utils.Constants.RIDE_COMPLETED -> {
-                                    Log.d("Driver", "FCM RIDE COMPLETED")
+                                    Log.d("FCMDriver", "FCM RIDE COMPLETED")
                                     ride_status = Constants.RIDE_COMPLETED
                                     updateRideDetails(fcmResponse)
                                     tvCongratsMsg.text = "Payment Complete!!"
@@ -1462,14 +1567,19 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
                             com.ciaorides.ciaorides.utils.Constants.PAYMENT_COMPLETED -> {
                                     ride_status = Constants.PAYMENT_COMPLETED
-                                    Log.d("Driver", "FCM PAYMENT COMPLETED")
-                                    /*FcmBookUtils.updateApprovedStatus(
+                                    Log.d("FCMDriver", "FCM PAYMENT COMPLETED")
+                                    updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
+                                    homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                    binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                        View.GONE
+
+                                /* FcmBookUtils.updateApprovedStatus(
                                     bookingId,
                                     rider_id,
                                     Constants.REMOVE_RIDE
-                                )*/
+                                )
                                     // Restart activity
-                                    /*if (Build.VERSION.SDK_INT >= 11) {
+                                    if (Build.VERSION.SDK_INT >= 11) {
                                     recreate()
                                 } else {
                                     val intent = intent
@@ -1480,10 +1590,24 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     startActivity(intent)
                                     overridePendingTransition(0, 0)
                                 }*/
-                                    updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
-                                    homeBinding.bottomSheetLayout.visibility = View.VISIBLE
-                                    binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
-                                        View.GONE
+                            }
+
+                            com.ciaorides.ciaorides.utils.Constants.REJECTED -> {
+                                ride_status = Constants.REJECTED
+                                Log.d("FCMDriver", "Ride rejected")
+                                updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
+                                homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                    View.GONE
+                            }
+
+                            com.ciaorides.ciaorides.utils.Constants.RIDE_CANCELLED -> {
+                                ride_status = Constants.RIDE_CANCELLED
+                                Log.d("FCMDriver", "Ride cancelled")
+                                updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
+                                homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                                binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                    View.GONE
                             }
                         }
                     }

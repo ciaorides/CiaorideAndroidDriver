@@ -12,9 +12,9 @@ data class MyRidesResponse(
 ) : Parcelable {
     @Parcelize
     data class Response(
-        val rides_scheduled: List<RidesTaken>,
-        val rides_taken: List<RidesTaken>,
-        val rides_offering: List<RidesTaken>
+        val rides_scheduled: List<RidesTaken>? = null,
+        val rides_taken: List<RidesTaken>? = null,
+        val rides_offering: List<RidesTaken>? = null
     ) : Parcelable {
 
         @Parcelize

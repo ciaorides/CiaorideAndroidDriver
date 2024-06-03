@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -58,6 +59,7 @@ object Constants {
     const val PENDING = "pending"
     const val APPROVED = "approved"
     const val PICKED = "picked"
+    const val STARTED = "started"
     const val REACHED = "reached"
     const val REJECTED = "rejected"
     const val RIDE_START = "rideStart"
@@ -65,6 +67,7 @@ object Constants {
     const val RIDE_COMPLETED = "ride_completed"
     const val PAYMENT_COMPLETED = "payment_completed"
     const val REMOVE_RIDE = "remove_ride"
+    const val RIDE_CANCELLED = "ride_cancelled"
 
 
     const val STAGE_STATUS = "STAGE_STATUS"
@@ -168,6 +171,7 @@ object Constants {
                     isFirstResource: Boolean
                 ): Boolean {
                     progress?.visibility = View.GONE
+                    imageView.setImageDrawable(context.getDrawable(R.drawable.ic_user))
                     return false
                 }
 
@@ -190,6 +194,7 @@ object Constants {
         Glide
             .with(context)
             .load(url)
+            .error(R.drawable.ic_user)
             .placeholder(R.drawable.app_icon)
             .into(imageView)
     }
@@ -602,4 +607,14 @@ fun isExternalStorageReadable(): Boolean {
 enum class BookType {
     NOW,
     LATER,
+}
+
+fun Context.hasLocationPermission(): Boolean{
+    return ContextCompat.checkSelfPermission(
+        this,
+        android.Manifest.permission.ACCESS_COARSE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+        this,
+        android.Manifest.permission.ACCESS_FINE_LOCATION
+    ) == PackageManager.PERMISSION_GRANTED
 }

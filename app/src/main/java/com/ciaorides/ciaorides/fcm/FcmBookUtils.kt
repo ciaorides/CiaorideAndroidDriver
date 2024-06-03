@@ -1,5 +1,6 @@
 package com.ciaorides.ciaorides.fcm
 
+import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -19,6 +20,8 @@ object FcmBookUtils {
     const val USERS = "users"
     const val DRIVERS = "drivers"
     const val CHAT = "chat"
+    const val DRIVER_CURRENT_LAT="driverCurrentLat"
+    const val DRIVER_CURRENT_LONG="driverCurrentLong"
 
     private fun getBookingFcmRef(bookingId: String, driverId: String) =
         Firebase.database.reference.child(BOOKING).child(bookingId).child(RIDES)
@@ -37,6 +40,23 @@ object FcmBookUtils {
             .child(driverId)
             .child(RIDE_STATUS)
             .setValue(status)
+    }
+
+    fun removeBooking(
+        driverId: String,
+        fcmData: FcmBookingModel
+    ) {
+        val database = Firebase.database.reference
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(RIDES)
+            .child(fcmData.bookingNumber.toString())
+            .removeValue()
+        database.child(BOOKING).child(ACTIVE_BOOKINGS).child(USERS).child(fcmData.userId)
+            .removeValue()
+        database.child(BOOKING).child(ACTIVE_BOOKINGS).child(DRIVERS).child(driverId)
+            .removeValue()
+
     }
 
     fun updateAmountLatLng(bookingId: String, driverId: String, amount: String,
@@ -98,6 +118,16 @@ object FcmBookUtils {
             .setValue(name)
     }
 
+    fun updateAmount(bookingId: String, driverId: String, amount: String) {
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(RIDES)
+            .child(bookingId)
+            .child(driverId)
+            .child(RIDE_AMOUNT)
+            .setValue(amount)
+    }
+
     fun getBookingChatRef(bookingId: String, chatId: String) =
         Firebase.database.reference
             .child(BOOKING)
@@ -105,5 +135,22 @@ object FcmBookUtils {
             .child(bookingId)
             .child(chatId)
 
+    fun updateDriverLocation(bookingId: String, driverId: String, driverLat: Double, driverLong: Double) {
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(RIDES)
+            .child(bookingId)
+            .child(driverId)
+            .child(DRIVER_CURRENT_LAT)
+            .setValue(driverLat)
+
+        Firebase.database.reference
+            .child(BOOKING)
+            .child(RIDES)
+            .child(bookingId)
+            .child(driverId)
+            .child(DRIVER_CURRENT_LONG)
+            .setValue(driverLong)
+    }
 
 }

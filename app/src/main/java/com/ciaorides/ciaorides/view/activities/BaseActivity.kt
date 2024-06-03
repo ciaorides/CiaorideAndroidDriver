@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.ComponentCallbacks2
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +19,7 @@ import androidx.core.view.isVisible
 import androidx.viewbinding.ViewBinding
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.model.response.UserResponse
+import com.ciaorides.ciaorides.services.LocationService
 import com.ciaorides.ciaorides.utils.Constants
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging

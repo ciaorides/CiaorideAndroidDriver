@@ -345,4 +345,13 @@ class NetworkRepository @Inject constructor(
         }
     }
 
+    suspend fun endRide(request: EndRideRequest): Response<BookingInfoResponse>? {
+        return try {
+            usersDataApi.getEndRide(request)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 }

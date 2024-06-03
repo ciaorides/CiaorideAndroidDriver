@@ -257,7 +257,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="\u20A8 120.19"
+                        android:id="@+id/rideCharges"
+                        android:text="\u20A8 0"
                         android:gravity="end"
                         android:layout_width="match_parent"
                         android:textColor="@color/black"
@@ -281,7 +282,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="\u20A8 48.72"
+                        android:id="@+id/convenienceCharges"
+                        android:text="\u20A8 0"
                         android:gravity="end"
                         android:layout_width="match_parent"
                         android:textColor="@color/black"
@@ -303,7 +305,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:text="Coupon Savings"
+                        android:text="Tax"
                         android:layout_weight="1"
                         android:textSize="@dimen/_11sdp"
                         android:textColor="@color/black"
@@ -312,7 +314,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="- \u20A8 6.48"
+                        android:id="@+id/taxAmount"
+                        android:text="\u20A8 0"
                         android:gravity="end"
                         android:layout_width="match_parent"
                         android:textColor="@color/black"
@@ -336,7 +339,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="\u20A8 0.57"
+                        android:text="\u20A8 0"
                         android:gravity="end"
                         android:layout_width="match_parent"
                         android:textColor="@color/black"
@@ -367,7 +370,8 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:text="\u20A8 156.19"
+                        android:id="@+id/totalAmount"
+                        android:text="\u20A8 0"
                         android:gravity="end"
                         android:layout_width="match_parent"
                         android:textColor="@color/black"
