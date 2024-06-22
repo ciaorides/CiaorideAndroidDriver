@@ -97,6 +97,29 @@ class HomeViewModel @Inject constructor(private val networkRepository: NetworkRe
         return DataHandler.ERROR(message = response.errorBody().toString())
     }
 
+    private val _checkRides = MutableLiveData<DataHandler<GlobalResponse>>()
+    val checkRides: LiveData<DataHandler<GlobalResponse>> = _checkRides
+
+    fun checkRides(globalUserIdRequest: GlobalUserIdRequest) {
+        viewModelScope.launch {
+            try {
+                val response = networkRepository.checkRides(globalUserIdRequest)
+                _checkRides.postValue(handleCheckRidesResponse(response))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun handleCheckRidesResponse(response: Response<GlobalResponse>?): DataHandler<GlobalResponse> {
+        if (response != null && response.isSuccessful) {
+            response.body()?.let { data ->
+                return DataHandler.SUCCESS(data)
+            }
+        }
+        return DataHandler.ERROR(message = "Something went wrong...")
+    }
+
     fun checkIn(request: DriverCheckInRequest) {
         viewModelScope.launch {
             try {

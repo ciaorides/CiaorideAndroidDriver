@@ -4,6 +4,7 @@ import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+
 object FcmBookUtils {
     const val BOOKING = "Booking"
     const val RIDES = "Rides"
@@ -136,21 +137,14 @@ object FcmBookUtils {
             .child(chatId)
 
     fun updateDriverLocation(bookingId: String, driverId: String, driverLat: Double, driverLong: Double) {
+        val map = HashMap<String, Double>()
+        map["DRIVER_CURRENT_LAT"] = driverLat
+        map["DRIVER_CURRENT_LONG"] = driverLong
         Firebase.database.reference
             .child(BOOKING)
             .child(RIDES)
             .child(bookingId)
             .child(driverId)
-            .child(DRIVER_CURRENT_LAT)
-            .setValue(driverLat)
-
-        Firebase.database.reference
-            .child(BOOKING)
-            .child(RIDES)
-            .child(bookingId)
-            .child(driverId)
-            .child(DRIVER_CURRENT_LONG)
-            .setValue(driverLong)
+            .updateChildren(map as Map<String, Double>)
     }
-
 }

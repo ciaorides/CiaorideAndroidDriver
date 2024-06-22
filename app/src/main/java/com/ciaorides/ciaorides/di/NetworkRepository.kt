@@ -43,6 +43,10 @@ class NetworkRepository @Inject constructor(
         return usersDataApi.getHomeBanners(homeBannersRequest)
     }
 
+    suspend fun checkRides(globalUserIdRequest: GlobalUserIdRequest): Response<GlobalResponse> {
+        return usersDataApi.checkRides(globalUserIdRequest)
+    }
+
     suspend fun recentSearch(recentSearchRequest: RecentSearchRequest): Response<RecentSearchesResponse> {
         return usersDataApi.recentSearch(recentSearchRequest)
     }

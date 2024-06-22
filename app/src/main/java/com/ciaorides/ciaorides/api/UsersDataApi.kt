@@ -23,6 +23,9 @@ interface UsersDataApi {
     @POST("taxi_flow/banners")
     suspend fun getHomeBanners(@Body homeBannersRequest: HomeBannersRequest): Response<HomeBannersResponse>
 
+    @POST("taxi_flow/check_rides")
+    suspend fun checkRides(@Body globalUserIdRequest: GlobalUserIdRequest): Response<GlobalResponse>
+
     @POST("taxi_flow/get_locations_taxi")
     suspend fun recentSearch(@Body recentSearchRequest: RecentSearchRequest): Response<RecentSearchesResponse>
 

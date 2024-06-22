@@ -19,10 +19,12 @@ import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity.LEFT
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ShareCompat
@@ -35,6 +37,7 @@ import androidx.navigation.ui.navigateUp
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
+import com.ciaorides.ciaorides.databinding.SupportAlertBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
 import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.CompleteOfferRideRequest
@@ -90,6 +93,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
 import java.util.Locale
 import javax.inject.Inject
 
@@ -273,6 +277,25 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
+    fun openWhatsApp(phoneNumber: String, message: String) {
+        val packageManager = packageManager
+        val i = Intent(Intent.ACTION_VIEW)
+
+        try {
+            val url = "https://api.whatsapp.com/send?phone=$phoneNumber&text=${
+                URLEncoder.encode(
+                    message,
+                    "UTF-8"
+                )
+            }"
+            i.setPackage("com.whatsapp")
+            i.data = Uri.parse(url)
+            startActivity(i)
+        } catch (e: Exception) {
+            Toast.makeText(this, "WhatsApp not installed", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun initData() {
 
         setupMap()
@@ -291,6 +314,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         getHomePageRidesData()
         handleCompleteTaxiRideCall()
         handleEndTaxiRideCall()
+        handleCurrentRidesCall()
         binding.appBarHome.layoutHome.progressLayout.root.visibility = View.VISIBLE
         viewModel.getUserDetails(GlobalUserIdRequest(user_id = driverId))
 
@@ -388,7 +412,40 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
         }
+        checkRides()
+    }
 
+    private fun checkRides() {
+        try {
+            val globalUserIdRequest = GlobalUserIdRequest(
+                user_id = Constants.getValue(this, Constants.USER_ID),
+                user_type = "DRIVER"
+            )
+            viewModel.checkRides(globalUserIdRequest)
+        }catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun handleCurrentRidesCall() {
+        viewModel.checkRides.observe(this){ dataHandler ->
+            when(dataHandler) {
+                is DataHandler.SUCCESS -> {
+                    dataHandler.data?.let { data ->
+                        if (data.status){
+                            checkStateOfBookApi()
+                        }
+                    }
+                }
+                is DataHandler.ERROR -> {
+                    Toast.makeText(this, dataHandler.message, Toast.LENGTH_SHORT)
+                        .show()
+                }
+                is DataHandler.LOADING -> {
+
+                }
+            }
+        }
     }
 
     private fun handleEndTaxiRideCall() {
@@ -1214,7 +1271,37 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 )
             }
         }
+
+        binding.appBarHome.layoutHome.localRideSheet.btnSupport.setOnClickListener {
+            if (bookingId != null) {
+                showSupportDialog("Booking Id : $bookingId \n Write your query!")
+            } else {
+                showSupportDialog("Write your query!")
+            }
+        }
     }
+
+    fun showSupportDialog(text : String) {
+        val builder = AlertDialog.Builder(this)
+            .create()
+        val scheduleBinding =
+            SupportAlertBinding.inflate(LayoutInflater.from(this), null, false)
+        builder.setView(scheduleBinding.root)
+        scheduleBinding.btnCall.setOnClickListener {
+            builder.dismiss()
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:$9441500416")
+            }
+            startActivity(intent)
+        }
+        scheduleBinding.btnChat.setOnClickListener {
+            builder.dismiss()
+            openWhatsApp("+919441500416", text)
+        }
+        builder.setCanceledOnTouchOutside(false)
+        builder.show()
+    }
+
 
     private fun callTaxiPaymentCompleteAPI() {
         if (!TextUtils.isEmpty(Constants.getValue(this@HomeActivity, Constants.USER_ID))) {
