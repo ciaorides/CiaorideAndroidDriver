@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private val viewModel: LoginViewModel by viewModels()
     override fun init() {
+        checkPermissionState(true)
         fetchFCMToken()
         handleApiResponse()
         binding.btnVerify.setOnClickListener {

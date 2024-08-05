@@ -24,6 +24,7 @@ data class MyVehicleResponse(
         val number_plate: String,
         val status: String,
         val user_id: String,
+        val sub_vehicle_type: String,
         val vehicle_images: List<VehicleImage>,
         val vehicle_insurance_image: String,
         val vehicle_insurance_number: String,

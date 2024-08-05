@@ -5,10 +5,12 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Environment
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -35,6 +38,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.IOException
+import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -113,7 +117,7 @@ object Constants {
         "https://www.ciaorides.com/new/Menuitem/termsandcoditions"
     const val PRIVACY_POLICY = "https://www.ciaorides.com/new/Menuitem/privacy_policy"
     const val ABOUT = "https://www.ciaorides.com/new/Menuitem/about_us"
-    const val HELP = "https://www.ciaorides.com/terms_conditions"
+    const val HELP = "https://www.ciaorides.com/contact"
 
 
     const val MENU_MY_RIDES = "My Rides"
@@ -617,4 +621,23 @@ fun Context.hasLocationPermission(): Boolean{
         this,
         android.Manifest.permission.ACCESS_FINE_LOCATION
     ) == PackageManager.PERMISSION_GRANTED
+}
+
+fun openWhatsApp(activity: Activity, phoneNumber: String, message: String) {
+    val packageManager = activity.packageManager
+    val i = Intent(Intent.ACTION_VIEW)
+
+    try {
+        val url = "https://api.whatsapp.com/send?phone=$phoneNumber&text=${
+            URLEncoder.encode(
+                message,
+                "UTF-8"
+            )
+        }"
+        i.setPackage("com.whatsapp")
+        i.data = Uri.parse(url)
+        activity.startActivity(i)
+    } catch (e: Exception) {
+        Toast.makeText(activity, "WhatsApp not installed", Toast.LENGTH_SHORT).show()
+    }
 }

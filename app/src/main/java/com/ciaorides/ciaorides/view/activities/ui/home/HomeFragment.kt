@@ -97,14 +97,14 @@ class HomeFragment : Fragment() {
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         checkPermissions()
-        handleMyVehicle()
-        handleCheckIn()
-        handleCheckInStatus()
-        handleRejectRideResponse()
-        handleBookingInfoResponse()
-        handleAcceptBookingResponse()
-        handleBookingClicks()
-        getHomePageRidesData()
+//        handleMyVehicle()
+//        handleCheckIn()
+//        handleCheckInStatus()
+//        handleRejectRideResponse()
+//        handleBookingInfoResponse()
+//        handleAcceptBookingResponse()
+//        handleBookingClicks()
+//        getHomePageRidesData()
         binding.progressLayout.root.visibility = View.VISIBLE
 //         viewModel.getHomePageRidesData(GlobalUserIdRequest(driver_id = driverId))
         viewModel.checkInStatus(
@@ -609,7 +609,7 @@ class HomeFragment : Fragment() {
                             }
                         }
                     }
-                    displayStateUi()
+//                    displayStateUi()
                 }
             }
 
@@ -812,107 +812,107 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun displayStateUi() {
-        if (fcmViewModel != null) {
-            fcmViewModel?.let { fcmResponse ->
-                with(binding.localRideSheet) {
-                    when (fcmResponse.rideStatus) {
-                        Constants.PENDING -> {
-                            updateRideDetails(fcmResponse)
-                            btnAccept.visible(true)
-                            btnReached.visible(false)
-                            btnPickup.visible(false)
-                        }
-                        Constants.APPROVED -> {
-                            tvCongratsMsg.text = "Enjoy your ride!"
-                            btnAccept.visible(false)
-                            btnReached.visible(true)
-                            btnPickup.visible(false)
-                            tvHeader.visible(false)
-                        }
-                        Constants.PICKED -> {
-                            tvCongratsMsg.text = "Enjoy your ride!"
-                            btnAccept.visible(false)
-                            btnReached.visible(false)
-                            btnPickup.visible(true)
-                            btnReject.visible(false)
-                            tvHeader.visible(false)
-                        }
-                        Constants.REACHED -> {
-                            tvCongratsMsg.text = "Enjoy your ride!"
-                            binding.layoutOtp.layoutOtpScreen.visible(true)
-                            binding.layoutOtp.tvSource.text =
-                                fcmResponse.sourceAddress
-                            binding.layoutOtp.tvDestination.text =
-                                fcmResponse.destinationAddress
-                            tvHeader.visible(false)
-                        }
-                        Constants.OTP_VALIDATED -> {
-                            tvCongratsMsg.text = "Enjoy your ride!"
-                            btnAccept.visible(false)
-                            tvHeader.visible(false)
-                            btnReached.visible(false)
-                            btnPickup.visible(false)
-                            btnReject.visible(false)
-                            binding.layoutOtp.layoutOtpScreen.visible(false)
-                            bottomSheetLayout.visible(true)
-                            btnComplete.visible(true)
+//    private fun displayStateUi() {
+//        if (fcmViewModel != null) {
+//            fcmViewModel?.let { fcmResponse ->
+//                with(binding.localRideSheet) {
+//                    when (fcmResponse.rideStatus) {
+//                        Constants.PENDING -> {
+//                            updateRideDetails(fcmResponse)
+//                            btnAccept.visible(true)
+//                            btnReached.visible(false)
+//                            btnPickup.visible(false)
+//                        }
+//                        Constants.APPROVED -> {
+//                            tvCongratsMsg.text = "Enjoy your ride!"
+//                            btnAccept.visible(false)
+//                            btnReached.visible(true)
+//                            btnPickup.visible(false)
+//                            tvHeader.visible(false)
+//                        }
+//                        Constants.PICKED -> {
+//                            tvCongratsMsg.text = "Enjoy your ride!"
+//                            btnAccept.visible(false)
+//                            btnReached.visible(false)
+//                            btnPickup.visible(true)
+//                            btnReject.visible(false)
+//                            tvHeader.visible(false)
+//                        }
+//                        Constants.REACHED -> {
+//                            tvCongratsMsg.text = "Enjoy your ride!"
+//                            binding.layoutOtp.layoutOtpScreen.visible(true)
+//                            binding.layoutOtp.tvSource.text =
+//                                fcmResponse.sourceAddress
+//                            binding.layoutOtp.tvDestination.text =
+//                                fcmResponse.destinationAddress
+//                            tvHeader.visible(false)
+//                        }
+//                        Constants.OTP_VALIDATED -> {
+//                            tvCongratsMsg.text = "Enjoy your ride!"
+//                            btnAccept.visible(false)
+//                            tvHeader.visible(false)
+//                            btnReached.visible(false)
+//                            btnPickup.visible(false)
+//                            btnReject.visible(false)
+//                            binding.layoutOtp.layoutOtpScreen.visible(false)
+//                            bottomSheetLayout.visible(true)
+//                            btnComplete.visible(true)
+//
+//                            tvSource.text =
+//                                fcmResponse.sourceAddress
+//                            tvDestination.text =
+//                                fcmResponse.destinationAddress
+//                            tvPayment.text =
+//                                fcmResponse.time
+//                        }
+//                        Constants.RIDE_COMPLETED -> {
+//                            updateSearchState(Constants.ONLINE)
+//                        }
+//                        Constants.PAYMENT_COMPLETED -> {
+//                            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+//                            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+//                        }
+//                    }
+//                }
+//            }
+//
+//        } else {
+//            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
+//            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
+//        }
+//    }
 
-                            tvSource.text =
-                                fcmResponse.sourceAddress
-                            tvDestination.text =
-                                fcmResponse.destinationAddress
-                            tvPayment.text =
-                                fcmResponse.time
-                        }
-                        Constants.RIDE_COMPLETED -> {
-                            updateSearchState(Constants.ONLINE)
-                        }
-                        Constants.PAYMENT_COMPLETED -> {
-                            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-                            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-                        }
-                    }
-                }
-            }
-
-        } else {
-            binding.searchingSheet.bottomSheetLayout.visibility = View.VISIBLE
-            binding.localRideSheet.bottomSheetLayout.visibility = View.GONE
-        }
-    }
-
-    private fun getHomePageRidesData() {
-        viewModel.homePageRidesResponse.observe(requireActivity()) { dataHandler ->
-            binding.progressLayout.root.visibility = View.GONE
-            when (dataHandler) {
-                is DataHandler.SUCCESS -> {
-                    dataHandler.data?.let { data ->
-                        if (data.status) {
-                            with(binding) {
-                                tvTotalBookings.text = getPrice(data.response.total_bookings!!)
-                                tvTotalEarnings.text = getPrice(data.response.total_earnings!!)
-                                if (data.response.previous_booking_data!!.isNotEmpty1()
-                                ) {
-                                    tvPreviousRides.text =
-                                        getPrice(data.response.previous_booking_data!![0].total_amount!!)
-                                    tvTime.visibility = View.VISIBLE
-                                    tvTime.text = getPrice(data.response.previous_booking_data!![0].trip_distance+" Km - ${convertDate(data.response.previous_booking_data!![0].ride_time!!)}")
-                                }
-                            }
-                        }
-                    }
-                }
-                is DataHandler.ERROR -> {
-                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
-                        .show()
-                }
-                is DataHandler.LOADING -> {
-
-                }
-            }
-        }
-    }
+//    private fun getHomePageRidesData() {
+//        viewModel.homePageRidesResponse.observe(requireActivity()) { dataHandler ->
+//            binding.progressLayout.root.visibility = View.GONE
+//            when (dataHandler) {
+//                is DataHandler.SUCCESS -> {
+//                    dataHandler.data?.let { data ->
+//                        if (data.status) {
+//                            with(binding) {
+//                                tvTotalBookings.text = getPrice(data.response.total_bookings!!)
+//                                tvTotalEarnings.text = getPrice(data.response.total_earnings!!)
+//                                if (data.response.previous_booking_data!!.isNotEmpty1()
+//                                ) {
+//                                    tvPreviousRides.text =
+//                                        getPrice(data.response.previous_booking_data!![0].total_amount!!)
+//                                    tvTime.visibility = View.VISIBLE
+//                                    tvTime.text = getPrice(data.response.previous_booking_data!![0].trip_distance+" Km - ${convertDate(data.response.previous_booking_data!![0].ride_time!!)}")
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                is DataHandler.ERROR -> {
+//                    Toast.makeText(requireActivity(), dataHandler.message, Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//                is DataHandler.LOADING -> {
+//
+//                }
+//            }
+//        }
+//    }
 
     fun convertDate(dateString: String) {
         // Create a SimpleDateFormat object with the format "yyyy-MM-dd HH:mm:ss"

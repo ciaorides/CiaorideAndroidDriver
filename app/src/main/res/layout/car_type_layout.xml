@@ -55,8 +55,7 @@
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:src="@drawable/car_img"
-                    app:tint="@color/appBlue" />
+                    android:src="@drawable/car_img" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/GlobalTextViewStyle"
@@ -105,8 +104,7 @@
                 <ImageView
                     android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
-                    android:src="@drawable/bike"
-                    app:tint="@color/appBlue" />
+                    android:src="@drawable/bike" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/GlobalTextViewStyle"

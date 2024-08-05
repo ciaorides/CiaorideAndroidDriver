@@ -83,4 +83,13 @@ class AddBankActivity :  BaseActivity<ActivityAddBankBinding>() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.nameOfBank.value = ""
+        viewModel.location.value = ""
+        viewModel.accountHolderName.value = ""
+        viewModel.accountNumber.value = ""
+        viewModel.ifscCode.value = ""
+    }
 }

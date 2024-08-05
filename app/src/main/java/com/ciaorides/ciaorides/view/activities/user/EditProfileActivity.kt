@@ -200,7 +200,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
 
     private fun checkPermission(permissions: Array<String>, requestCode: Int) {
 
-        if (checkPermissionState()) {
+        if (checkPermissionState(false)) {
             capturePhoto()
         } else {
             /*ActivityCompat.requestPermissions(
@@ -499,8 +499,6 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         }
 
     }
-
-
 }
 
 

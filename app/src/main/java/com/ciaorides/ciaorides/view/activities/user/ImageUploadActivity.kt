@@ -187,8 +187,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
 
     private fun checkPermission(permissions: Array<String>, requestCode: Int) {
 
-        if (checkPermissionState()) {
-
+        if (checkPermissionState(false)) {
             Constants.showDialog(this) {
                 if (it == 1) {
                     capturePhoto()

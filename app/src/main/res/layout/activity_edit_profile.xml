@@ -90,6 +90,7 @@
                     android:fontFamily="@font/inter_medium"
                     android:includeFontPadding="false"
                     android:text="@string/submit"
+                    android:textColor="@color/white"
                     android:textAllCaps="false"
                     app:cornerRadius="@dimen/_5sdp"
                     app:layout_constraintBottom_toBottomOf="parent" />

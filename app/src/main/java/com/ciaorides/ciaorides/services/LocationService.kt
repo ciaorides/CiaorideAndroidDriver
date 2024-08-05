@@ -60,13 +60,13 @@ class LocationService : Service() {
 
     fun start(){
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle("Tracking Location...")
+            .setContentTitle("Tracking Location for Ciao...")
             .setContentText("")
             .setSmallIcon(R.drawable.app_icon)
             .setOngoing(true)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        locationClient.getLocationUpdates(10000)
+        locationClient.getLocationUpdates(1000000)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
                 val lat = location.latitude.toString()
@@ -85,9 +85,8 @@ class LocationService : Service() {
     }
 
     private fun updateToFirebase(location: Location) {
-        Log.e(TAG, "FCM Method called")
         if(fcmViewModel!= null && fcmViewModel?.bookingNumber!=null && location!=null){
-            if (fcmViewModel!!.rideStatus == Constants.APPROVED || fcmViewModel!!.rideStatus == Constants.OTP_VALIDATED) {
+            if ((fcmViewModel!!.rideStatus == Constants.APPROVED || fcmViewModel!!.rideStatus == Constants.OTP_VALIDATED) && fcmViewModel!!.orderId != null) {
                 Log.e(TAG, "Booking number: ${fcmViewModel!!.bookingNumber}")
                 FcmBookUtils.updateDriverLocation(
                     fcmViewModel?.bookingNumber.toString(),

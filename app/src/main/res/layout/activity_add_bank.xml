@@ -45,6 +45,7 @@
                 android:layout_marginStart="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/rounded_edittext_gray"
+                android:imeOptions="actionNext"
                 android:hint="@string/name_of_bank"
                 android:padding="@dimen/_10sdp"
                 android:paddingStart="@dimen/_8sdp"
@@ -65,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_2sdp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/rounded_edittext_gray"
                 android:hint="@string/your_location"
@@ -88,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_2sdp"
+                android:imeOptions="actionNext"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/rounded_edittext_gray"
                 android:hint="@string/account_holder_name"
@@ -116,7 +119,7 @@
                 android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/rounded_edittext_gray"
                 android:hint="@string/account_number"
-
+                android:imeOptions="actionNext"
                 android:inputType="number"
                 android:padding="@dimen/_10sdp"
                 android:paddingLeft="@dimen/_8sdp"
@@ -139,8 +142,8 @@
                 android:layout_marginStart="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:background="@drawable/rounded_edittext_gray"
-                android:hint="@string/vehicle_type"
-
+                android:hint="@string/ifsc_code"
+                android:imeOptions="actionDone"
                 android:padding="@dimen/_10sdp"
                 android:paddingLeft="@dimen/_8sdp"
                 android:textColor="@color/black" />

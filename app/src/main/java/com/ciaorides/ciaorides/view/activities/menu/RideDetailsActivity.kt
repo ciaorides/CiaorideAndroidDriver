@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.bumptech.glide.Glide
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityRideDetailsBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
@@ -16,6 +17,7 @@ import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.Constants.KEY_BOOKING_DATA
 import com.ciaorides.ciaorides.utils.Constants.KEY_RIDES_TAKEN
 import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.utils.openWhatsApp
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,18 +95,21 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
                 binding.tvVehicleNumber.text = it.from_address
 
                 if (!android.text.TextUtils.isEmpty(it.user_details.profile_pic)) {
-                    com.ciaorides.ciaorides.utils.Constants.showGlide(
-                        this,
-                        com.ciaorides.ciaorides.BuildConfig.IMAGE_BASE_URL + it.user_details.profile_pic,
-                        binding.profileImage
-                    )
+                    Glide
+                        .with(this)
+                        .load(it.user_details.profile_pic)
+                        .error(R.drawable.ic_user)
+                        .placeholder(R.drawable.ic_user)
+                        .into(binding.profileImage)
+                } else {
+                    binding.profileImage.setImageResource(R.drawable.ic_user)
                 }
                 binding.tvVehicleNumber.text =
-                    "${it.user_details.address1}, ${it.user_details.address2}"
+                    "${it.user_details.mobile.replaceRange(0, 7, "xxxxxxxx")} \n${it.trip_distance} Kms"
 
             // Amount
             var rideAmount = if (it.ride_charges == null) "0" else it.ride_charges
-            binding.rideCharges.setText("Rs ${rideAmount}")
+            binding.rideCharges.text = "Rs ${rideAmount}"
             var conCharges = ""
             if (it.convenience_charges == null) {
                 conCharges = it.ciao_commission
@@ -124,6 +129,10 @@ class RideDetailsActivity : BaseActivity<ActivityRideDetailsBinding>() {
                     bookingInfoResponse.driver_details!!.id,
                     Constants.STARTED
                 )
+            }
+
+            binding.btnSupport.setOnClickListener {
+                openWhatsApp(this, "+919441500416", "Booking Id: ${bookingInfoResponse.booking_id} \n Write your query!")
             }
         }
     }

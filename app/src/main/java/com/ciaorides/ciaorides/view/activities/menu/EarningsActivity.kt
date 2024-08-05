@@ -16,6 +16,7 @@ import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.EarningsResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.utils.openWhatsApp
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +52,9 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
             startActivity(Intent(this@EarningsActivity, CompletedPaymentsActivity::class.java))
         }
 
+        binding.btnSupport.setOnClickListener {
+            openWhatsApp(this, "+919441500416", "Write your query!")
+        }
 
         val graphData = arrayOf(
             "This Week",

@@ -1,5 +1,6 @@
 package com.ciaorides.ciaorides.fcm
 
+import android.util.Log
 import com.ciaorides.ciaorides.model.response.FcmBookingModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -34,6 +35,7 @@ object FcmBookUtils {
     fun getBookingSendersFcmRef() = Firebase.database.reference.child(BOOKING).child(SENDERS)
 
     fun updateApprovedStatus(bookingId: String, driverId: String, status: String) {
+        Log.d("FCMBOOKUTILS", "FCM Booking Accept Ride")
         Firebase.database.reference
             .child(BOOKING)
             .child(RIDES)
@@ -47,21 +49,25 @@ object FcmBookUtils {
         driverId: String,
         fcmData: FcmBookingModel
     ) {
-        val database = Firebase.database.reference
-        Firebase.database.reference
-            .child(BOOKING)
-            .child(RIDES)
-            .child(fcmData.bookingNumber.toString())
-            .removeValue()
-        database.child(BOOKING).child(ACTIVE_BOOKINGS).child(USERS).child(fcmData.userId)
-            .removeValue()
-        database.child(BOOKING).child(ACTIVE_BOOKINGS).child(DRIVERS).child(driverId)
-            .removeValue()
+        if (fcmData!= null && fcmData.bookingNumber!= null) {
+            Log.d("FCMBOOKUTILS", "FCM Booking Removed")
+            val database = Firebase.database.reference
+            Firebase.database.reference
+                .child(BOOKING)
+                .child(RIDES)
+                .child(fcmData.bookingNumber.toString())
+                .removeValue()
+            database.child(BOOKING).child(ACTIVE_BOOKINGS).child(USERS).child(fcmData.userId)
+                .removeValue()
+            database.child(BOOKING).child(ACTIVE_BOOKINGS).child(DRIVERS).child(driverId)
+                .removeValue()
+        }
 
     }
 
     fun updateAmountLatLng(bookingId: String, driverId: String, amount: String,
                            fromLat: String, fromLng: String, toLat:String, toLng:String, mobile:String, name: String) {
+        Log.d("FCMBOOKUTILS", " FCM Amount & location Updated")
         Firebase.database.reference
             .child(BOOKING)
             .child(RIDES)
@@ -120,13 +126,15 @@ object FcmBookUtils {
     }
 
     fun updateAmount(bookingId: String, driverId: String, amount: String) {
+        val map = HashMap<String, String>()
+        Log.d("FCMBOOKUTILS", "FCM amount updated 2")
+        map[RIDE_AMOUNT] = amount
         Firebase.database.reference
             .child(BOOKING)
             .child(RIDES)
             .child(bookingId)
             .child(driverId)
-            .child(RIDE_AMOUNT)
-            .setValue(amount)
+            .updateChildren(map as Map<String, String>)
     }
 
     fun getBookingChatRef(bookingId: String, chatId: String) =
@@ -137,6 +145,7 @@ object FcmBookUtils {
             .child(chatId)
 
     fun updateDriverLocation(bookingId: String, driverId: String, driverLat: Double, driverLong: Double) {
+        Log.d("FCMBOOKUTILS", "FCM Driver location updated")
         val map = HashMap<String, Double>()
         map["DRIVER_CURRENT_LAT"] = driverLat
         map["DRIVER_CURRENT_LONG"] = driverLong

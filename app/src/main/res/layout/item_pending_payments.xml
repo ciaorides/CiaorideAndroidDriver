@@ -51,7 +51,8 @@
                 android:layout_marginRight="@dimen/_16sdp"
                 android:layout_height="@dimen/_28sdp"
                 android:background="@drawable/orange_bg"
-                android:layout_weight="0.2">
+                android:layout_weight="0.3">
+
                 <TextView
                     android:id="@+id/ietm_payment_amount"
                     android:layout_width="match_parent"
@@ -60,11 +61,12 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingTop="3dp"
                     style="@style/GlobalTextViewStyle"
-                    android:text="₹ 150 "
-                    android:textSize="@dimen/_10sdp"
+                    android:text="₹15000000"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_9sdp"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textColor="@color/white"></TextView>
+                    android:textColor="@color/white" />
             </LinearLayout>
 
 

@@ -76,6 +76,7 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), PaymentResultWithD
                         hideKeyboard(this)
                         binding.etWalletAmount.setText("")
                         binding.etWalletAmount.clearFocus()
+                        getTransactionsData()
                     }
                 }
                 is DataHandler.ERROR -> {
@@ -102,6 +103,7 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), PaymentResultWithD
                     hideKeyboard(this)
                     binding.etWalletAmount.setText("")
                     binding.etWalletAmount.clearFocus()
+                    getTransactionsData()
                 }
                 is DataHandler.ERROR -> {
                     Toast.makeText(applicationContext, dataHandler.message, Toast.LENGTH_SHORT)

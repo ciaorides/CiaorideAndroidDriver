@@ -118,7 +118,7 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(), ComponentCal
     }*/
 
 
-    fun checkPermissionState(): Boolean {
+    fun checkPermissionState(isAll: Boolean): Boolean {
         /*var isPermissionGranted = true
         for (permission in permissions) {
             Log.d("BaseActivity", "Permission for loop "+permission)
@@ -133,11 +133,9 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(), ComponentCal
         }
         return isPermissionGranted*/
 
-        val cameraPermission = ContextCompat.checkSelfPermission(applicationContext,
+        val cameraPermission = ContextCompat.checkSelfPermission(
+            applicationContext,
             Manifest.permission.CAMERA
-        )
-        val callPermission = ContextCompat.checkSelfPermission(applicationContext,
-            Manifest.permission.CALL_PHONE
         )
         val readStoragePermission = ContextCompat.checkSelfPermission(
             applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE
@@ -148,17 +146,20 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity(), ComponentCal
         val mediaImage = ContextCompat.checkSelfPermission(
             applicationContext, Manifest.permission.READ_MEDIA_IMAGES
         )
-        val mediaVideo = ContextCompat.checkSelfPermission(
-            applicationContext, Manifest.permission.READ_MEDIA_VIDEO
-        )
-        Log.d("BaseActivity", "camera Persmission $cameraPermission")
-        Log.d("BaseActivity", "read Persmission $readStoragePermission")
-        Log.d("BaseActivity", "write Persmission $writeStoragePermission")
-        Log.d("BaseActivity", "image Persmission $mediaImage")
-        Log.d("BaseActivity", "video Persmission $mediaVideo")
-        Log.d("BaseActivity", "call Persmission $callPermission")
-        return ((cameraPermission == PackageManager.PERMISSION_GRANTED && callPermission == PackageManager.PERMISSION_GRANTED && mediaImage == PackageManager.PERMISSION_GRANTED && mediaVideo == PackageManager.PERMISSION_GRANTED )
-                || readStoragePermission == PackageManager.PERMISSION_GRANTED && writeStoragePermission == PackageManager.PERMISSION_GRANTED)
+        if (isAll) {
+            val callPermission = ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.CALL_PHONE
+            )
+            val mediaVideo = ContextCompat.checkSelfPermission(
+                applicationContext, Manifest.permission.READ_MEDIA_VIDEO
+            )
+            return ((cameraPermission == PackageManager.PERMISSION_GRANTED && callPermission == PackageManager.PERMISSION_GRANTED && mediaImage == PackageManager.PERMISSION_GRANTED && mediaVideo == PackageManager.PERMISSION_GRANTED)
+                    || readStoragePermission == PackageManager.PERMISSION_GRANTED && writeStoragePermission == PackageManager.PERMISSION_GRANTED)
+        } else {
+            return ((cameraPermission == PackageManager.PERMISSION_GRANTED && mediaImage == PackageManager.PERMISSION_GRANTED)
+                    || readStoragePermission == PackageManager.PERMISSION_GRANTED && writeStoragePermission == PackageManager.PERMISSION_GRANTED)
+        }
     }
 
 

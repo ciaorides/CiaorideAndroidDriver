@@ -363,11 +363,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         binding.appBarHome.layoutHome.localRideSheet.cardCall.setOnClickListener {
             fcmViewModel?.let {
+                Toast.makeText(this, "Call${it.userMobile}", Toast.LENGTH_SHORT).show()
                 it.userMobile?.let {
                     try {
-                        val intent = Intent(Intent.ACTION_CALL)
-                        intent.setData(Uri.parse("tel:" + it))
-                        context.startActivity(intent)
+                        val intent = Intent(Intent.ACTION_DIAL).apply {
+                            data = Uri.parse("tel:$it")
+                        }
+                        startActivity(intent)
                        /* if (checkPermissionState()) {
                             Log.d("Call", "Call dialed")
 
@@ -625,6 +627,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
             mapBottomMargin = binding.appBarHome.layoutHome.searchingSheet.bottomSheetLayout.height
             currentSheetBehavior = onlineSheetBehavior
+            homeBinding.bottomSheetLayout.visibility = View.VISIBLE
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             checkStateOfBookApi()
         } else if (checked_in_state == Constants.OFFLINE) {
@@ -632,10 +635,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
             currentSheetBehavior = null
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-
+            homeBinding.bottomSheetLayout.visibility = View.GONE
         } else if (checked_in_state == Constants.BUSY) {
             mapBottomMargin = 0
             currentSheetBehavior = null
+            homeBinding.bottomSheetLayout.visibility = View.GONE
         }
     }
 
@@ -1072,30 +1076,47 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 .child(bookingId)
         messagesRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("Driver", "On Data changed called")
-                Log.d("Driver", "Is fcmViewModel bookingNumber value? ${fcmViewModel?.bookingNumber}")
-                Log.d("Driver", "Is bookingId value? ${bookingId}")
-                Log.d("Driver", "Is rideStatus Value? ${ride_status}")
-                Log.d("Driver", "Is fcmViewModel rideStatus value? ${fcmViewModel?.rideStatus}")
+                Log.d("FcmViewModel", "Is fcmViewModel bookingNumber value? ${fcmViewModel?.bookingNumber}")
+                Log.d("FcmViewModel", "Is fcmViewModel ride status? ${fcmViewModel?.rideStatus}")
+                Log.d("FcmViewModel", "ride status? ${ride_status}")
 
                 val map = (snapshot.value as? HashMap<*, *>)
                 val model = snapshot.child(driverId).getValue(FcmBookingModel::class.java)
-                Log.d("Driver", "Is New Request? ${model?.bookingNumber != bookingId}")
-                Log.d("Driver", "Is fcmViewModel rideStatus value? ${model?.rideStatus}")
 
                 // For the first time fcm will be null
                 if (fcmViewModel == null){
+                    Log.d("FcmViewModel", "FCM Null")
                     getRideData(map, snapshot)
-                }
-                // Once the ride data is added, it will not be null
-                // From the second time onwards, for same booking id, unless the status changes, should not load the data again.
-                else if (fcmViewModel != null && fcmViewModel?.bookingNumber == bookingId && model?.rideStatus != fcmViewModel?.rideStatus){
-                    Log.d("Driver", "Update Data called")
-                    getRideData(map, snapshot)
-                }
-                // For a new request booking id will be changed.
-                else if (fcmViewModel?.bookingNumber != bookingId){
-                    getRideData(map, snapshot)
+                } else {
+                    Log.d("FcmViewModel", "FCM Non Null")
+                    if (fcmViewModel?.orderId != null) { // To avoid dummy data. Only if order is available, will display the data.
+                        // Once the ride data is added, it will not be null
+                        // From the second time onwards, for same booking id, unless the status changes, should not load the data again.
+                        if (fcmViewModel != null && fcmViewModel?.bookingNumber == bookingId && fcmViewModel?.rideStatus != null && model?.rideStatus != fcmViewModel?.rideStatus) {
+                            Log.d("FcmViewModel", "Update Data called")
+                            getRideData(map, snapshot)
+                        }
+                        // For a new request booking id will be changed.
+                        else if (fcmViewModel?.bookingNumber != bookingId) {
+                            Log.d("FcmViewModel", "FCM new booking")
+                            getRideData(map, snapshot)
+                        }
+
+                        // Sometimes the data is not loading correctly, so based on condition popup is showing
+                        if (fcmViewModel?.bookingNumber != null && fcmViewModel?.rideStatus != Constants.RIDE_CANCELLED && fcmViewModel?.rideStatus != Constants.PAYMENT_COMPLETED &&
+                            fcmViewModel?.rideStatus != Constants.REJECTED
+                        ) {
+                            if(binding.appBarHome.layoutHome.localRideSheet.root.visibility == View.GONE) {
+                                Log.d("FcmViewModel", "UI manually rendered")
+                                getRideData(map, snapshot)
+                            }
+                        }
+                    } else {
+                        if(binding.appBarHome.layoutHome.localRideSheet.root.visibility == View.VISIBLE) {
+                            binding.appBarHome.layoutHome.localRideSheet.root.visibility = View.GONE
+                            Log.d("FcmViewModel", "FCM Disabled")
+                        }
+                    }
                 }
 
                 /*// For first time FCM model would be empty
@@ -1131,20 +1152,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun getRideData(map: java.util.HashMap<*, *>?, snapshot: DataSnapshot) {
         if (map != null) {
             if (map.size == 1) {
-                Log.d("Driver", "FCM map size 1")
-                fcmViewModel =
+                 fcmViewModel =
                     snapshot.child(driverId).getValue(FcmBookingModel::class.java)
             } else {
                 for ((key, value) in map) {
                     if (driverId == key) {
-                        Log.d("Driver", "FCM key")
                         fcmViewModel =
                             snapshot.child(key.toString())
                                 .getValue(FcmBookingModel::class.java)
                     }
                 }
             }
-            Log.d("Driver", "FCM Display state method called")
+            Log.d("FcmViewModel", "FCM Display state method called")
             displayStateUi()
         }
     }
@@ -1200,11 +1219,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 fcmViewModel?.bookingNumber.toString(),
                 driverId,
                 Constants.PAYMENT_COMPLETED
-            )
-
-            FcmBookUtils.removeBooking(
-                driverId = driverId,
-                fcmData = fcmViewModel!!
             )
             ride_status = Constants.PAYMENT_COMPLETED
         }
@@ -1340,6 +1354,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
         }catch (e: Exception){
             e.printStackTrace()
+
+
         }
 
 
@@ -1511,6 +1527,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                 ride_status = Constants.PENDING
                                 Log.d(" FCMDriver", "FCM Pending")
                                 updateRideDetails(fcmResponse)
+                                tvCongratsMsg.text = "Accept your ride!"
                                 btnAccept.visible(true)
                                 btnReject.visible(true)
                                 btnReached.visible(false)
@@ -1592,6 +1609,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     ride_status = Constants.REACHED
                                     updateRideDetails(fcmResponse)
                                     tvCongratsMsg.text = "Enjoy your ride!"
+                                    binding.appBarHome.layoutHome.layoutOtp.firstPinView.setText("")
                                     binding.appBarHome.layoutHome.layoutOtp.layoutOtpScreen.visible(
                                         true
                                     )
@@ -1775,7 +1793,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             BottomSheetBehavior.from(binding.appBarHome.layoutHome.vehiclesSheet.bottomSheetLayout)
         vehicleSheetBehavior?.setBottomSheetCallback(handler)
         vehicleSheetBehavior?.peekHeight = 0
-
     }
 
     private val handler = object : BottomSheetBehavior.BottomSheetCallback() {
@@ -1884,11 +1901,18 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            FcmBookUtils.updateApprovedStatus(
-                                bookingId,
-                                rider_id,
-                                Constants.PAYMENT_COMPLETED
+                            // On success form server, payment has to complete
+                            updateSearchState(com.ciaorides.ciaorides.utils.Constants.ONLINE)
+                            homeBinding.bottomSheetLayout.visibility = View.VISIBLE
+                            binding.appBarHome.layoutHome.localRideSheet.bottomSheetLayout.visibility =
+                                View.GONE
+                            bookingId = ""
+                            ride_status = ""
+                            FcmBookUtils.removeBooking(
+                                driverId = driverId,
+                                fcmData = fcmViewModel!!
                             )
+                            fcmViewModel = null
                             Toast.makeText(this, data.message.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }

@@ -51,7 +51,7 @@ class VehiclesAdapter @Inject constructor() :
         val vehicle = differ.currentList[position]
         holder.binding.apply {
             if(vehicle.vehicle_makes.isNotEmpty()){
-                tvVehicleSub.text = vehicle.vehicle_makes[0].title
+                tvVehicleSub.text = vehicle.vehicle_makes[0].title + "\n " + vehicle.sub_vehicle_type.toString()
             }
         }
         if (selectedPosition == position) {

@@ -36,7 +36,6 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
         }
         handleMyBankDetails()
         handleDeleteBankDetails()
-        bankDetailsCall()
         binding.addBank.setOnClickListener{
             startActivity(Intent(this,AddBankActivity::class.java))
         }
@@ -133,6 +132,12 @@ class BankDetailsActivity : BaseActivity<ActivityBankDetailsBinding>() {
             }
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        bankDetailsCall()
     }
 
 }

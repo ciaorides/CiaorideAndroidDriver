@@ -22,6 +22,7 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_50sdp"
                 tools:context=".view.activities.ui.MapsFragment" />
         </FrameLayout>
 
@@ -257,10 +258,12 @@
 
     <include
         android:id="@+id/searchingSheet"
+        android:visibility="gone"
         layout="@layout/bottom_sheet_searching" />
 
     <include
         android:id="@+id/vehiclesSheet"
+        android:visibility="gone"
         layout="@layout/bottom_sheet_vehicle_info"
         />
 

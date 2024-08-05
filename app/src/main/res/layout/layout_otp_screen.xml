@@ -8,9 +8,11 @@
     android:background="@color/white"
     android:clickable="true"
     android:orientation="vertical"
-    tools:context=".view.activities.LoginActivity">
+    tools:context=".view.activities.LoginActivity"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +47,6 @@
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_8sdp"
-
         android:gravity="center"
         android:padding="@dimen/_8sdp"
         android:text="@string/added_ride_msg"
