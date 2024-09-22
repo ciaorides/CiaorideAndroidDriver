@@ -2,28 +2,36 @@ package com.ciaorides.ciaorides.view.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.PendingIntent
+import android.app.PictureInPictureParams
+import android.app.RemoteAction
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Icon
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.text.TextUtils
 import android.util.Log
+import android.util.Rational
 import android.view.Gravity.LEFT
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -34,6 +42,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
@@ -990,10 +999,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
     private fun checkStateOfBookApi() {
         val messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
             .child(FcmBookUtils.ACTIVE_BOOKINGS).child(FcmBookUtils.DRIVERS).child(driverId)
@@ -1186,31 +1191,39 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             ride_status = Constants.REACHED
         }
         binding.appBarHome.layoutHome.localRideSheet.btnComplete.setOnClickListener {
-            val addresses: List<Address>
-            // call an api
-            val geocoder = Geocoder(this, Locale.getDefault())
+            Constants.showWarningSweetAlert(this, SweetAlertDialog.WARNING_TYPE, "Alert", "Are you sure to end ride?", "Yes", { confirmed ->
+                if (confirmed) {
+                    // Action to take when confirmed
+                    val addresses: List<Address>
 
-            addresses = geocoder.getFromLocation(
-                currentLatLng?.latitude!!,
-                currentLatLng?.longitude!!,
-                1
-            )!! // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    val geocoder = Geocoder(this, Locale.getDefault())
 
-            viewModel.endTaxiTrip(
-                EndRideRequest(
-                    to_address = addresses.get(0).getAddressLine(0),
-                    to_lat = currentLatLng?.latitude.toString(),
-                    to_lng = currentLatLng?.longitude.toString(),
-                    booking_id = bookingId,
+                    addresses = geocoder.getFromLocation(
+                        currentLatLng?.latitude!!,
+                        currentLatLng?.longitude!!,
+                        1
+                    )!! // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                    if(addresses.isNotEmpty()) {
+                        viewModel.endTaxiTrip(
+                            EndRideRequest(
+                                to_address = addresses.get(0).getAddressLine(0),
+                                to_lat = currentLatLng?.latitude.toString(),
+                                to_lng = currentLatLng?.longitude.toString(),
+                                booking_id = bookingId,
 
-                )
-            )
-            FcmBookUtils.updateApprovedStatus(
-                fcmViewModel?.bookingNumber.toString(),
-                driverId,
-                Constants.RIDE_COMPLETED
-            )
-            ride_status = Constants.RIDE_COMPLETED
+                                )
+                        )
+                        FcmBookUtils.updateApprovedStatus(
+                            fcmViewModel?.bookingNumber.toString(),
+                            driverId,
+                            Constants.RIDE_COMPLETED
+                        )
+                        ride_status = Constants.RIDE_COMPLETED
+                    }
+                } else {
+                    // Action to take when not confirmed (if applicable)
+                }
+            } )
         }
         binding.appBarHome.layoutHome.localRideSheet.btnPayment.setOnClickListener {
             callTaxiPaymentCompleteAPI()
@@ -1932,5 +1945,50 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             binding.appBarHome.ivBadge,
             binding.appBarHome.ivProfileImage
         )
+    }
+
+    // PIP Mode Code
+    override fun onPause() {
+        super.onPause()
+
+        enterPictureInPicture()
+    }
+
+    private fun enterPictureInPicture() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val aspectRatio = Rational(9, 10) // Example aspect ratio
+            val pipParams = PictureInPictureParams.Builder()
+                .setAspectRatio(aspectRatio)
+//                .setActions(getPipActions()) // Optional: provide actions
+                .build()
+            enterPictureInPictureMode(pipParams)
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            // Hide header and popup
+            Log.d("On Pause", "Enter PIP Mode")
+            binding.appBarHome.homeAppIcon.visibility = View.VISIBLE
+            binding.appBarHome.layoutHome.rootLayout.visibility = View.GONE
+            binding.appBarHome.honeToolbar.visibility =View.GONE
+        } else {
+            // Show header and popup
+            Log.d("On Pause", "Left PIP Mode")
+            binding.appBarHome.homeAppIcon.visibility = View.GONE
+            binding.appBarHome.layoutHome.rootLayout.visibility = View.VISIBLE
+            binding.appBarHome.honeToolbar.visibility =View.VISIBLE
+        }
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        enterPictureInPicture()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Handle configuration changes if necessary
     }
 }

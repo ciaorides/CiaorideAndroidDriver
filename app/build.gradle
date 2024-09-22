@@ -39,11 +39,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     dexOptions {
         javaMaxHeapSize "18g" //specify the heap size for the dex process
@@ -114,12 +114,16 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
     implementation 'com.firebaseui:firebase-ui-database:8.0.1'
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
-    implementation 'me.ithebk:barchart:0.9'
+//    implementation 'me.ithebk:barchart:0.9'
 
     implementation 'com.razorpay:checkout:1.6.26'
 
     // For Permissions
     implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
+
+    // For Alert Dialog
+    implementation 'com.github.cazaea:sweet-alert-dialog:1.0.0'
+//    implementation 'cn.pedant.sweetalert:library:1.3'
 
 }
 

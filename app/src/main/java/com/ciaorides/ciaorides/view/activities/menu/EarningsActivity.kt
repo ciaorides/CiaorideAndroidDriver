@@ -16,11 +16,11 @@ import com.ciaorides.ciaorides.model.request.GlobalUserIdRequest
 import com.ciaorides.ciaorides.model.response.EarningsResponse
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.utils.barchart.BarChartModel
 import com.ciaorides.ciaorides.utils.openWhatsApp
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import me.ithebk.barchart.BarChartModel
 import java.util.Random
 
 

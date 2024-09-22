@@ -90,7 +90,7 @@
                     android:textSize="@dimen/_13sdp" />
             </RelativeLayout>
 
-            <me.ithebk.barchart.BarChart
+            <com.ciaorides.ciaorides.utils.barchart.BarChart
                 android:id="@+id/barChart"
                 android:layout_width="match_parent"
                 app:bar_show_animation="true"

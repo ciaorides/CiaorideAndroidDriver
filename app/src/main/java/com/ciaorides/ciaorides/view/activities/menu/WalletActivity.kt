@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityWalletBinding
 import com.ciaorides.ciaorides.model.request.AddTransactionRequest
@@ -71,12 +72,13 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), PaymentResultWithD
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         Log.d("Wallet Withdraw", data.message)
-                        Toast.makeText(this, data.message, Toast.LENGTH_SHORT)
-                            .show()
+                        /*Toast.makeText(this, data.message, Toast.LENGTH_SHORT)
+                            .show()*/
                         hideKeyboard(this)
                         binding.etWalletAmount.setText("")
                         binding.etWalletAmount.clearFocus()
                         getTransactionsData()
+                        Constants.showSweetAlert(this, SweetAlertDialog.SUCCESS_TYPE, "Success", "Payment withdrawal has initiated!", "OK")
                     }
                 }
                 is DataHandler.ERROR -> {

@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     tools:context=".view.activities.HomeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/hone_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -88,6 +90,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="?attr/actionBarSize" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:visibility="gone"
+        android:id="@+id/home_app_icon"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/app_icon"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

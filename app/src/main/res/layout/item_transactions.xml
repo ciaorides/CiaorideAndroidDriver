@@ -47,6 +47,7 @@
                     style="@style/GlobalTextViewStyle" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/ietm_payment_amount_layout"
                 android:layout_width="0dp"
                 android:layout_marginRight="@dimen/_16sdp"
                 android:layout_height="@dimen/_32sdp"

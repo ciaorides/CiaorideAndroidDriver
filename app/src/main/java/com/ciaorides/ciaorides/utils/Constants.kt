@@ -26,9 +26,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
-import com.ciaorides.ciaorides.databinding.*
+import com.ciaorides.ciaorides.databinding.AlertDeleteVehicleBinding
+import com.ciaorides.ciaorides.databinding.AlertFevBinding
+import com.ciaorides.ciaorides.databinding.AlertScheduleBinding
+import com.ciaorides.ciaorides.databinding.GlobalAlertBinding
+import com.ciaorides.ciaorides.databinding.LayoutRejectResonsBinding
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -41,7 +46,9 @@ import java.io.IOException
 import java.net.URLEncoder
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 object Constants {
@@ -233,6 +240,32 @@ object Constants {
              }*/
             show()
         }
+    }
+
+    fun showSweetAlert(context: Context, type : Int, title: String, message: String, confirmtext: String) {
+        SweetAlertDialog(context, type)
+            .setTitleText(title)
+            .setContentText(message)
+            .setConfirmText(confirmtext)
+            .setConfirmClickListener { sDialog -> sDialog.dismissWithAnimation() }
+            .show()
+    }
+
+    fun showWarningSweetAlert(context: Context, type : Int, title: String, message: String, confirmtext: String, listener: ((Boolean) -> Unit?)? = null) {
+        SweetAlertDialog(context, type)
+            .setTitleText(title)
+            .setContentText(message)
+            .setConfirmText(confirmtext)
+            .setConfirmClickListener {
+                sDialog -> sDialog.dismissWithAnimation()
+                listener?.invoke(true)
+            }
+            .showCancelButton(true)
+            .setCancelText("Cancel")
+            .setCancelClickListener {
+                sDialog -> sDialog.dismissWithAnimation()
+            }
+            .show()
     }
 
 

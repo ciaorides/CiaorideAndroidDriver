@@ -59,7 +59,8 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CIAORides">
+        android:theme="@style/Theme.CIAORides"
+        tools:replace="android:icon">
         <activity
             android:name=".view.activities.menu.WalletActivity"
             android:exported="false" />
@@ -99,10 +100,16 @@
         <activity
             android:name=".view.activities.HomeActivity"
             android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.TestActivity"
             android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -114,28 +121,44 @@
             android:exported="false"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:windowSoftInputMode="adjustResize"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.LoginActivity"
             android:exported="false"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.MainActivity"
             android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.LandingActivity"
             android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.menu.BankDetailsActivity"
             android:exported="false"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activities.SplashActivity"
             android:exported="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,9 +2,11 @@ package com.ciaorides.ciaorides.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ItemPaymentsBinding
 import com.ciaorides.ciaorides.databinding.ItemTransactionsBinding
 import com.ciaorides.ciaorides.model.response.GetTransactionResposne
@@ -52,9 +54,11 @@ class TransactionsAdapter @Inject constructor(private val listener : OnItemClick
             ietmPaymentBookingId.text = "Transaction Type : ${transaction.transaction_type}"
             ietmPaymentAmount.text = "₹ " + transaction.amount.toString()
             ietmPaymentTime.text = transaction.created_date
-            holder.itemView.setOnClickListener {
-               // Click is not required.
-            }
+
+            val color = if (transaction.transaction_type.equals("withdraw", ignoreCase = true)) {
+                R.color.colorFullRed
+            } else R.color.green
+            ietmPaymentAmountLayout.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, color))
         }
     }
 
