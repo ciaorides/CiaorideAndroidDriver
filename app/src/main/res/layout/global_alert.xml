@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
+    android:background="@color/colorPageBG"
     android:gravity="center">
 
     <TextView

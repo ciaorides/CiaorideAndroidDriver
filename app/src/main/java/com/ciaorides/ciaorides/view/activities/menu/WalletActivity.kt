@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.text.isDigitsOnly
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityWalletBinding
 import com.ciaorides.ciaorides.model.request.AddTransactionRequest
@@ -15,7 +14,7 @@ import com.ciaorides.ciaorides.model.request.WithdrawTransactionRequest
 import com.ciaorides.ciaorides.model.response.GetTransactionResposne
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
-import com.ciaorides.ciaorides.utils.visible
+import com.ciaorides.ciaorides.utils.SweetAlertDialog
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.view.adapter.TransactionsAdapter
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel

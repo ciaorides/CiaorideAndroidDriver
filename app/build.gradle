@@ -122,7 +122,9 @@ dependencies {
     implementation("io.github.ParkSangGwon:tedpermission-normal:3.3.0")
 
     // For Alert Dialog
-    implementation 'com.github.cazaea:sweet-alert-dialog:1.0.0'
+//    implementation 'com.github.cazaea:sweet-alert-dialog:1.0.0'
+    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
+
 //    implementation 'cn.pedant.sweetalert:library:1.3'
 
 }

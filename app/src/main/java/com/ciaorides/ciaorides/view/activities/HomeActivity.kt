@@ -2,10 +2,14 @@ package com.ciaorides.ciaorides.view.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo
+import android.app.Notification
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PictureInPictureParams
-import android.app.RemoteAction
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -14,7 +18,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.Icon
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -22,6 +25,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Rational
@@ -31,10 +35,10 @@ import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.app.ShareCompat
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -42,12 +46,13 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
 import com.ciaorides.ciaorides.databinding.SupportAlertBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
+import com.ciaorides.ciaorides.fcm.MyFirebaseMessagingService
+import com.ciaorides.ciaorides.fcm.OreoNotification
 import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.CompleteOfferRideRequest
 import com.ciaorides.ciaorides.model.request.DriverCheckInRequest
@@ -62,6 +67,7 @@ import com.ciaorides.ciaorides.services.LocationService
 import com.ciaorides.ciaorides.utils.BookType
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
+import com.ciaorides.ciaorides.utils.SweetAlertDialog
 import com.ciaorides.ciaorides.utils.getPrice
 import com.ciaorides.ciaorides.utils.globalAlert
 import com.ciaorides.ciaorides.utils.showRejectReasonsAlert
@@ -101,6 +107,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
 import java.util.Locale
@@ -148,6 +155,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     var ride_end_time = ""
     var total_ride_amount = ""
     var ride_status = ""
+
+    val CHANNEL_ID: String = "CIAORides"
+    val CHANNEL_NAME: String = "CIAORides"
 
     override fun init() {
         homeBinding = binding.appBarHome.layoutHome.searchingSheet
@@ -725,7 +735,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             binding.appBarHome.layoutHome.vehiclesSheet.btnStartRide.visibility = View.VISIBLE
 
         }
-
     }
 
     private fun hideAllCards() {
@@ -1075,6 +1084,23 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         })
     }
 
+    private fun data(){
+        val messagesRef =
+            Firebase.database.reference.child(FcmBookUtils.BOOKING).child(FcmBookUtils.RIDES)
+                .child(bookingId)
+        messagesRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get the entire JSON string from the snapshot
+                val json = dataSnapshot.value.toString()
+                Log.d("Snapshot Data (JSON)", json)
+           }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
     private fun getBookingInfo(bookingId: String) {
         val messagesRef =
             Firebase.database.reference.child(FcmBookUtils.BOOKING).child(FcmBookUtils.RIDES)
@@ -1092,7 +1118,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 if (fcmViewModel == null){
                     Log.d("FcmViewModel", "FCM Null")
                     getRideData(map, snapshot)
-                } else {
+                }
+                else {
                     Log.d("FcmViewModel", "FCM Non Null")
                     if (fcmViewModel?.orderId != null) { // To avoid dummy data. Only if order is available, will display the data.
                         // Once the ride data is added, it will not be null
@@ -1123,28 +1150,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                         }
                     }
                 }
-
-                /*// For first time FCM model would be empty
-                // Second time onwards, for same booking id, unless the status changes, should not load the data again.
-                Log.d("Driver", "Is fcmViewModel null? ${fcmViewModel == null}")
-                Log.d("Driver", "Is fcmViewModel bookingNumber? ${fcmViewModel?.bookingNumber == bookingId}")
-                Log.d("Driver", "Is fcmViewModel rideStatus? ${fcmViewModel?.rideStatus != ride_status}")
-                Log.d("Driver", "Is fcmViewModel bookingNumber value? ${fcmViewModel?.bookingNumber}")
-                Log.d("Driver", "Is fcmViewModel bookingId value? ${bookingId}")
-                Log.d("Driver", "Is fcmViewModel rideStatus Value? ${ride_status}")
-                Log.d("Driver", "Is fcmViewModel rideStatus fcmValue? ${fcmViewModel?.rideStatus}")
-
-                // Second time for a new request booking id will be changed.
-                val model = snapshot.child(driverId).getValue(FcmBookingModel::class.java)
-                Log.d("Driver", "Is New Request? ${model?.bookingNumber != bookingId}")
-                Log.d("Driver", "New Request Booking Number ${model?.bookingNumber }")
-                if (fcmViewModel == null || (fcmViewModel?.bookingNumber == bookingId && fcmViewModel?.rideStatus != ride_status)) {
-                    // Old data
-                    getRideData(map, snapshot)
-                }else if (fcmViewModel!= null && model!!.bookingNumber == bookingId && model!!.rideStatus == Constants.PENDING){
-                    // Its a new request
-                    getRideData(map, snapshot)
-                }*/
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -1153,6 +1158,28 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         })
     }
+
+    /*// For first time FCM model would be empty
+               // Second time onwards, for same booking id, unless the status changes, should not load the data again.
+               Log.d("Driver", "Is fcmViewModel null? ${fcmViewModel == null}")
+               Log.d("Driver", "Is fcmViewModel bookingNumber? ${fcmViewModel?.bookingNumber == bookingId}")
+               Log.d("Driver", "Is fcmViewModel rideStatus? ${fcmViewModel?.rideStatus != ride_status}")
+               Log.d("Driver", "Is fcmViewModel bookingNumber value? ${fcmViewModel?.bookingNumber}")
+               Log.d("Driver", "Is fcmViewModel bookingId value? ${bookingId}")
+               Log.d("Driver", "Is fcmViewModel rideStatus Value? ${ride_status}")
+               Log.d("Driver", "Is fcmViewModel rideStatus fcmValue? ${fcmViewModel?.rideStatus}")
+
+               // Second time for a new request booking id will be changed.
+               val model = snapshot.child(driverId).getValue(FcmBookingModel::class.java)
+               Log.d("Driver", "Is New Request? ${model?.bookingNumber != bookingId}")
+               Log.d("Driver", "New Request Booking Number ${model?.bookingNumber }")
+               if (fcmViewModel == null || (fcmViewModel?.bookingNumber == bookingId && fcmViewModel?.rideStatus != ride_status)) {
+                   // Old data
+                   getRideData(map, snapshot)
+               }else if (fcmViewModel!= null && model!!.bookingNumber == bookingId && model!!.rideStatus == Constants.PENDING){
+                   // Its a new request
+                   getRideData(map, snapshot)
+               }*/
 
     private fun getRideData(map: java.util.HashMap<*, *>?, snapshot: DataSnapshot) {
         if (map != null) {
@@ -1169,6 +1196,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 }
             }
             Log.d("FcmViewModel", "FCM Display state method called")
+            fcmViewModel?.let {
+                if(it.rideStatus == Constants.PENDING)
+                    showNotification()
+            }
             displayStateUi()
         }
     }
@@ -1191,7 +1222,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             ride_status = Constants.REACHED
         }
         binding.appBarHome.layoutHome.localRideSheet.btnComplete.setOnClickListener {
-            Constants.showWarningSweetAlert(this, SweetAlertDialog.WARNING_TYPE, "Alert", "Are you sure to end ride?", "Yes", { confirmed ->
+            Constants.showWarningSweetAlert(this, SweetAlertDialog.WARNING_TYPE, "", "Are you sure to end ride?", "Yes", { confirmed ->
                 if (confirmed) {
                     // Action to take when confirmed
                     val addresses: List<Address>
@@ -1921,10 +1952,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                 View.GONE
                             bookingId = ""
                             ride_status = ""
-                            FcmBookUtils.removeBooking(
+                            /*FcmBookUtils.removeBooking(
                                 driverId = driverId,
                                 fcmData = fcmViewModel!!
-                            )
+                            )*/
                             fcmViewModel = null
                             Toast.makeText(this, data.message.toString(), Toast.LENGTH_SHORT).show()
                         }
@@ -1990,5 +2021,77 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         // Handle configuration changes if necessary
+    }
+
+
+    private fun showNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            sendNotification1()
+        } else {
+            sendNotification()
+        }
+    }
+
+    private fun sendNotification() {
+        //foreground app
+        val resultIntent = Intent(applicationContext, HomeActivity::class.java)
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        val alarmSound = Uri.parse(
+            (ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + packageName + "/raw/ringtone.mp3")
+        )
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,  /* Request code */resultIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+
+        val notificationBuilder = NotificationCompat.Builder(
+            applicationContext, CHANNEL_ID
+        )
+        notificationBuilder.setAutoCancel(true)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setSmallIcon(R.drawable.app_icon)
+            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+            .setNumber(10)
+            .setAutoCancel(false)
+            .setTicker("CIAORides")
+            .setContentTitle("Ride!")
+            .setContentText("You have new ride request!")
+            .setContentInfo("New Notification")
+        notificationBuilder.setSound(alarmSound)
+        notificationManager.notify(1, notificationBuilder.build())
+    }
+
+    @SuppressLint("NewApi")
+    private fun sendNotification1() {
+        //foreground app
+        val resultIntent = Intent(applicationContext, HomeActivity::class.java)
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,  /* Request code */resultIntent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+        val alarmSound = Uri.parse(
+            (ContentResolver.SCHEME_ANDROID_RESOURCE
+                    + "://" + packageName + "/raw/ringtone.mp3")
+        )
+
+        //Uri defaultsound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        val oreoNotification = OreoNotification(this)
+        val builder = oreoNotification.getOreoNotification(
+            "Ride!",
+            "You have new ride request!",
+            pendingIntent,
+            alarmSound,
+            java.lang.String.valueOf(R.drawable.ic_launcher_background)
+        )
+
+        val i = 0
+        oreoNotification.manager.notify(i, builder.build())
     }
 }

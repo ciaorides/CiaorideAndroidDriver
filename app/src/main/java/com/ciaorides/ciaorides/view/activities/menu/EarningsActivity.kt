@@ -195,6 +195,7 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
                         11 -> barChartModel.barText = "D"
                     }
                 } else {
+                   if (barChartModel.barTag!= null)
                     barChartModel.barText = barChartModel.barTag as String
                 }
             } else {
@@ -203,5 +204,4 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
             binding.barChart.addBar(barChartModel)
         }
     }
-
 }

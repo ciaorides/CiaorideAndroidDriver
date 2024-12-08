@@ -26,7 +26,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.cazaea.sweetalert.SweetAlertDialog
 import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.AlertDeleteVehicleBinding

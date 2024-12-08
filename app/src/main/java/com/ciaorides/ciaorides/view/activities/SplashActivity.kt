@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatDelegate
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.view.activities.menu.*
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         window.setFlags(

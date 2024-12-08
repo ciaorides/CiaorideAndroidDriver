@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPageBG"
     tools:context=".view.activities.menu.AddBankActivity">
 
     <include
@@ -18,6 +19,7 @@
 
     <RelativeLayout
         android:id="@+id/rlParent"
+        android:background="@color/colorPageBG"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/colorPageBG"
     tools:context=".view.fragments.AddVehiclesStep1Fragment">
 
     <LinearLayout
