@@ -620,7 +620,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
                         if (data.status) {
-                            updateSearchState(data.otherValue)
+                            updateSearchState(data.otherValue.toString())
                         }
                     }
                 }
@@ -658,23 +658,26 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun updateSearchState(otherValue: String?) {
-        if (checked_in_state == Constants.ONLINE) {
+        if (checked_in_state == Constants.ONLINE || otherValue.toString().toLowerCase() == Constants.ONLINE.toLowerCase()) {
             vehicleSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
 
             mapBottomMargin = binding.appBarHome.layoutHome.searchingSheet.bottomSheetLayout.height
             currentSheetBehavior = onlineSheetBehavior
             homeBinding.bottomSheetLayout.visibility = View.VISIBLE
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.appBarHome.layoutHome.driverStatus.isOn = true
             checkStateOfBookApi()
-        } else if (checked_in_state == Constants.OFFLINE) {
+        } else if (checked_in_state == Constants.OFFLINE || otherValue.toString().toLowerCase() == Constants.OFFLINE.toLowerCase()) {
             mapBottomMargin = 0
 
             currentSheetBehavior = null
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+            binding.appBarHome.layoutHome.driverStatus.isOn = false
             homeBinding.bottomSheetLayout.visibility = View.GONE
         } else if (checked_in_state == Constants.BUSY) {
             mapBottomMargin = 0
             currentSheetBehavior = null
+            binding.appBarHome.layoutHome.driverStatus.isOn = false
             homeBinding.bottomSheetLayout.visibility = View.GONE
         }
     }
