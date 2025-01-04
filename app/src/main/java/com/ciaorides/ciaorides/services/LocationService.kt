@@ -38,14 +38,12 @@ class LocationService : Service() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        Log.e(TAG, "onStartCommand")
         start()
         super.onStartCommand(intent, flags, startId)
         return START_STICKY
     }
 
     override fun onCreate() {
-        Log.e(TAG, "onCreate")
 
         locationClient = DefaultLocationClient(
             applicationContext,
@@ -71,8 +69,6 @@ class LocationService : Service() {
             .onEach { location ->
                 val lat = location.latitude.toString()
                 val long = location.longitude.toString()
-                Log.e(TAG, "Location $lat & $long}")
-
                 updateToFirebase(location)
                 val updsteNotification = notification.setContentText(
                     "Location $lat & $long}"

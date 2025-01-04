@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_9sdp"
+                android:layout_marginStart="@dimen/_6sdp"
                 android:background="@drawable/gray_bg"
                 android:orientation="vertical"
                 android:padding="@dimen/_4sdp">
@@ -224,12 +224,22 @@
                     android:layout_height="@dimen/_23sdp"
                     android:src="@drawable/ic_settings"/>
 
+                <com.github.angads25.toggle.widget.LabeledSwitch
+                    android:id="@+id/driver_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentBottom="true"
+                    app:on="false"
+                    app:colorOn="@color/appBlue"
+                    app:colorBorder="@color/appBlue"/>
+
                 <TextView
                     android:id="@+id/homeOfflineTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:fontFamily="@font/inter_medium"

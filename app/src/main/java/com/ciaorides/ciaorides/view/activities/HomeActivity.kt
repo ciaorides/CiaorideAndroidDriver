@@ -2,8 +2,6 @@ package com.ciaorides.ciaorides.view.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.ActivityManager
-import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -25,7 +23,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.util.Rational
@@ -51,7 +48,6 @@ import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
 import com.ciaorides.ciaorides.databinding.SupportAlertBinding
 import com.ciaorides.ciaorides.fcm.FcmBookUtils
-import com.ciaorides.ciaorides.fcm.MyFirebaseMessagingService
 import com.ciaorides.ciaorides.fcm.OreoNotification
 import com.ciaorides.ciaorides.model.request.AcceptRideRequest
 import com.ciaorides.ciaorides.model.request.CompleteOfferRideRequest
@@ -88,6 +84,7 @@ import com.ciaorides.ciaorides.view.activities.user.EditProfileActivity
 import com.ciaorides.ciaorides.view.adapter.MenuListAdapter
 import com.ciaorides.ciaorides.view.adapter.VehiclesAdapter
 import com.ciaorides.ciaorides.viewmodel.HomeViewModel
+import com.github.angads25.toggle.widget.LabeledSwitch
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -107,7 +104,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
 import java.util.Locale
@@ -346,6 +342,16 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             checked_in_state = Constants.ONLINE
             makeCheckInCall(Constants.ONLINE)
         }
+        binding.appBarHome.layoutHome.driverStatus.setOnToggledListener { labeledSwitch, isOn ->
+            // Implement your switching logic here
+            if (isOn){
+                checked_in_state = Constants.ONLINE
+                makeCheckInCall(Constants.ONLINE)
+            } else {
+                checked_in_state = Constants.OFFLINE
+                makeCheckInCall(Constants.OFFLINE)
+            }
+        }
         binding.appBarHome.layoutHome.vehiclesSheet.btnCancelRide.setOnClickListener {
             checked_in_state = Constants.OFFLINE
             makeCheckInCall(Constants.OFFLINE)
@@ -496,6 +502,17 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun makeCheckInCall(state: String) {
+        if (state == Constants.OFFLINE){
+            // Cancel notification
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager?.cancel(1)
+
+            val serviceIntent = Intent(applicationContext, LocationService::class.java)
+            stopService(serviceIntent)
+            binding.appBarHome.layoutHome.driverStatus.isOn = false
+        } else {
+            binding.appBarHome.layoutHome.driverStatus.isOn = true
+        }
         viewModel.checkIn(
             DriverCheckInRequest(
                 check_in_status = state,
@@ -843,6 +860,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     )
                 }
             }*/
+            this.googleMap?.clear()
             currentLatLng = LatLng(
                 latitute,
                 longitute
@@ -1115,7 +1133,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 val model = snapshot.child(driverId).getValue(FcmBookingModel::class.java)
 
                 // For the first time fcm will be null
-                if (fcmViewModel == null){
+                if (fcmViewModel == null || (fcmViewModel!= null && fcmViewModel!!.bookingNumber == null && fcmViewModel!!.rideStatus == "payment_completed")){
                     Log.d("FcmViewModel", "FCM Null")
                     getRideData(map, snapshot)
                 }
@@ -2070,7 +2088,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private fun sendNotification1() {
         //foreground app
         val resultIntent = Intent(applicationContext, HomeActivity::class.java)
-        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
             0,  /* Request code */resultIntent,
