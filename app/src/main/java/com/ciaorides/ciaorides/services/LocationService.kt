@@ -74,10 +74,13 @@ class LocationService : Service() {
                     "Location $lat & $long}"
                 )
 
-                notificationManager.notify(1, updsteNotification.build())
+                Log.d(TAG, "Location: ($lat, $long) ${HomeActivity.isNotificationShow}")
+                if (HomeActivity.isNotificationShow)
+                    notificationManager.notify(1, updsteNotification.build())
             }
             .launchIn(serviceScope)
-        startForeground(1, notification.build())
+        if (HomeActivity.isNotificationShow)
+            startForeground(1, notification.build())
     }
 
     private fun updateToFirebase(location: Location) {

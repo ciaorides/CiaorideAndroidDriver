@@ -131,6 +131,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     companion object {
         var fcmViewModel: FcmBookingModel? = null
         var driverId = ""
+        var isNotificationShow = false
     }
     var broadCastReceiver: BroadcastReceiver? = null
     lateinit var homeBinding: BottomSheetSearchingBinding
@@ -503,6 +504,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun makeCheckInCall(state: String) {
         if (state == Constants.OFFLINE){
+            isNotificationShow = false
+
             // Cancel notification
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager?.cancel(1)
@@ -511,6 +514,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             stopService(serviceIntent)
             binding.appBarHome.layoutHome.driverStatus.isOn = false
         } else {
+            isNotificationShow = true
             binding.appBarHome.layoutHome.driverStatus.isOn = true
         }
         viewModel.checkIn(
@@ -667,6 +671,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             binding.appBarHome.layoutHome.driverStatus.isOn = true
             checkStateOfBookApi()
+            isNotificationShow = true
         } else if (checked_in_state == Constants.OFFLINE || otherValue.toString().toLowerCase() == Constants.OFFLINE.toLowerCase()) {
             mapBottomMargin = 0
 
@@ -674,6 +679,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             onlineSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             binding.appBarHome.layoutHome.driverStatus.isOn = false
             homeBinding.bottomSheetLayout.visibility = View.GONE
+            isNotificationShow = false
         } else if (checked_in_state == Constants.BUSY) {
             mapBottomMargin = 0
             currentSheetBehavior = null
