@@ -42,6 +42,8 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
 
     private val viewModel: ProfileViewModel by viewModels()
     private var finalUrl: Uri? = null
+    private var finalUrlFirst: String? = null
+    private var finalUrlSecond: String? = null
     private var realPath: String? = null
     private var img1Status: Boolean? = false
     private var img2Status: Boolean? = false
@@ -50,7 +52,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
     private var imgValue: String? = null
     val descriptionList: ArrayList<MultipartBody.Part> = ArrayList()
     override fun init() {
-        updateToolBar(binding.toolbar.ivBadge,binding.toolbar.ivProfileImage)
+
         setInterfaceInstance(this)
         binding = ActivityImageUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -75,7 +77,8 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
             descriptionList.removeAt(1)
         }
         binding.btnSave.setOnClickListener {
-            binding.progressLayout.root.visibility = View.VISIBLE
+
+
             if (imgType == "Driving Licence") {
                 if (img1Status == true && img2Status == true) {
 
@@ -187,7 +190,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
 
     private fun checkPermission(permissions: Array<String>, requestCode: Int) {
 
-        if (checkPermissionState(false)) {
+        if (checkPermissionState(true)) {
             Constants.showDialog(this) {
                 if (it == 1) {
                     capturePhoto()
@@ -196,13 +199,12 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                 }
             }
         } else {
-           /* ActivityCompat.requestPermissions(
-                this,
-                permissions,
-                requestCode
-            )*/
+            /* ActivityCompat.requestPermissions(
+                 this,
+                 permissions,
+                 requestCode
+             )*/
 
-            //check all needed permissions together
             TedPermission.create()
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
@@ -358,7 +360,6 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
                         img1Status = true
                         binding.llImg1.visibility = View.VISIBLE
                     } else if (img2Status == false) {
-
                         binding.ivImg2.setImageURI(finalUrl)
                         img2Status = true
                         binding.llImg2.visibility = View.VISIBLE
@@ -428,13 +429,17 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
         Log.d("Upload Image", imageUploadResponse.message() + "Upload successful")
         var obj = JSONObject(imageUploadResponse.body().toString())
         val arrayData = obj.getJSONObject("result_arr").getJSONArray("totalFiles")
-        Log.d("Upload Image", arrayData.getJSONObject(0).getString("file_path_url"))
+        Log.d("Upload Image", arrayData.getJSONObject(0).getString("full_path"))
+        finalUrlFirst = arrayData.getJSONObject(0).getString("file_path_url").toString()
+        finalUrlSecond = arrayData.getJSONObject(1).getString("file_path_url").toString()
+
 
         val intent = Intent()
-        intent.putExtra("result", arrayData.getJSONObject(0).getString("file_path_url"))
+        intent.putExtra("result", realPath)
         intent.putExtra("type", imgType)
+        intent.putExtra(Constants.FRONT, finalUrlFirst?:"")
+        intent.putExtra(Constants.BACK, finalUrlSecond?:"")
         setResult(Activity.RESULT_OK, intent)
-        binding.progressLayout.root.visibility = View.GONE
         finish()
     }
 

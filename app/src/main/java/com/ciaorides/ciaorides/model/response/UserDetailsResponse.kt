@@ -36,10 +36,6 @@ data class UserDetailsResponse(
         var facebook: String,
         var first_name: String,
         var gender: String,
-        var government_id: String,
-        var government_id_back: String,
-        var government_id_front: String,
-        var government_id_verified: String,
         val id: String,
         val instagram: String,
         val ios_token: String,
@@ -52,7 +48,7 @@ data class UserDetailsResponse(
         val modified_on: String,
         val office_email_id: String,
         val office_email_id_verified: String,
-        val pan_card_back: String,
+        var pan_card_back: String,
         var pan_card_front: String,
         val pan_card_id: String,
         val pan_card_verified: String,
@@ -69,7 +65,6 @@ data class UserDetailsResponse(
         var token: String,
         val twitter: String,
         val user_type: String,
-        val userid: String,
-        val badge_type:String,
+        val userid: String
     ) : Parcelable
 }

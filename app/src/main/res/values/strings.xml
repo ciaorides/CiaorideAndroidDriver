@@ -229,4 +229,6 @@
     <string name="add_money">Add Money</string>
     <string name="payment_received">Payment Received</string>
     <string name="default_notification_channel_id">10000</string>
+    <string name="select_date_text">Select Date\n</string>
+    <string name="pending">Pending</string>
 </resources>

@@ -40,6 +40,4 @@ object NetworkModule {
     fun providesTopHeadlinesApi(retrofit: Retrofit): UsersDataApi {
         return retrofit.create(UsersDataApi::class.java)
     }
-
-
 }

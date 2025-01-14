@@ -43,6 +43,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.ActivityHomeBinding
 import com.ciaorides.ciaorides.databinding.BottomSheetSearchingBinding
@@ -64,6 +65,7 @@ import com.ciaorides.ciaorides.utils.BookType
 import com.ciaorides.ciaorides.utils.Constants
 import com.ciaorides.ciaorides.utils.DataHandler
 import com.ciaorides.ciaorides.utils.SweetAlertDialog
+import com.ciaorides.ciaorides.utils.getBadgeColor
 import com.ciaorides.ciaorides.utils.getPrice
 import com.ciaorides.ciaorides.utils.globalAlert
 import com.ciaorides.ciaorides.utils.showRejectReasonsAlert
@@ -185,20 +187,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             startActivity(intent)
         }
         initData()
-        Constants.showImage(
-            binding.appBarHome.ivProfileImage.context,
-            Constants.getValue(
-                this,
-                Constants.USER_IMAGE
-            ), binding.appBarHome.ivProfileImage
-        )
-        Constants.showImage(
-            binding.userDetails.imageView.context,
-            Constants.getValue(
-                this,
-                Constants.USER_IMAGE
-            ), binding.userDetails.imageView
-        )
     }
 
     override fun getViewBinding(): ActivityHomeBinding =
@@ -1900,14 +1888,30 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                             binding.userDetails.tvName.setText(data.response.first_name)
                             binding.userDetails.tvNumber.setText(data.response.mobile)
 
-                            if (data.response.profile_pic.isNotEmpty()) {
-                                Constants.saveValue(
-                                    this,
-                                    Constants.USER_IMAGE,
-                                    data.response.profile_pic
-                                )
-                            }
-
+                            val color: Int = getBadgeColor(data.response.profile_percentage)
+                            binding.appBarHome.ivBadge.setImageDrawable(getDrawable(color))
+                            Constants.showGlide(
+                                this,
+                                BuildConfig.IMAGE_BASE_URL+data.response.profile_pic,
+                                binding.userDetails.imageView,
+                                applyCircleCrop = true
+                            )
+                            Constants.showGlide(
+                                this,
+                                BuildConfig.IMAGE_BASE_URL+data.response.profile_pic,
+                                binding.appBarHome.ivProfileImage,
+                                applyCircleCrop = true
+                            )
+                            Constants.saveValue(
+                                this,
+                                Constants.USER_IMAGE,
+                                data.response.profile_pic
+                            )
+                            Constants.saveValue(
+                                this,
+                                Constants.USER_BADGE,
+                                data.response.profile_percentage.toString()
+                            )
                             var alertValue = ""
                             /*if (data.response.driver_license_verified != Constants.YES) {
                                 alertValue = getString(R.string.driving_licence) + ", "
@@ -1942,15 +1946,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     )
                                 )
 
-                                Constants.saveValue(
-                                    this@HomeActivity,
-                                    Constants.BADGE,
-                                    profileData?.badge_type!!
-                                )
-                                updateToolBar(
-                                    binding.appBarHome.ivBadge,
-                                    binding.appBarHome.ivProfileImage
-                                )
                             }
                         }
                     }
@@ -1994,15 +1989,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                 else -> {}
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        updateSearchState("")
-        updateToolBar(
-            binding.appBarHome.ivBadge,
-            binding.appBarHome.ivProfileImage
-        )
     }
 
     // PIP Mode Code
@@ -2120,5 +2106,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
         val i = 0
         oreoNotification.manager.notify(i, builder.build())
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        val profilePic=Constants.getValue(this, Constants.USER_IMAGE)
+        Constants.showGlide(this,
+            BuildConfig.IMAGE_BASE_URL+profilePic,binding.appBarHome.ivProfileImage, applyCircleCrop = true)
+        Constants.showGlide(this,
+            BuildConfig.IMAGE_BASE_URL+profilePic,binding.userDetails.imageView, applyCircleCrop = true)
     }
 }

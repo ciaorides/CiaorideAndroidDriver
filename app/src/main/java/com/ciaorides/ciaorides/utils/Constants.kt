@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.ciaorides.ciaorides.BuildConfig
 import com.ciaorides.ciaorides.R
 import com.ciaorides.ciaorides.databinding.AlertDeleteVehicleBinding
@@ -114,10 +115,13 @@ object Constants {
     const val USER_ID = "user_id"
     const val BADGE = "badge"
     const val USER_IMAGE = "user_image"
+    const val USER_BADGE = "user_badge"
     const val USER_NAME = "user_name"
     const val MOBILE_NUMBER = "mobile_number"
     const val EMAIL_ID = "email_id"
     const val FONT_INTER_REG = "inter_regular.ttf"
+    const val FRONT = "front"
+    const val BACK = "back"
 
     const val TERMS_AND_CONDITIONS =
         "https://www.ciaorides.com/new/Menuitem/termsandcoditions"
@@ -169,10 +173,21 @@ object Constants {
         return descriptionList
     }
 
-    fun showGlide(context: Context, url: String, imageView: ImageView, progress: View? = null) {
+    fun showGlide(context: Context, url: String?, imageView: ImageView, progress: View? = null,applyCircleCrop:Boolean=false) {
+        if (url.isNullOrEmpty()) {
+            return
+        }
+        val requestOptions = RequestOptions()
+        if (applyCircleCrop) {
+            requestOptions.circleCrop()
+        } else {
+            requestOptions.centerCrop()
+        }
+
         Glide
             .with(context)
             .load(url)
+            .apply(requestOptions)
             .listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
                     e: GlideException?,
@@ -672,4 +687,39 @@ fun openWhatsApp(activity: Activity, phoneNumber: String, message: String) {
     } catch (e: Exception) {
         Toast.makeText(activity, "WhatsApp not installed", Toast.LENGTH_SHORT).show()
     }
+}
+
+fun getBadgeColor(data: Int): Int {
+    val color: Int = when (data) {
+        in 0..30 -> R.drawable.ic_red_badge
+        in 31..60 -> R.drawable.ic_yellow_badge
+        in 61..100 -> R.drawable.ic_green_badge
+        else -> {
+            R.color.colorFullRed
+        }
+    }
+    return color
+}
+
+fun showImageDialog(context: Context, imageResId: Drawable) {
+    val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setContentView(R.layout.dialog_full_image)
+
+    val imageView = dialog.findViewById<ImageView>(R.id.imageViewLarge)
+    imageView.setImageDrawable(imageResId)
+
+//    // Make the dialog full-screen
+//    dialog.window?.setLayout(
+//        WindowManager.LayoutParams.MATCH_PARENT,
+//        WindowManager.LayoutParams.MATCH_PARENT
+//    )
+    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+    // Dismiss the dialog when clicked
+    imageView.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    dialog.show()
 }
