@@ -302,7 +302,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
-            val value = it.data?.getStringExtra("result")
+            val value = it.data?.getStringExtra("path")
             val imgType = it.data?.getStringExtra("type")
             val imageFront = it.data?.getStringExtra(Constants.FRONT)
             val imageBack = it.data?.getStringExtra(Constants.BACK)

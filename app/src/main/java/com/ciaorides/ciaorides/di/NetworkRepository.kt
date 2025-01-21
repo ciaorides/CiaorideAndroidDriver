@@ -327,8 +327,8 @@ class NetworkRepository @Inject constructor(
         return usersDataApi.getTransactions(request)
     }
 
-    suspend fun getRazorpayDetails() : Response<RazorPayResponse>{
-        return usersDataApi.getRazorpayDetails()
+    suspend fun getRazorpayDetails(request: GetTransactionRequest) : Response<RazorPayResponse>{
+        return usersDataApi.getRazorpayDetails(request)
     }
 
     suspend fun completeTaxiRide(request: CompleteOfferRideRequest): Response<GlobalResponse>? {

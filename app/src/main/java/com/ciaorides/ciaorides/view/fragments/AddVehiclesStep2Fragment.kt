@@ -217,7 +217,8 @@ class AddVehiclesStep2Fragment : Fragment(R.layout.add_vehicles_fragment_step_2)
                 vehicle_insurance_image = insuranceImgUrlPath.toString(),
                 vehicle_permit_image = permitImgUrlPath.toString(),
                 vehicle_step2 = "yes",
-                fitness_certification_image = fitnessImgUrlPath.toString()
+                fitness_certification_image = fitnessImgUrlPath.toString(),
+                number_plate=binding.vehicleNumber.text.toString()
             )
         )
 

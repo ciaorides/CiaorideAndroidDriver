@@ -10,6 +10,7 @@ data class AddVehicleDetailsStage2Request(
     var vehicle_insurance_image: String,
     var vehicle_permit_image: String,
     var vehicle_step2: String,
-    var fitness_certification_image: String
+    var fitness_certification_image: String,
+    var number_plate : String
 
 )

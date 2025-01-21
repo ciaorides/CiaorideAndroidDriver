@@ -175,7 +175,12 @@ class WalletActivity : BaseActivity<ActivityWalletBinding>(), PaymentResultWithD
         binding.btnAddMoney.setOnClickListener {
             if (binding.etWalletAmount.text.toString().isNotEmpty() && binding.etWalletAmount.text.toString().isDigitsOnly()){
                 binding.progressLayout.root.visibility = View.VISIBLE
-                viewModel.getRazorPayResponse()
+                viewModel.getRazorPayResponse(
+                    GetTransactionRequest(
+//                rider_id =  "2250"
+                        rider_id = Constants.getValue(this@WalletActivity, Constants.USER_ID)
+                    )
+                )
             } else {
                 Toast.makeText(this, "Please enter amount!", Toast.LENGTH_LONG).show()
             }

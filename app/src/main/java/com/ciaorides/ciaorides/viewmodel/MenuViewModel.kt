@@ -429,10 +429,10 @@ class MenuViewModel @Inject constructor(private val networkRepository: NetworkRe
     val razorPayResponse: LiveData<DataHandler<RazorPayResponse>> =
         _razorPayResponse
 
-    fun getRazorPayResponse() {
+    fun getRazorPayResponse(request: GetTransactionRequest) {
         viewModelScope.launch {
             try {
-                val response = networkRepository.getRazorpayDetails()
+                val response = networkRepository.getRazorpayDetails(request)
                 _razorPayResponse.postValue(handleRazorPayDetails(response))
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class GetTransactionResposne(
     var status : Boolean,
-    var total_amount : Int,
+    var total_amount : Double,
     var transactions : List<Transactions>
 ) : Serializable {
     data class Transactions (

@@ -160,7 +160,7 @@ interface UsersDataApi {
     suspend fun getTransactions(@Body request: GetTransactionRequest): Response<GetTransactionResposne>
 
     @POST("menuitems/get_razorpay_details")
-    suspend fun getRazorpayDetails(): Response<RazorPayResponse>
+    suspend fun getRazorpayDetails(@Body request: GetTransactionRequest): Response<RazorPayResponse>
 
     @POST("driver1/complete_ride")
     suspend fun completeTaxiRide(@Body request: CompleteOfferRideRequest): Response<GlobalResponse>

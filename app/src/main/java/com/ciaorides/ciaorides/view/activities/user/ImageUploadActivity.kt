@@ -427,15 +427,19 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
 
         //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()?.fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
         Log.d("Upload Image", imageUploadResponse.message() + "Upload successful")
-        var obj = JSONObject(imageUploadResponse.body().toString())
+        val obj = JSONObject(imageUploadResponse.body().toString())
         val arrayData = obj.getJSONObject("result_arr").getJSONArray("totalFiles")
         Log.d("Upload Image", arrayData.getJSONObject(0).getString("full_path"))
-        finalUrlFirst = arrayData.getJSONObject(0).getString("file_path_url").toString()
-        finalUrlSecond = arrayData.getJSONObject(1).getString("file_path_url").toString()
-
+        try {
+            finalUrlFirst = arrayData.getJSONObject(0).getString("file_path_url").toString()
+            finalUrlSecond = arrayData.getJSONObject(1).getString("file_path_url").toString()
+        }catch (e:Exception){
+            Log.d(TAG, "imageUploadResponseHanding: ")
+        }
 
         val intent = Intent()
-        intent.putExtra("result", realPath)
+        intent.putExtra("result", arrayData.getJSONObject(0).getString("file_path_url"))
+        intent.putExtra("path", realPath)
         intent.putExtra("type", imgType)
         intent.putExtra(Constants.FRONT, finalUrlFirst?:"")
         intent.putExtra(Constants.BACK, finalUrlSecond?:"")
