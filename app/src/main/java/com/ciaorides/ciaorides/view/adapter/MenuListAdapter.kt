@@ -57,6 +57,7 @@ class MenuListAdapter @Inject constructor() : RecyclerView.Adapter<MenuListAdapt
         data.add(Constants.MENU_TERMS_N_CONDITIONS)
         data.add(Constants.MENU_PRIVACY_POLICY)
         data.add(Constants.MENU_HELP)
+        data.add(Constants.SIGN_OUT)
         return data
     }
 }

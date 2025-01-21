@@ -144,7 +144,7 @@ object Constants {
     const val MENU_TERMS_N_CONDITIONS = "Terms & Conditions"
     const val MENU_PRIVACY_POLICY = "Privacy Policy"
     const val MENU_HELP = "Help"
-
+    const val SIGN_OUT = "Sign Out"
 
     const val KEY_RIDES_TAKEN = "rides_taken"
     const val KEY_BOOKING_DATA = "booking_data"

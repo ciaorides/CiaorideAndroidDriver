@@ -220,6 +220,7 @@
                 <ImageView
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
+                    android:visibility="gone"
                     android:layout_width="@dimen/_23sdp"
                     android:layout_height="@dimen/_23sdp"
                     android:src="@drawable/ic_settings"/>
@@ -232,6 +233,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_alignParentBottom="true"
                     app:on="false"
+                    app:textOn="Online"
+                    app:textOff="Offline"
                     app:colorOn="@color/appBlue"
                     app:colorBorder="@color/appBlue"/>
 
@@ -249,6 +252,7 @@
                     android:layout_centerVertical="true"
                     android:layout_width="@dimen/_23sdp"
                     android:layout_height="@dimen/_23sdp"
+                    android:visibility="gone"
                     android:src="@drawable/ic_calendar"
                     app:tint="@color/black" />
             </RelativeLayout>

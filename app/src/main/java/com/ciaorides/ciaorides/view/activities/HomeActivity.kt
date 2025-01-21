@@ -277,6 +277,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     intent.putExtra(Constants.TITLE, Constants.MENU_HELP)
                     startActivity(intent)
                 }
+                Constants.SIGN_OUT -> {
+                    Constants.saveValue(this@HomeActivity, Constants.USER_ID, "")
+                    startActivity(Intent(this@HomeActivity, LoginActivity::class.java))
+                    finish()
+                }
             }
         }
     }
@@ -334,8 +339,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         binding.appBarHome.layoutHome.driverStatus.setOnToggledListener { labeledSwitch, isOn ->
             // Implement your switching logic here
             if (isOn){
-                checked_in_state = Constants.ONLINE
-                makeCheckInCall(Constants.ONLINE)
+                /*checked_in_state = Constants.ONLINE
+                makeCheckInCall(Constants.ONLINE)*/
+                vehiclesCall()
             } else {
                 checked_in_state = Constants.OFFLINE
                 makeCheckInCall(Constants.OFFLINE)
