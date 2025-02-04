@@ -117,9 +117,9 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
                             binding.noResultsFound.visibility = View.VISIBLE
                         } else {
                             binding.earningsScrollView.visibility = View.VISIBLE
-                            binding.noResultsFound.visibility = View.GONE
+                            binding.noResultsFound!!.visibility = View.GONE
 //                            if (!data.response.resultdata2)
-                              binding.textViewOnlineTime.setText(data.response.resultdata2.final_data.online)
+                              binding.textViewOnlineTime!!.setText(data.response.resultdata2.final_data.online)
                               binding.textViewTotalTrips.setText("${data.response.resultdata2.final_data.total_trips}")
                             binding.tvPrice.setText(data.total_amount)
                            /* adapter.differ.submitList(data.response)
@@ -159,6 +159,7 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
         )
         val value = payments.maxByOrNull { it.total_amount.toDouble() }
         binding.barChart.barMaxValue = value!!.total_amount.toDouble().toInt()
+
         for (i in 0..(payments.size-1)) {
             val barChartModel = BarChartModel()
             barChartModel.barValue = payments[i].total_amount.toDouble().toInt()
@@ -202,6 +203,12 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
                 barChartModel.barText = barChartModel.barValue.toString()
             }
             binding.barChart.addBar(barChartModel)
+        }
+
+        // New Data
+        var xAxisList: List<String>? = listOf<String>()
+        xAxisList = payments.map{
+            it.day
         }
     }
 }

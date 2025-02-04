@@ -103,6 +103,15 @@
                 android:layout_height="180dp"
                 android:scrollbars="horizontal"/>
 
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart_new"
+                android:layout_margin="20dp"
+                app:bar_color="@color/appBlue"
+                app:bar_width="40dp"
+                app:bar_show_animation="true"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -103,6 +103,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -145,6 +147,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     lateinit var destinationLatLng : LatLng
     lateinit var mobileNumber : String
     var isOtpValidated : Boolean = false
+    var messagesRef : DatabaseReference? = null
 
     var bookingId = ""
     var order_id = ""
@@ -1030,9 +1033,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     }
 
     private fun checkStateOfBookApi() {
-        val messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
-            .child(FcmBookUtils.ACTIVE_BOOKINGS).child(FcmBookUtils.DRIVERS).child(driverId)
-        /*messagesRef.addChildEventListener(object : ChildEventListener {
+        if (messagesRef == null) {
+            messagesRef = Firebase.database.reference.child(FcmBookUtils.BOOKING)
+                .child(FcmBookUtils.ACTIVE_BOOKINGS).child(FcmBookUtils.DRIVERS).child(driverId)
+            /*messagesRef.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(TAG, "onChildAdded:" + dataSnapshot.key!!)
 
@@ -1090,19 +1094,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             }
         })*/
 
-        messagesRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                snapshot.getValue(String()::class.java)?.let {
-                    Log.d("Driver", "check state of book api called")
-                    getBookingInfo(it)
+            messagesRef!!.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    snapshot.getValue(String()::class.java)?.let {
+                        Log.d("Driver", "check state of book api called")
+                        getBookingInfo(it)
+                    }
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@HomeActivity, "Failed", Toast.LENGTH_SHORT).show()
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@HomeActivity, "Failed", Toast.LENGTH_SHORT).show()
+                }
 
-        })
+            })
+        }
     }
 
     private fun data(){
@@ -2001,7 +2006,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     override fun onPause() {
         super.onPause()
 
-        enterPictureInPicture()
+//        enterPictureInPicture()
     }
 
     private fun enterPictureInPicture() {
