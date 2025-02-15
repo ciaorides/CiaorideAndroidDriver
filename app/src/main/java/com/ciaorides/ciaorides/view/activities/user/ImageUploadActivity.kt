@@ -23,6 +23,7 @@ import com.ciaorides.ciaorides.databinding.ActivityImageUploadBinding
 import com.ciaorides.ciaorides.di.NetworkRepository.Companion.setInterfaceInstance
 import com.ciaorides.ciaorides.model.ImageUpload
 import com.ciaorides.ciaorides.utils.Constants
+import com.ciaorides.ciaorides.utils.visible
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.ProfileViewModel
 import com.google.gson.JsonObject
@@ -77,7 +78,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
             descriptionList.removeAt(1)
         }
         binding.btnSave.setOnClickListener {
-
+            binding.progressLayout.root.visible(true)
 
             if (imgType == "Driving Licence") {
                 if (img1Status == true && img2Status == true) {
@@ -423,8 +424,9 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
         }
     }
 
-    override fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>) {
-
+    override fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>?) {
+        binding.progressLayout.root.visible(false)
+        if (imageUploadResponse == null) return
         //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()?.fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
         Log.d("Upload Image", imageUploadResponse.message() + "Upload successful")
         val obj = JSONObject(imageUploadResponse.body().toString())

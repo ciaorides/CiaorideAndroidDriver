@@ -176,7 +176,6 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         }
 
         binding.btnSubmit.setOnClickListener {
-            binding.progressLayout.root.visible(true)
             val userMailID=binding.personalInfo.edtEmail.text.toString()
             val isEmailIdValid =
                 Patterns.EMAIL_ADDRESS.matcher(userMailID)
@@ -342,7 +341,7 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 RESULT_OK -> {
-                    ImageUtils.uploadCircularBitmap(this,finalUrl,binding.ivProfilePhoto)
+                    binding.progressLayout.root.visible(true)
                     val file = File(realPath.toString())
                     var imagePartFile: MultipartBody.Part? = null
                     val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
@@ -375,7 +374,6 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
 
     private fun handleUserResponse() {
         viewModel.userDetailsResponse.observe(this) { dataHandler ->
-            binding.progressLayout.root.visible(false)
             when (dataHandler) {
                 is DataHandler.SUCCESS -> {
                     dataHandler.data?.let { data ->
@@ -547,8 +545,9 @@ class EditProfileActivity : BaseActivity<ActivityEditProfileBinding>(),
         binding.personalInfo.ediGender.adapter = genderAdapter
     }
 
-    override fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>) {
-
+    override fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>?) {
+        binding.progressLayout.root.visible(false)
+        if (imageUploadResponse == null) return
         //val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()?.fromJson(Gson().toJson(imageUploadResponse), ImageUploadResponse::class.java)
         Log.d("Upload Image", imageUploadResponse.message() + "Upload successful")
         val obj = JSONObject(imageUploadResponse.body().toString())
