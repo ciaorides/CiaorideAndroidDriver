@@ -165,7 +165,7 @@ interface UsersDataApi {
     @POST("driver1/complete_ride")
     suspend fun completeTaxiRide(@Body request: CompleteOfferRideRequest): Response<GlobalResponse>
 
-    @POST("driver1/pickup_ride ")
+    @POST("driver1/pickup_ride")
     suspend fun pickupTaxiRide(@Body request: PickUpRideRequest): Response<GlobalResponse>
 
     @POST("taxi_flow/end_ride")

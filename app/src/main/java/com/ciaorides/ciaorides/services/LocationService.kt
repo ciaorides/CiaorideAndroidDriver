@@ -58,12 +58,13 @@ class LocationService : Service() {
 
     fun start(){
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle("Tracking Location for Ciao...")
+            .setContentTitle("Ciao Rides")
             .setContentText("")
             .setSmallIcon(R.drawable.app_icon)
             .setOngoing(true)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        var bodyText = if(HomeActivity.isNotificationShow)  "Offline" else "Online"
         locationClient.getLocationUpdates(1000000)
             .catch { e -> e.printStackTrace() }
             .onEach { location ->
@@ -71,15 +72,13 @@ class LocationService : Service() {
                 val long = location.longitude.toString()
                 updateToFirebase(location)
                 val updsteNotification = notification.setContentText(
-                    "Location $lat & $long}"
+                   bodyText
                 )
 
                 Log.d(TAG, "Location: ($lat, $long) ${HomeActivity.isNotificationShow}")
-                if (HomeActivity.isNotificationShow)
-                    notificationManager.notify(1, updsteNotification.build())
+                notificationManager.notify(1, updsteNotification.build())
             }
             .launchIn(serviceScope)
-        if (HomeActivity.isNotificationShow)
             startForeground(1, notification.build())
     }
 

@@ -135,7 +135,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     companion object {
         var fcmViewModel: FcmBookingModel? = null
         var driverId = ""
-        var isNotificationShow = false
+        var isNotificationShow = true
     }
     var broadCastReceiver: BroadcastReceiver? = null
     lateinit var homeBinding: BottomSheetSearchingBinding
@@ -2126,5 +2126,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             BuildConfig.IMAGE_BASE_URL+profilePic,binding.appBarHome.ivProfileImage, applyCircleCrop = true)
         Constants.showGlide(this,
             BuildConfig.IMAGE_BASE_URL+profilePic,binding.userDetails.imageView, applyCircleCrop = true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
     }
 }
