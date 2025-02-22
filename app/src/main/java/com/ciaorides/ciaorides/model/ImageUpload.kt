@@ -5,5 +5,5 @@ import com.google.gson.JsonObject
 import retrofit2.Response
 
 interface ImageUpload {
-    fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>)
+    fun imageUploadResponseHanding(imageUploadResponse: Response<JsonObject>?)
 }

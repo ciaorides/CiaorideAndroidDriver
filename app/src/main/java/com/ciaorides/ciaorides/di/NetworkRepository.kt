@@ -178,6 +178,7 @@ class NetworkRepository @Inject constructor(
                     Log.d("Upload Image", imageUploadVehicle.toString() + "Upload successful")
                 } else {
                     Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                    imageUpload?.imageUploadResponseHanding(null)
                 }
             }
 
@@ -204,6 +205,7 @@ class NetworkRepository @Inject constructor(
                     Log.d("Upload Image", profileImageUpload.toString() + "Upload successful")
                 } else {
                     Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                    imageUpload?.imageUploadResponseHanding(null)
                 }
             }
 
@@ -240,6 +242,7 @@ class NetworkRepository @Inject constructor(
 
                 } else {
                     Log.e("Upload Image", "Upload failed: " + response.errorBody()?.string())
+                    imageUpload?.imageUploadResponseHanding(null)
                 }
             }
 
