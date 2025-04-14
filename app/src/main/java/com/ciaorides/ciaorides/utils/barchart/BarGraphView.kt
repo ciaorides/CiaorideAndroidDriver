@@ -22,6 +22,8 @@ class BarGraphView(context: Context, attrs: AttributeSet?) : View(context, attrs
     private val barSpacing = 30f
     private var maxYValue = 0f
 
+    private val maxBarWidth = 100f
+
     init {
         barPaint.color = barColor
         textPaint.color = textColor
@@ -48,8 +50,11 @@ class BarGraphView(context: Context, attrs: AttributeSet?) : View(context, attrs
         val availableWidth = width - paddingLeft - paddingRight
         val availableHeight = height - paddingTop - paddingBottom - 2 * xAxisLabelPadding
 
-        // Calculate bar width
-        val barWidth = (availableWidth - (barData.size - 1) * barSpacing) / barData.size
+        // Calculate the ideal bar width based on available space and spacing
+        val idealBarWidth = (availableWidth - (barData.size - 1) * barSpacing) / barData.size
+
+        // Determine the actual bar width, ensuring it doesn't exceed maxBarWidth
+        val barWidth = idealBarWidth.coerceAtMost(maxBarWidth)
 
         // Draw Y-axis
         canvas.drawLine(
