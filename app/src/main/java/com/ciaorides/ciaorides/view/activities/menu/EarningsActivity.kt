@@ -4,7 +4,6 @@ package com.ciaorides.ciaorides.view.activities.menu
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -21,7 +20,7 @@ import com.ciaorides.ciaorides.utils.openWhatsApp
 import com.ciaorides.ciaorides.view.activities.BaseActivity
 import com.ciaorides.ciaorides.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Random
+import java.util.ArrayList
 
 
 @AndroidEntryPoint
@@ -153,14 +152,14 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
     }
 
     private fun setBarChart(payments: List<EarningsResponse.PaymentGraphData>) {
-        val dataColor = intArrayOf(
+        /*val dataColor = intArrayOf(
             Color.parseColor("#0F1899"),
             Color.parseColor("#0070F8")
         )
         val value = payments.maxByOrNull { it.total_amount.toDouble() }
         binding.barChart.barMaxValue = value!!.total_amount.toDouble().toInt()
-
-        for (i in 0..(payments.size-1)) {
+*/
+        /*for (i in 0..(payments.size-1)) {
             val barChartModel = BarChartModel()
             barChartModel.barValue = payments[i].total_amount.toDouble().toInt()
             if (i%2 == 0){
@@ -203,12 +202,22 @@ class EarningsActivity : BaseActivity<ActivityEarningsBinding>() {
                 barChartModel.barText = barChartModel.barValue.toString()
             }
             binding.barChart.addBar(barChartModel)
-        }
+        }*/
 
-        // New Data
-        var xAxisList: List<String>? = listOf<String>()
-        xAxisList = payments.map{
-            it.day
+        var graphData : List<Pair<String, Float>> = emptyList()
+        if (payments.size == 7) {
+            for (i in 0..(payments.size - 1)) {
+                graphData = graphData + Pair(payments[i].day!!.substring(0,3), payments[i].total_amount.toFloat())
+            }
+        } else if (payments.size == 12){
+            for (i in 0..(payments.size - 1)) {
+                graphData = graphData + Pair(payments[i].month!!.substring(0,3), payments[i].total_amount.toFloat())
+            }
+        } else {
+            for (i in 0..(payments.size - 1)) {
+                graphData = graphData + Pair(payments[i].year!!, payments[i].total_amount.toFloat())
+            }
         }
+        binding.barGraph.setData(graphData)
     }
 }

@@ -41,7 +41,9 @@ data class EarningsResponse(
     ) : Serializable
 
     data class PaymentGraphData(
-        val day: String,
+        val day: String?,
+        val month : String?,
+        val year: String?,
         val total_amount : String
     ) : Serializable
 }

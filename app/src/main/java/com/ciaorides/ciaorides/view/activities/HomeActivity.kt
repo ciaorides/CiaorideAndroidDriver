@@ -622,6 +622,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dataHandler.data?.let { data ->
                         if (data.status) {
                             updateSearchState(data.otherValue.toString())
+                        } else {
+                            Toast.makeText(this, data.message, Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -644,6 +646,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                     dataHandler.data?.let { data ->
                         if (data.status) {
                             updateSearchState(data.response.status)
+                        } else {
+                            Toast.makeText(this, data.message, Toast.LENGTH_LONG).show()
                         }
                     }
                 }
