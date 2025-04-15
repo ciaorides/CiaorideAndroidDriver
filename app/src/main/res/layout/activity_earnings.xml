@@ -108,7 +108,7 @@
                 android:id="@+id/barGraph"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:padding="16dp" />
+                android:padding="16.5dp" />
 
            <!-- <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barChart_new"
