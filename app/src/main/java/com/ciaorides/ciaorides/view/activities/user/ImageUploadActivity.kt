@@ -81,7 +81,7 @@ class ImageUploadActivity() : BaseActivity<ActivityImageUploadBinding>(),
             binding.progressLayout.root.visible(true)
 
             if (imgType == "Driving Licence") {
-                if (img1Status == true && img2Status == true) {
+                if (img1Status == true || img2Status == true) {
 
 //                    val stringData = "1"
 //                    val stringDataRequestBody: RequestBody =
