@@ -78,13 +78,23 @@ class CompletedPaymentsActivity : BaseActivity<ActivityCompletedPaymentsBinding>
                                     this.visibility = View.VISIBLE
                                     this.adapter!!.notifyDataSetChanged()
                                 }
+                            }
 
-                                binding.completedPaymentOlnineTime.text = data.response.final_data.online
-                                binding.completedPaymentTotalTrips.text = data.response.final_data.total_trips
-                                binding.completedPaymentScheduledTime.text = "Payment Completed on : ${data.response.payment_final.completed_date}"
-                                binding.completedPaymentPayID.text = "Payment ID : ${data.response.payment_final.payment_id}"
-                                binding.completedPaymentmethod.text = data.response.payment_final.upi_id
-                                binding.completedPaymentAmount.text = data.response.payment_final.amount
+                            try {
+                                binding.completedPaymentOlnineTime.text =
+                                    data.response.final_data.online
+                                binding.completedPaymentTotalTrips.text =
+                                    data.response.final_data.total_trips
+                                binding.completedPaymentScheduledTime.text =
+                                    "Payment Completed on : ${data.response.payment_final.completed_date}"
+                                binding.completedPaymentPayID.text =
+                                    "Payment ID : ${data.response.payment_final.payment_id}"
+                                binding.completedPaymentmethod.text =
+                                    data.response.payment_final.upi_id
+                                binding.completedPaymentAmount.text =
+                                    data.response.payment_final.amount
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
                         }
                     }

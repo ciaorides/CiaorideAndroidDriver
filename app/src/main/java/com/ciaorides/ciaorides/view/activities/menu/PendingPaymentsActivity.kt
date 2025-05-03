@@ -85,18 +85,23 @@ class PendingPaymentsActivity : BaseActivity<ActivityPendingPaymentsBinding>() {
                                     }
                                 }
                             }
-                            binding.pendingPaymentOlnineTime.text =
-                                data.response.final_data.online
-                            binding.pendingPaymentTotalTrips.text =
-                                data.response.final_data.total_trips
-                            binding.pendingPaymentScheduledTime.text =
-                                "Payment Completed on : ${data.response.payment_final.completed_date}"
-                            binding.pendingPaymentPayID.text =
-                                "Payment ID : ${data.response.payment_final.payment_id}"
-                            binding.pendingPaymentmethod.text =
-                                data.response.payment_final.upi_id
-                            binding.pendingPaymentAmount.text =
-                                data.response.payment_final.amount
+
+                            try {
+                                binding.pendingPaymentOlnineTime.text =
+                                    data.response.final_data.online
+                                binding.pendingPaymentTotalTrips.text =
+                                    data.response.final_data.total_trips
+                                binding.pendingPaymentScheduledTime.text =
+                                    "Payment Completed on : ${data.response.payment_final.completed_date}"
+                                binding.pendingPaymentPayID.text =
+                                    "Payment ID : ${data.response.payment_final.payment_id}"
+                                binding.pendingPaymentmethod.text =
+                                    data.response.payment_final.upi_id
+                                binding.pendingPaymentAmount.text =
+                                    data.response.payment_final.amount
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
                         }
                     }
                 }
