@@ -60,7 +60,8 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.CIAORides"
-        tools:replace="android:icon">
+         tools:replace="android:icon"
+        tools:targetApi="24">
         <activity
             android:name=".view.activities.menu.WalletActivity"
             android:exported="false" />

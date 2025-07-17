@@ -485,6 +485,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
                                     rider_id,
                                     data.response.total_amount.toString()
                                 )
+                                total_ride_amount = data.response.total_amount.toString()
                                 binding.appBarHome.layoutHome.localRideSheet.tvPayment.text = data.response.total_amount.toString()
                             }
                             Toast.makeText(this, data.message.toString(), Toast.LENGTH_SHORT).show()

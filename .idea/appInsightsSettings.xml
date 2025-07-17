@@ -9,7 +9,7 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.android.vending" />
+                  <option name="appId" value="com.quality.appqualityinsightsqaapp" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

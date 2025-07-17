@@ -218,7 +218,7 @@
     <string name="model_name">Model Name</string>
     <string name="brand_name">Brand Name</string>
     <string name="no_rides_found">No Rides found</string>
-    <string name="no_ernings_found">No Ernings found</string>
+    <string name="no_ernings_found">No Earnings found</string>
     <string name="waiting_for_admin_approval">Waiting for admin approval</string>
     <string name="complete_vehicle_steps">Please complete vehicle registration.</string>
     <string name="you_are_offline_now">You are offline now.</string>

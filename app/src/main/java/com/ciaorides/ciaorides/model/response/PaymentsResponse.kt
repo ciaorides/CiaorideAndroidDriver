@@ -12,7 +12,8 @@ data class PaymentsResponse(
 ) : Parcelable {
     @Parcelize
     data class PaymentsData(
-        var data: List<BookingData>? = null,
+        var
+        data: List<BookingData>? = null,
         val final_data: FinalDataObject,
         val payment_final: PaymentFinalObject
     ) : Parcelable
@@ -21,7 +22,7 @@ data class PaymentsResponse(
     data class BookingData(
         val Booking_Date: String,
         val Booking_Time : String,
-        val Final_Amout: String,
+        val Final_Amount: String,
         val booking_id:String
     ) : Parcelable
 

@@ -55,7 +55,7 @@ class TransactionsAdapter @Inject constructor(private val listener : OnItemClick
             ietmPaymentAmount.text = "₹ " + transaction.amount.toString()
             ietmPaymentTime.text = transaction.created_date
 
-            val color = if (transaction.transaction_type.equals("withdraw", ignoreCase = true)) {
+            val color = if (transaction.transaction_type.equals("withdraw", ignoreCase = true) || transaction.transaction_type.equals("commission", ignoreCase = true)) {
                 R.color.colorFullRed
             } else R.color.green
             ietmPaymentAmountLayout.setBackgroundColor(ContextCompat.getColor(holder.itemView.context, color))

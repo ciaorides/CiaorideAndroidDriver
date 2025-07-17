@@ -51,7 +51,7 @@ class PaymentsAdapter @Inject constructor(private val listener : OnItemClickList
         val ride = differ.currentList[position]
         with(holder.binding) {
             ietmPaymentBookingId.text = "Booking ID : ${ride.booking_id}"
-            ietmPaymentAmount.text = "₹ " + ride.Final_Amout
+            ietmPaymentAmount.text = "₹ " + ride.Final_Amount
             ietmPaymentTime.text = "${ride.Booking_Date} ${ride.Booking_Time}"
             holder.itemView.setOnClickListener {
                 onItemClickListener.onItemClick(position,ride)
